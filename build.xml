@@ -65,75 +65,11 @@
 
   <target name="all" depends="compile,javadocs,tests" description="do everything"></target>
 
-
-  <!-- Copying and commiting one directory tree -->
-  <!-- Source is fromdir an existing directory with contents. -->
-  <!-- Target is todir a possibly not created path in the argouml-gen 
-       project cvs repository 
-    -->
   <target name="commit-files">
-    <cvs cvsRoot="${cvs.root}" command="update -Ad" dest="${todir}"/>
-    <mkdir dir="${todir}"/>
-    <delete>
-      <fileset dir="${todir}" excludes="CVS CVS/*"/>
-    </delete>
-    <copy todir="${todir}">
-      <fileset dir="${fromdir}"/>
-    </copy>
-
-    <!-- WARNING! This is not portable! Please help in improving it! -->
-    <!-- Remove no longer needed files -->
-    <exec executable="sh">
-      <arg value="-c"/>
-      <arg value="cd ${todir} ; cvs -nq update | grep -e '^U' | while read comm file; do ( cd `dirname $$file` ; cvs remove `basename $$file` ); done"/>
-    </exec>
-
-    <!-- Add new files -->
-    <!-- one time for every level of directory -->
-    <exec executable="sh">
-      <arg value="-c"/>
-      <arg value="cd ${todir} ; cvs -nq update | grep -e '^?' | while read comm file; do ( cd `dirname $$file` ; cvs add `basename $$file` ); done"/>
-    </exec>
-    <exec executable="sh">
-      <arg value="-c"/>
-      <arg value="cd ${todir} ; cvs -nq update | grep -e '^?' | while read comm file; do ( cd `dirname $$file` ; cvs add `basename $$file` ); done"/>
-    </exec>
-    <exec executable="sh">
-      <arg value="-c"/>
-      <arg value="cd ${todir} ; cvs -nq update | grep -e '^?' | while read comm file; do ( cd `dirname $$file` ; cvs add `basename $$file` ); done"/>
-    </exec>
-    <exec executable="sh">
-      <arg value="-c"/>
-      <arg value="cd ${todir} ; cvs -nq update | grep -e '^?' | while read comm file; do ( cd `dirname $$file` ; cvs add `basename $$file` ); done"/>
-    </exec>
-
-    <!-- Should I write
-       <cvs cvsRoot="${cvs.root}" command="commit" package="${todir}"/>
-       or
-       <cvs cvsRoot="${cvs.root}" command="commit" dest="${todir}"/>
-       ?
-      -->
-    <exec executable="sh">
-      <arg value="-c"/>
-      <arg value="cd ${todir} ; cvs commit -m'Updates.'"/>
-    </exec>
-
-  </target>
-
-  <target name="testing-commit-files" depends="init">
-    <property name="dir" value="${working.dir}/testing"/>
-    <copy todir="${dir}" file="build.xml"/>
-    <antcall target="commit-files">
-      <param name="todir" value="www/linus/testing"/>
-      <param name="fromdir" value="${dir}"/>
-    </antcall>
-  </target>
-  
-  <target name="commit-files-2">
-    <property name="to.dir" location="${in.todir}"/>
-    <property name="from.dir" location="${in.fromdir}"/>
+    <property name="to.dir" value="${in.todir}"/>
+    <property name="from.dir" value="${in.fromdir}"/>
     <property name="cvs-add-ant.xsl" location="${xsl.dir}/cvs-add-ant.xsl"/>
-    <property name="cvs-add-ant.xsl" location="${xsl.dir}/cvs-add-ant.xsl"/>
+    <property name="cvs-remove-ant.xsl" location="${xsl.dir}/cvs-remove-ant.xsl"/>
   
     <property name="fromdir-fs.xml" location="${working.dir}/fromdir-fs.xml"/>
     <property name="todir-fs.xml" location="${working.dir}/todir-fs.xml"/>
@@ -171,7 +107,7 @@
 
     <!-- Create Ant scripts -->
     
-    <style in="fromdir-fs.xml" out="${cvs-add-ant.xml}" style="${cvs-add-ant.xsl}">
+    <style in="${fromdir-fs.xml}" out="${cvs-add-ant.xml}" style="${cvs-add-ant.xsl}">
       <param name="todir" expression="todir-fs.xml"/>
     </style>
 
@@ -194,15 +130,15 @@
     
     <!-- Commit it all -->
     <echo>Commiting: ${in.message}</echo>
-    <cvs command="commit -m${in.message} ${to.dir}" cvsRoot="${cvs.root}"/>
+    <cvs command="commit -m&quot;${in.message}&quot; ${to.dir}" cvsRoot="${cvs.root}"/>
   </target>
 
-  <target name="testing-commit-files-2" depends="init">
+  <target name="testing-commit-files" depends="init">
     <echo>CVSROOT is ${cvs.root}</echo>
-    <property name="dir" value="${working.dir}/testing-2"/>
+    <property name="dir" value="${working.dir}/testing"/>
     <!--copy todir="${dir}" file="build.xml"/-->
 
-    <antcall target="commit-files-2">
+    <antcall target="commit-files">
       <param name="in.todir" value="www/michiel/testing"/>
       <param name="in.fromdir" value="${dir}"/>
       <param name="in.message" value="Updates."/>
@@ -265,10 +201,13 @@
       </fileset>
     </copy>
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml"/>
-    <!--antcall target="commit-files">
-      <param name="todir" value="www/snapshots/${cvs.user}/OS/JDK/javadocs"/>
-      <param name="fromdir" value="${working.dir}/argouml/build/javadocs"/>
-    </antcall-->
+    
+    <tstamp/>
+    <antcall target="commit-files">
+      <param name="in.todir" value="www/reports"/>
+      <param name="in.fromdir" value="${working.dir}/argouml/build/reports"/>
+      <param name="in.message" value="Reports of ${TODAY}."/>
+    </antcall>
   </target>
 
 
