@@ -66,7 +66,7 @@
   <target name="all" depends="compile,javadocs,tests" description="do everything"></target>
 
   <target name="commit-files">
-    <property name="package" value="argouml-gen/${in.todir}"/>
+    <property name="package" value="argouml-gen\${in.todir}"/>
     <property name="to.dir" location="${in.todir}"/>
     <property name="from.dir" location="${in.fromdir}"/>
     <property name="cvs-add-ant.xsl" location="${xsl.dir}/cvs-add-ant.xsl"/>
@@ -83,15 +83,12 @@
     <echo>to.dir = ${to.dir}</echo>
     <echo>from.dir = ${from.dir}</echo>
 
-    <!-- Create directory in case it not exists yet. -->
-    <mkdir dir="${to.dir}"/>
-
     <!-- Take care that everything in the todir is up to date -->
-    <delete>
+    <delete includeemptydirs="true" quiet="true">
       <fileset dir="${to.dir}" defaultexcludes="no"/>
     </delete>
     <echo>Updating ${to.dir}</echo>
-    <cvs command="checkout -P -R" cvsRoot="${cvs.root}" package="${package}" dest="${basedir}/.."/>
+    <cvs command="update -d" cvsRoot="${cvs.root}" package="${package}" dest="${basedir}/.."/>
     
     <!-- Create an xml file with an overview of all files in the todir -->
 
@@ -162,6 +159,7 @@
     <cvs command="commit -m&quot;${in.message}&quot; ${to.dir}" cvsRoot="${cvs.root}"/>
   </target>
 
+  <!-- TO BE REMOVED -->
   <target name="testing-commit-files" depends="init">
     <echo>CVSROOT is ${cvs.root}</echo>
     <property name="dir" value="${working.dir}/testing"/>
@@ -194,6 +192,7 @@
     <ant dir="${argouml.src.dir}" target="compile"/>
   </target>
 
+  <!-- TO BE REMOVED -->
   <target name="tests" depends="update" description="run unit tests">
     <ant dir="${argouml.src.dir}" target="tests"/>
     <property name="resultdir" value="www/snapshots/${cvs.user}/OS/JDK/tests/reports"/>
@@ -203,6 +202,7 @@
     </antcall-->
   </target>
 
+  <!-- TO BE REMOVED -->
   <target name="javadocs" depends="update" description="generate javadocs">
     <ant dir="${argouml.src.dir}" target="javadocs"/>
     <!--antcall target="commit-files">
