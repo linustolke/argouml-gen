@@ -10,6 +10,7 @@
       <!-- Create 'add' tasks. -->
       <xsl:for-each select="//pathelement[not(.='')]">
         <xsl:if test="count(document($todir)//pathelement[.=current()])=0">
+          <echo>Adding <xsl:value-of select="."/></echo>
           <cvs>
             <xsl:attribute name="command">add <xsl:value-of select="."/></xsl:attribute>
             <xsl:attribute name="cvsRoot"><![CDATA[${cvs.root}]]></xsl:attribute>
