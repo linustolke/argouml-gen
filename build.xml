@@ -246,6 +246,10 @@
     </antcall-->
   </target>
 
+  <target name="clean" description="remove all generated reports">
+    <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="clean"/>
+  </target>
+  
   <target name="reports" description="generate reports">
     <copy file="build-reports.xml" todir="${argouml.src.dir}" overwrite="true"/>
     <copy file="reporting.properties" todir="${argouml.src.dir}" overwrite="true"/>
