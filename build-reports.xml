@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="build-reports" default="report:checkstyle" basedir=".">
+<project name="build-reports" default="report:all" basedir=".">
   <description>
     Creates all reports.
   </description>
@@ -13,6 +13,7 @@
     unit test reports from junit are deposited in this directory.
   -->
   <property name="build.reports.dir" location="${argo.build.dir}/reports"/>
+  <property name="build.reports.xml.dir" location="${argo.build.dir}/reports-xml"/>
 
   <!--
     coverage reports are deposited into this directory. For the
@@ -20,7 +21,7 @@
     report look at ${build.jcoverage.xml.dir}/coverage.xml.
   -->
   <property name="build.jcoverage.dir" location="${build.reports.dir}/jcoverage"/>
-  <property name="build.jcoverage.xml.dir" location="${build.jcoverage.dir}/xml"/>
+  <property name="build.jcoverage.xml.dir" location="${build.reports.xml.dir}/jcoverage"/>
   
   <property name="instrument-ant.xsl" location="${xsl.dir}/instrument-ant.xsl"/>
 
@@ -30,29 +31,47 @@
     report look at ${build.jdepend.xml.dir}/coverage.xml.
   -->
   <property name="build.jdepend.dir" location="${build.reports.dir}/jdepend"/>
-  <property name="build.jdepend.xml.dir" location="${build.jdepend.dir}/xml"/>
+  <property name="build.jdepend.xml.dir" location="${build.reports.xml.dir}/jdepend"/>
   
   <!--
     checkstyle reports are deposited into this directory. For the
-    HTML report, look at ${build.checkstyle.dir}/index.html. For the XML
-    report look in ${build.checkstyle.xml.dir}
+    HTML report, look at ${report.checkstyle.dir}/index.html. For the XML
+    report look in ${report.checkstyle.xml.dir}
   -->
-  <property name="build.checkstyle.dir" location="${build.reports.dir}/checkstyle"/>
-  <property name="build.checkstyle.xml.dir" location="${build.checkstyle.dir}/xml"/>
-  <property name="checkstyle_errors.xml" location="${build.checkstyle.xml.dir}/checkstyle_errors.xml"/>
-  <property name="checkstyle_report.html" location="${build.checkstyle.dir}/checkstyle_report.html"/>
+  <property name="report.checkstyle.dir" location="${build.reports.dir}/checkstyle"/>
+  <property name="report.checkstyle.xml.dir" location="${build.reports.xml.dir}/checkstyle"/>
+  <property name="checkstyle_errors.xml" location="${report.checkstyle.xml.dir}/checkstyle_errors.xml"/>
+  <property name="checkstyle_report.html" location="${report.checkstyle.dir}/checkstyle_report.html"/>
+
+  <!--
+    checkstyle reports are deposited into this directory. For the
+    HTML report, look at ${report.junit.dir}/index.html. For the XML
+    report look in ${report.junit.xml.dir}
+  -->
+  <property name="report.junit.dir" location="${build.reports.dir}/junit"/>
+  <property name="report.junit.xml.dir" location="${build.reports.xml.dir}/junit"/>
   
-  <target name="report:all" depends="init-reports,report:coverage,report:jdepend">
+  <!--
+    checkstyle reports are deposited into this directory. For the
+    HTML report, look at ${report.javadocs.dir}/index.html.
+  -->
+  <property name="report.javadocs.dir" location="${build.reports.dir}/javadocs"/>
+  
+  <target name="report:all" depends="report:jcoverage,report:jdepend,report:checkstyle,report:junit,report:javadocs">
     <description>clean build, instrument and unit test</description>
   </target>
   
-  <target name="report:coverage" depends="instrument,test,coverage">
+  <target name="report:jcoverage" depends="init-reports,instrument,coverage-test,coverage">
     <description>clean build, instrument and unit test</description>
   </target>
   
   <target name="report:jdepend" depends="init-reports,jdepend" description="create jdepend reports"/>
 
   <target name="report:checkstyle" depends="init-reports,checkstyle" description="create checkstyle reports"/>
+
+  <target name="report:junit" depends="init-reports,do:tests" description="create junit reports"/>
+
+  <target name="report:javadocs" depends="init-reports,do:javadocs" description="create javadocs reports"/>
 
   <path id="jcoverage">
     <fileset dir="${jcoverage.dir}">
@@ -63,8 +82,10 @@
   <taskdef classpathref="jcoverage" resource="tasks.properties"/>
 
   <target name="clean" description="clean up build artefacts">
-    <delete quiet="true">
+    <echo>${build.reports.dir}</echo>
+    <delete quiet="true" includeEmptyDirs="true">
       <fileset dir="${build.reports.dir}"/>
+      <fileset dir="${build.reports.xml.dir}"/>
       <fileset dir="${argo-gen.jcoverage.instrumented.classes}"/>
       <fileset dir="${argo.root.dir}">
         <include name="jcoverage.ser"/>
@@ -75,8 +96,13 @@
 
   <target name="init-reports" depends="init" description="create build directories">
     <mkdir dir="${argo.build.dir}"/>
+    <mkdir dir="${build.jcoverage.dir}"/>
     <mkdir dir="${build.jcoverage.xml.dir}"/>
-    <mkdir dir="${build.checkstyle.xml.dir}"/>
+    <mkdir dir="${report.checkstyle.dir}"/>
+    <mkdir dir="${report.checkstyle.xml.dir}"/>
+    <mkdir dir="${report.junit.dir}"/>
+    <mkdir dir="${report.junit.xml.dir}"/>
+    <mkdir dir="${report.javadocs.dir}"/>
     <mkdir dir="${argo-gen.jcoverage.instrumented.classes}"/>
 
     <!-- Now copy all none class stuff. -->
@@ -133,11 +159,7 @@
   
   <!-- From build.xml; executes both model and gui unit tests         -->
   <!-- Note the instrumented classes are found first in the classpath -->
-  <target name="test" description="Unit test the application" depends="junit-fetch-init">
-
-    <echo>${basedir}</echo>
-    <echo>${argo-gen.jcoverage.instrumented.classes}</echo>
-    <echo>${argo.tests.classes}</echo>
+  <target name="coverage-test" description="Unit test the application" depends="junit-fetch-init">
 
     <junit errorproperty="junit.failure" fork="yes" haltonfailure="false" maxmemory="48M" printsummary="true" dir="${basedir}">
       <sysproperty key="test.model.uml13" value="${011202.xml}"/>
@@ -156,7 +178,7 @@
         <classpath refid="jcoverage"/>
       -->
       <formatter type="xml"/>
-      <batchtest todir="${build.reports.dir}">
+      <batchtest todir="${build.jcoverage.xml.dir}">
         <fileset dir="${argo.tests.src}">
           <include name="org/argouml/**/Test*.java"/>
           <include name="org/argouml/**/GUITest*.java"/>
@@ -166,7 +188,7 @@
     </junit>
   </target>
 
-  <target name="coverage" description="HTML and XML coverage reports can be found in build/coverage">
+  <target name="coverage" description="create HTML and XML coverage reports.">
     <report srcdir="${argo.src.dir}" destdir="${build.jcoverage.dir}"/>
     <report srcdir="${argo.src.dir}" destdir="${build.jcoverage.xml.dir}" format="xml"/>
 
@@ -176,7 +198,7 @@
     <echo>
 jcoverage reports have been generated.
 The HTML report is ${coverage.index.html}
-The XML report is ${overage.index.xml}
+The XML report is ${coverage.index.xml}
     </echo>
   </target>
 
@@ -192,6 +214,8 @@ The XML report is ${overage.index.xml}
 
   <target name="jdepend">
     <delete dir="${build.jdepend.dir}"/>
+    <delete dir="${build.jdepend.xml.dir}"/>
+    <mkdir dir="${build.jdepend.dir}"/>
     <mkdir dir="${build.jdepend.xml.dir}"/>
 
     <jdepend outputfile="${build.jdepend.xml.dir}/jdepend.xml" fork="yes" format="xml">
@@ -253,10 +277,29 @@ The XML report is ${overage.index.xml}
       <formatter type="xml" toFile="${checkstyle_errors.xml}"/>
     </checkstyle>
 
-    <style basedir="${build.checkstyle.xml.dir}" destdir="${build.checkstyle.dir}" style="${argo.tools.dir}/checkstyle-3.3/contrib/checkstyle-frames.xsl">
-      <param name="output.dir" expression="${build.checkstyle.dir}"/>
+    <style basedir="${report.checkstyle.xml.dir}" destdir="${report.checkstyle.dir}" style="${argo.tools.dir}/checkstyle-3.3/contrib/checkstyle-frames.xsl">
+      <param name="output.dir" expression="${report.checkstyle.dir}"/>
     </style>
 
   </target>
+  
+  <target name="do:tests">
+    <ant dir="${argouml.src.dir}" target="tests"/>
+
+    <!-- Junitreport has already run - put the reports in the right spot. -->
+    <copy todir="${report.junit.dir}">
+      <fileset dir="${argo.tests.reports}/junit/output/html"/>
+    </copy>
+  </target>
+  
+  <target name="do:javadocs">
+    <ant dir="${argouml.src.dir}" target="javadocs"/>
+
+    <!-- Junitreport has already run - put the reports in the right spot. -->
+    <copy todir="${report.javadocs.dir}">
+      <fileset dir="${argo.javadocs.dir}"/>
+    </copy>
+  </target>
+  
 
 </project>

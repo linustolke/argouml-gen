@@ -232,10 +232,10 @@
   <target name="tests" depends="update" description="run unit tests">
     <ant dir="${argouml.src.dir}" target="tests"/>
     <property name="resultdir" value="www/snapshots/${cvs.user}/OS/JDK/tests/reports"/>
-    <antcall target="commit-files">
+    <!--antcall target="commit-files">
       <param name="todir" value="${resultdir}"/>
       <param name="fromdir" value="${argouml.dir}/build/tests/reports"/>
-    </antcall>
+    </antcall-->
   </target>
 
   <target name="javadocs" depends="update" description="generate javadocs">
@@ -246,13 +246,16 @@
     </antcall-->
   </target>
 
-  <target name="clean" description="remove all generated reports">
+  <target name="init-reports">
+    <copy file="build-reports.xml" todir="${argouml.src.dir}" overwrite="true"/>
+    <copy file="reporting.properties" todir="${argouml.src.dir}" overwrite="true"/>
+  </target>
+  
+  <target name="clean" depends="init-reports" description="remove all generated reports">
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="clean"/>
   </target>
   
-  <target name="reports" description="generate reports">
-    <copy file="build-reports.xml" todir="${argouml.src.dir}" overwrite="true"/>
-    <copy file="reporting.properties" todir="${argouml.src.dir}" overwrite="true"/>
+  <target name="reports" depends="init-reports" description="generate reports">
     <copy file="${instrument-ant.xsl}" todir="${argouml.src.dir}/xsl" overwrite="true"/>
     <copy todir="${argouml.dir}/tools">
       <fileset dir="tools">
