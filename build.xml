@@ -1,15 +1,25 @@
 <!--
- This build file checks out the latest version of 
+ This build file contains all the different statistics and snapshot
+ built by the argouml-gen project.
  
- Ideally, run this build.xml file with the command:
-  ant -logger org.apache.tools.ant.XmlLogger -logfile www/log.xml
+ To take part in this you:
+ 1. Install cvs.
+ 2. Check out this file:
+     cvs co -d :pserver:guest@cvs.tigris.org:/cvs argouml-gen/build.xml
+ 3. Install ant.
+ 4. Run through everything:
+     ant -logger org.apache.tools.ant.XmlLogger -logfile www/<your tigris id>/log.xml
+ 5. Decide on what parts of this you are willing to run.
+    Default is everything.
+    Options are:
+      javadoc
+      daily build (not yet implemented)
+      commit statistics (NYI)
+      issuezilla statistics (NYI)
+ 6. Set up the cron job to run this regularly.
+ 7. Apply for a role in this project.
 
- Unfornately, the resulting file is huge and renders VERY slowly.
- So, instead use this:
-  ant -logfile www/log.txt
-
-
--->
+ -->
 
 <project name="argouml-gen" default="all" basedir=".">
     <description>
@@ -26,14 +36,9 @@
   <property name="docs.module" value="argouml/documentation" />
 
 
-  <target name="init"
-        description="set the timestamp.  not really needed yet." >
-    <tstamp>
-     <format property="touch.time" pattern="yyyy-MM-dd hh:mm aa" />
-    </tstamp>
-    <buildnumber />
-    <echo taskname="buildnumber" message="build number: ${build.number}" />
-    <echo taskname="date" message="Date: ${touch.time}" />
+  <target name="init">
+    <!-- Common initializations. Nothing yet. -->
+    <echo>CVSROOT is ${cvs.root}</echo>
   </target>
 
   <target name="update" depends="init"
