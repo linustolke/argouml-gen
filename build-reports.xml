@@ -65,9 +65,9 @@
     <description>clean build, instrument and unit test</description>
   </target>
   
-  <target name="report:jdepend" depends="init-reports,jdepend" description="create jdepend reports"/>
+  <target name="report:jdepend" depends="init-reports,do:jdepend" description="create jdepend reports"/>
 
-  <target name="report:checkstyle" depends="init-reports,checkstyle" description="create checkstyle reports"/>
+  <target name="report:checkstyle" depends="init-reports,do:checkstyle" description="create checkstyle reports"/>
 
   <target name="report:junit" depends="init-reports,do:tests" description="create junit reports"/>
 
@@ -212,7 +212,7 @@ The XML report is ${coverage.index.xml}
   </taskdef>
   
 
-  <target name="jdepend">
+  <target name="do:jdepend">
     <delete dir="${build.jdepend.dir}"/>
     <delete dir="${build.jdepend.xml.dir}"/>
     <mkdir dir="${build.jdepend.dir}"/>
@@ -267,7 +267,7 @@ The XML report is ${coverage.index.xml}
   <taskdef resource="checkstyletask.properties"
            classpath="${checkstyle.jar.path}"/>
 
-  <target name="checkstyle" depends="init,cleanparser"
+  <target name="do:checkstyle" depends="init,cleanparser"
           description="Run checkstyle on all source.">
           
     <!--checkstyle config="${checkstyle.sun-checks}" failOnViolation="false"-->
