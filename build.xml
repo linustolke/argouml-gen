@@ -20,7 +20,8 @@
  6. Set up the cron job to run this regularly.
  7. Apply for a role in this project.
  8. Get the role granted.
- 9. Monitor your commits.
+ 9. Create the result directories in cvs.
+10. Monitor your commits.
 
  The general design of these targets is that they run in a directory called
  tmp that is created on the first invocation and that can be removed at any
@@ -68,7 +69,7 @@
        project cvs repository 
     -->
   <target name="commit-files">
-    <cvs cvsRoot="${cvs.root}" command="update -Ad" package="${todir}"/>
+    <cvs cvsRoot="${cvs.root}" command="update -Ad" dest="${todir}"/>
     <mkdir dir="${todir}"/>
     <delete>
       <fileset dir="${todir}" excludes="CVS CVS/*"/>
