@@ -1,12 +1,24 @@
+<!--
+ This build file checks out the latest version of 
+ 
+ Run this build.xml file with the command:
+  ant -logger org.apache.tools.ant.XmlLogger -logfile log.xml
+
+
+-->
+
 <project name="argouml-gen" default="all" basedir=".">
     <description>
         Build some targets in another project and save results to CVS.
     </description>
   <!-- set global properties for this build -->
   <property file="build.properties" />
+  <property name="cvs.user" value="${user.name}" />
   <property name="cvs.root" value=":pserver:${cvs.user}@tigris.org:/cvs" />
-  <property name="project.to.build" value="argouml/src_new" />
-  <property name="module.to.build" value="argouml/src_new" />
+  <property name="project.to.build" value="argouml" />
+  <property name="src.module" value="argouml/src_new" />
+  <property name="lib.module" value="argouml/lib" />
+  <property name="tests.module" value="argouml/tests" />
 
 
   <target name="init"
@@ -15,30 +27,34 @@
      <format property="touch.time" pattern="yyyy-MM-dd hh:mm aa" />
     </tstamp>
     <buildnumber />
-    <echo message="build number: ${build.number}" />
-    <echo message="Date: ${touch.time}" />
+    <echo taskname="buildnumber" message="build number: ${build.number}" />
+    <echo taskname="date" message="Date: ${touch.time}" />
   </target>
 
   <target name="update" depends="init"
      description="update the other project from CVS">
     <cvs cvsRoot="${cvs.root}"
-         package="${module.to.build}"
+         package="${src.module}"
 	 quiet="true"
       />
     <cvs cvsRoot="${cvs.root}"
-         package="${project.to.build}/lib"
+         package="${lib.module}"
+	 quiet="true"
+      />
+    <cvs cvsRoot="${cvs.root}"
+         package="${tests.module}"
 	 quiet="true"
       />
   </target>
 
-  <target name="install" depends="update"
+  <target name="compile" depends="update"
         description="compile the source and assemble other files" >
-    <ant dir="${module.to.build}" target="install"/>
+    <ant dir="${module.to.build}" target="compile"/>
   </target>
 
-  <target name="test" depends="update"
-        description="run unit tests" >
-    <ant dir="${module.to.build}" target="test" 
+  <target name="tests" depends="update"
+        description="run unit testss" >
+    <ant dir="${module.to.build}" target="tests" 
           />
     <copy todir="www">
      <fileset dir="${project.to.build}/build/tests/reports" />
@@ -48,17 +64,20 @@
     </copy>
   </target>
 
-  <target name="javadoc" depends="update"
-        description="generate javadoc" >
-    <ant dir="${module.to.build}" target="javadoc" />
+  <target name="javadocs" depends="update"
+        description="generate javadocs" >
+    <ant dir="${module.to.build}" target="javadocs" />
     <copy todir="www/api">
      <fileset dir="${project.to.build}/build/javadocs" />
     </copy>
     <!-- <cvs command="-q add www/api/edu/uci/${project.to.build}/util/*.html" /> -->
   </target>
 
-  <target name="all" depends="install,javadoc,test"
+  <target name="all" depends="compile,javadocs,tests"
         description="do everything except commit">
+    <echo taskname="finished"
+      message="Build has finished. Please review locally,
+      then use 'cvs commit build.number www'." />
   </target>
 
 
