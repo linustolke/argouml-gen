@@ -153,6 +153,33 @@
       <param name="fromdir" expression="${fromdir-files.xml}"/>
     </style>
 
+    <!-- The three generated files above cvs-add-ant.xml, cvs-add-dirs-ant.xml,
+         and cvs-remove-ant.xml have (on my system) the files referenced
+         using the full path name. The cvs command doesn't allow the use of
+         full paths but needs to have the directory specified in the dest
+         attribute while the name (without path) is in the command field.
+
+         The following script fixes that for the three files.
+         TODO: It is however not portable.
+      -->
+    <move file="${cvs-add-ant.xml}" tofile="${cvs-add-ant.xml}.in"/>
+    <exec input="${cvs-add-ant.xml}.in" output="${cvs-add-ant.xml}"
+          executable="sed">
+      <arg value='s;\(cvs command="[^"]*\) \([^ "]*\)/\([^ "]*\)";\1 \3" dest="\2";'/>
+    </exec>
+
+    <move file="${cvs-add-dirs-ant.xml}" tofile="${cvs-add-dirs-ant.xml}.in"/>
+    <exec input="${cvs-add-dirs-ant.xml}.in" output="${cvs-add-dirs-ant.xml}"
+          executable="sed">
+      <arg value='s;\(cvs command="[^"]*\) \([^ "]*\)/\([^ "]*\)";\1 \3" dest="\2";'/>
+    </exec>
+
+    <move file="${cvs-remove-ant.xml}" tofile="${cvs-remove-ant.xml}.in"/>
+    <exec input="${cvs-remove-ant.xml}.in" output="${cvs-remove-ant.xml}"
+          executable="sed">
+      <arg value='s;\(cvs command="[^"]*\) \([^ "]*\)/\([^ "]*\)";\1 \3" dest="\2";'/>
+    </exec>
+
     <!-- Remove obsolete files from CVS -->
 
     <ant antfile="${cvs-remove-ant.xml}"/>
@@ -209,23 +236,12 @@
   <target name="init-reports">
     <copy file="build-reports.xml" todir="${argouml.src.dir}" overwrite="true"/>
     <copy file="reporting.properties" todir="${argouml.src.dir}" overwrite="true"/>
-
-<!--
-    <copy file="${instrument-ant.xsl}" todir="${argouml.src.dir}/xsl" overwrite="true"/>
-
-    <copy todir="${argouml.dir}/tools">
-      <fileset dir="tools">
-        <include name="**"/>
-        <exclude name="CVS/**"/>
-        <exclude name="CVS"/>
-      </fileset>
-    </copy>
- -->
   </target>
   
   <target name="report:all" 
     depends="init-reports,report:junit,report:checkstyle,report:jcoverage,report:jdepend,report:javadocs,report:findbugs" 
     description="generate reports"/>
+
 
   <target name="report:jcoverage" depends="init-reports" description="generate jcoverage reports">
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:jcoverage"/>
@@ -240,6 +256,7 @@
     </antcall>
   </target>
 
+
   <target name="report:jdepend" depends="init-reports" description="generate jdepend reports">
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:jdepend"/>
   </target>
@@ -253,6 +270,7 @@
     </antcall>
   </target>
   
+
   <target name="report:checkstyle" depends="init-reports" description="generate checkstyle reports">
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:checkstyle"/>
   </target>
@@ -266,6 +284,7 @@
     </antcall>
   </target>
   
+
   <target name="report:junit" depends="init-reports" description="generate junit reports">
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:junit"/>
   </target>
@@ -279,6 +298,7 @@
     </antcall>
   </target>
 
+
   <target name="report:javadocs" depends="init-reports" description="generate javadocs reports">
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:javadocs"/>
   </target>
@@ -291,6 +311,7 @@
       <param name="in.message" value="Javadocs of ${TODAY}."/>
     </antcall>
   </target>
+
 
   <target name="report:findbugs" depends="init-reports" description="generate FindBug reports">
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:findbugs"/>
@@ -316,11 +337,5 @@
   <target name="stats-members" depends="init"></target>
 
   <target name="stats-mailinglist" depends="init"></target>
-
-    <path id="jcoverage">
-    <fileset dir="${jcoverage.dir}">
-      <include name="**/jcoverage.jar"/>
-    </fileset>
-  </path>
 
 </project>
