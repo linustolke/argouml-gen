@@ -1,0 +1,65 @@
+<project name="argouml-gen" default="all" basedir=".">
+    <description>
+        Build some targets in another project and save results to CVS.
+    </description>
+  <!-- set global properties for this build -->
+  <property file="build.properties" />
+  <property name="cvs.root" value=":pserver:${cvs.user}@tigris.org:/cvs" />
+  <property name="project.to.build" value="argouml/src_new" />
+  <property name="module.to.build" value="argouml/src_new" />
+
+
+  <target name="init"
+        description="set the timestamp.  not really needed yet." >
+    <tstamp>
+     <format property="touch.time" pattern="yyyy-MM-dd hh:mm aa" />
+    </tstamp>
+    <buildnumber />
+    <echo message="build number: ${build.number}" />
+    <echo message="Date: ${touch.time}" />
+  </target>
+
+  <target name="update" depends="init"
+     description="update the other project from CVS">
+    <cvs cvsRoot="${cvs.root}"
+         package="${module.to.build}"
+	 quiet="true"
+      />
+    <cvs cvsRoot="${cvs.root}"
+         package="${project.to.build}/lib"
+	 quiet="true"
+      />
+  </target>
+
+  <target name="install" depends="update"
+        description="compile the source and assemble other files" >
+    <ant dir="${module.to.build}" target="install"/>
+  </target>
+
+  <target name="test" depends="update"
+        description="run unit tests" >
+    <ant dir="${module.to.build}" target="test" 
+          />
+    <copy todir="www">
+     <fileset dir="${project.to.build}/build/tests/reports" />
+    </copy>
+    <copy todir="www">
+     <fileset dir="${project.to.build}/www/documentation/defaulthtml" />
+    </copy>
+  </target>
+
+  <target name="javadoc" depends="update"
+        description="generate javadoc" >
+    <ant dir="${module.to.build}" target="javadoc" />
+    <copy todir="www/api">
+     <fileset dir="${project.to.build}/build/javadocs" />
+    </copy>
+    <!-- <cvs command="-q add www/api/edu/uci/${project.to.build}/util/*.html" /> -->
+  </target>
+
+  <target name="all" depends="install,javadoc,test"
+        description="do everything except commit">
+  </target>
+
+
+</project>
