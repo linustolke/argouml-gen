@@ -49,8 +49,13 @@
   <property name="cvs.user" value="${user.name}"/>
   <property name="cvs.root" value=":pserver:${cvs.user}@cvs.tigris.org:/cvs"/>
   <property name="project.to.build" value="argouml"/>
-  <property name="working.dir" value="${basedir}/tmp"/>
+  <property name="working.dir" location="${basedir}/tmp"/>
+  <property name="argouml.dir" location="${working.dir}/argouml"/>
+  <property name="argouml.src.dir" location="${argouml.dir}/src_new"/>
+  
+  <property name="xsl.dir" location="${basedir}/xsl"/>
 
+  <property name="instrument-ant.xsl" location="${xsl.dir}/instrument-ant.xsl"/>
 
   <target name="init">
     <!-- Common initializations. -->
@@ -123,20 +128,17 @@
       <param name="fromdir" value="${dir}"/>
     </antcall>
   </target>
-
-  <!--macrodef name="fileset2xml">
-    <attribute name="fs"/>
-    <attribute name="filename"/>
-    <sequential>
-      <pathconvert property="fs.tmp" refid="@{fs}" pathSep="&lt;/pathelement&gt;&lt;pathelement&gt;"/>
-      <property name="fs-xml" value="&lt;path&gt;&lt;pathelement&gt;${fs.tmp}&lt;/pathelement&gt;&lt;/path&gt;"/>
-      <echo file="@{filename}">${fs-xml}</echo>
-    </sequential>
-  </macrodef-->
   
   <target name="commit-files-2">
-    <property name="to.dir" location="${todir}"/>
-    <property name="from.dir" location="${fromdir}"/>
+    <property name="to.dir" location="${in.todir}"/>
+    <property name="from.dir" location="${in.fromdir}"/>
+    <property name="cvs-add-ant.xsl" location="${xsl.dir}/cvs-add-ant.xsl"/>
+    <property name="cvs-add-ant.xsl" location="${xsl.dir}/cvs-add-ant.xsl"/>
+  
+    <property name="fromdir-fs.xml" location="${working.dir}/fromdir-fs.xml"/>
+    <property name="todir-fs.xml" location="${working.dir}/todir-fs.xml"/>
+    <property name="cvs-add-ant.xml" location="${working.dir}/cvs-add-ant.xml"/>
+    <property name="cvs-remove-ant.xml" location="${working.dir}/cvs-remove-ant.xml"/>
     
     <!-- Create directory in case it not exists yet. -->
     <mkdir dir="${to.dir}"/>
@@ -152,9 +154,9 @@
     <fileset id="todir-fs" dir="${to.dir}"/>
 
     <pathconvert property="todir-fs.tmp" refid="todir-fs" pathSep="&lt;/pathelement&gt;&lt;pathelement&gt;"/>
-    <property name="todir-fs.xml" value="&lt;path&gt;&lt;pathelement&gt;${todir-fs.tmp}&lt;/pathelement&gt;&lt;/path&gt;"/>
+    <property name="todir-fs-xml" value="&lt;path&gt;&lt;pathelement&gt;${todir-fs.tmp}&lt;/pathelement&gt;&lt;/path&gt;"/>
 
-    <echo file="todir-fs.xml">${todir-fs.xml}</echo>
+    <echo file="${todir-fs.xml}">${todir-fs-xml}</echo>
 
     <!-- Create an xml file with an overview of all files in fromdir                             -->
     <!-- Extra trick: map in the resulting xml file the fromdir directory to the todir directory -->
@@ -163,17 +165,17 @@
     <pathconvert property="fromdir-fs.tmp" refid="fromdir-fs" pathSep="&lt;/pathelement&gt;&lt;pathelement&gt;">
       <map from="${from.dir}" to="${to.dir}"/>
     </pathconvert>
-    <property name="fromdir-fs.xml" value="&lt;path&gt;&lt;pathelement&gt;${fromdir-fs.tmp}&lt;/pathelement&gt;&lt;/path&gt;"/>
+    <property name="fromdir-fs-xml" value="&lt;path&gt;&lt;pathelement&gt;${fromdir-fs.tmp}&lt;/pathelement&gt;&lt;/path&gt;"/>
 
-    <echo file="fromdir-fs.xml">${fromdir-fs.xml}</echo>
+    <echo file="${fromdir-fs.xml}">${fromdir-fs-xml}</echo>
 
     <!-- Create Ant scripts -->
     
-    <style in="fromdir-fs.xml" out="cvs-add-ant.xml" style="cvs-add-ant.xsl">
+    <style in="fromdir-fs.xml" out="${cvs-add-ant.xml}" style="${cvs-add-ant.xsl}">
       <param name="todir" expression="todir-fs.xml"/>
     </style>
 
-    <style in="todir-fs.xml" out="cvs-remove-ant.xml" style="cvs-remove-ant.xsl">
+    <style in="${todir-fs.xml}" out="${cvs-remove-ant.xml}" style="${cvs-remove-ant.xsl}">
       <param name="fromdir" expression="fromdir-fs.xml"/>
     </style>
 
@@ -187,23 +189,23 @@
     </copy>
     
     <!-- Call ant scripts -->
-    <ant antfile="cvs-add-ant.xml"/>
-    <ant antfile="cvs-remove-ant.xml"/>
+    <ant antfile="${cvs-add-ant.xml}"/>
+    <ant antfile="${cvs-remove-ant.xml}"/>
     
     <!-- Commit it all -->
-    <echo>Commiting: ${message}</echo>
-    <cvs command="commit -m${message} ${to.dir}" cvsRoot="${cvs.root}"/>
+    <echo>Commiting: ${in.message}</echo>
+    <cvs command="commit -m${in.message} ${to.dir}" cvsRoot="${cvs.root}"/>
   </target>
 
   <target name="testing-commit-files-2" depends="init">
     <echo>CVSROOT is ${cvs.root}</echo>
     <property name="dir" value="${working.dir}/testing-2"/>
-    <copy todir="${dir}" file="build.xml"/>
+    <!--copy todir="${dir}" file="build.xml"/-->
 
     <antcall target="commit-files-2">
-      <param name="todir" value="www/michiel/testing"/>
-      <param name="fromdir" value="${dir}"/>
-      <param name="message" value="Updates."/>
+      <param name="in.todir" value="www/michiel/testing"/>
+      <param name="in.fromdir" value="${dir}"/>
+      <param name="in.message" value="Updates."/>
     </antcall>
 
     <!--cvschangelog cvsRoot="${cvs.root}" dir="${basedir}" destfile="changelog.xml"/-->
@@ -224,24 +226,42 @@
   </target>
 
   <target name="compile" depends="update" description="compile the source and assemble other files">
-    <ant dir="${working.dir}/argouml/src_new" target="compile"/>
+    <ant dir="${argouml.src.dir}" target="compile"/>
   </target>
 
   <target name="tests" depends="update" description="run unit tests">
-    <ant dir="${working.dir}/argouml/src_new" target="tests"/>
+    <ant dir="${argouml.src.dir}" target="tests"/>
     <property name="resultdir" value="www/snapshots/${cvs.user}/OS/JDK/tests/reports"/>
     <antcall target="commit-files">
       <param name="todir" value="${resultdir}"/>
-      <param name="fromdir" value="${working.dir}/argouml/build/tests/reports"/>
+      <param name="fromdir" value="${argouml.dir}/build/tests/reports"/>
     </antcall>
   </target>
 
   <target name="javadocs" depends="update" description="generate javadocs">
-    <ant dir="${working.dir}/argouml/src_new" target="javadocs"/>
-    <antcall target="commit-files">
+    <ant dir="${argouml.src.dir}" target="javadocs"/>
+    <!--antcall target="commit-files">
       <param name="todir" value="www/snapshots/${cvs.user}/OS/JDK/javadocs"/>
       <param name="fromdir" value="${working.dir}/argouml/build/javadocs"/>
-    </antcall>
+    </antcall-->
+  </target>
+
+  <target name="reports" description="generate reports">
+    <copy file="build-reports.xml" todir="${argouml.src.dir}" overwrite="true"/>
+    <copy file="reporting.properties" todir="${argouml.src.dir}" overwrite="true"/>
+    <copy file="${instrument-ant.xsl}" todir="${argouml.src.dir}/xsl" overwrite="true"/>
+    <copy todir="${argouml.dir}/tools">
+      <fileset dir="tools">
+        <include name="**"/>
+        <exclude name="CVS/**"/>
+        <exclude name="CVS"/>
+      </fileset>
+    </copy>
+    <ant dir="${argouml.src.dir}" antfile="build-reports.xml"/>
+    <!--antcall target="commit-files">
+      <param name="todir" value="www/snapshots/${cvs.user}/OS/JDK/javadocs"/>
+      <param name="fromdir" value="${working.dir}/argouml/build/javadocs"/>
+    </antcall-->
   </target>
 
 

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="build-reports" default="main" basedir=".">
+  <description>
+    Creates all reports.
+  </description>
+
+  <import file="build.xml"/>
+
+  <property file="default.properties"/>
+  <property file="reporting.properties"/>
+  
+  <!--
+    unit test reports from junit are deposited in this directory.
+  -->
+  <property name="build.reports.dir" location="${argo.build.dir}/reports"/>
+
+  <!--
+    coverage reports are deposited into this directory. For the
+    HTML report, look at ${build.jcoverage.dir}/index.html. For the XML
+    report look at ${build.jcoverage.dir}/coverage.xml.
+  -->
+  <property name="build.jcoverage.dir" location="${build.reports.dir}/jcoverage"/>
+  
+  <property name="instrument-ant.xsl" location="${xsl.dir}/instrument-ant.xsl"/>
+
+
+  <target name="main" depends="init-reports,instrument,test,coverage" description="clean build, instrument and unit test"/>
+
+  <path id="jcoverage">
+    <fileset dir="${jcoverage.dir}">
+      <include name="**/jcoverage.jar"/>
+    </fileset>
+  </path>
+
+  <taskdef classpathref="jcoverage" resource="tasks.properties"/>
+
+  <target name="clean" description="clean up build artefacts">
+    <delete quiet="true">
+      <fileset dir="${argo-gen.jcoverage.instrumented.classes}"/>
+      <fileset dir="${argo.root.dir}">
+        <include name="jcoverage.ser"/>
+        <include name="jcoverage.log"/>
+      </fileset>
+    </delete>
+  </target>
+
+  <target name="init-reports" depends="init" description="create build directories">
+    <mkdir dir="${argo.build.dir}"/>
+    <mkdir dir="${build.jcoverage.dir}"/>
+    <mkdir dir="${argo-gen.jcoverage.instrumented.classes}"/>
+    <mkdir dir="${build.reports.dir}"/>
+
+    <!-- Now copy all none class stuff. -->
+    <copy todir="${argo-gen.jcoverage.instrumented.classes}">
+      <fileset dir="${argo.build.classes}">
+        <exclude name="**/*.class"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="instrument" description="Add jcoverage instrumentation">
+    <!-- Use ant-calling-ant pattern:
+         Generate a temporary ant script that does all instrumenting,
+         then call this ant script to perform the instrumenting of individual classes -->
+        
+    <property name="instrumentable-files" location="${basedir}/instrumentable-files.xml"/>
+    <property name="instrument-ant" location="${basedir}/instrument-ant.xml"/>
+    <property name="instrument-base" location="${argo.build.classes}"/>
+    
+    <dirset id="fs" dir="${argo.build.classes}"/>
+
+    <echo>Done!</echo>
+    
+    <pathconvert property="fs.tmp" refid="fs" pathSep="&lt;/pathelement&gt;&lt;pathelement&gt;">
+      <map from="${instrument-base}\" to=""/>
+    </pathconvert>
+
+    <property name="fs.xml" value="&lt;path&gt;&lt;pathelement&gt;${fs.tmp}&lt;/pathelement&gt;&lt;/path&gt;"/>
+         
+    <echo file="${instrumentable-files}">${fs.xml}</echo>
+    
+    <style in="${instrumentable-files}"
+            out="${instrument-ant}"
+            style="${instrument-ant.xsl}"/>
+            
+    <ant antfile="${instrument-ant}"/>
+
+  </target>
+
+  <target name="instrument-old" description="Add jcoverage instrumentation">
+    <!--
+      instrument the application classes, writing the instrumented
+      classes into ${argo-gen.jcoverage.instrumented.classes}.
+    -->
+    <instrument todir="${argo-gen.jcoverage.instrumented.classes}">
+      <!--
+        Note that the following line causes instrument to ignore any
+        source line containing a reference to log4j, for the purposes
+        of coverage reporting.
+      -->
+      <ignore regex="org.apache.log4j.*"/>
+
+      <fileset dir="${argo.build.classes}">
+        <!--
+          instrument all the application classes, but don't instrument
+          the test classes.
+        -->
+        <include name="org/argouml/xml/**/*.class"/>
+        <include name="org/argouml/util/**/*.class"/>
+        <include name="org/argouml/uml/cognitive/**/*.class"/>
+        <include name="org/argouml/uml/diagram/**/*.class"/>
+        <include name="org/argouml/uml/generator/**/*.class"/>
+        <include name="org/argouml/uml/reveng/**/*.class"/>
+        <include name="org/argouml/uml/ui/*.class"/>
+        <exclude name="**/*Test.class"/>
+      </fileset>
+    </instrument>
+
+    <!--
+      instrument the application classes, writing the instrumented
+      classes into ${argo-gen.jcoverage.instrumented.classes}.
+    -->
+    <instrument todir="${argo-gen.jcoverage.instrumented.classes}">
+      <!--
+        Note that the following line causes instrument to ignore any
+        source line containing a reference to log4j, for the purposes
+        of coverage reporting.
+      -->
+      <ignore regex="org.apache.log4j.*"/>
+
+      <fileset dir="${argo.build.classes}">
+        <!--
+          instrument all the application classes, but don't instrument
+          the test classes.
+        -->
+        <include name="org/argouml/uml/ui/**/*.class"/>
+        <exclude name="**/*Test.class"/>
+      </fileset>
+    </instrument>
+
+    <!--
+      instrument the application classes, writing the instrumented
+      classes into ${argo-gen.jcoverage.instrumented.classes}.
+    -->
+    <instrument todir="${argo-gen.jcoverage.instrumented.classes}">
+      <!--
+        Note that the following line causes instrument to ignore any
+        source line containing a reference to log4j, for the purposes
+        of coverage reporting.
+      -->
+      <ignore regex="org.apache.log4j.*"/>
+
+      <fileset dir="${argo.build.classes}">
+        <!--
+          instrument all the application classes, but don't instrument
+          the test classes.
+        -->
+        <include name="org/argouml/swingext/**/*.class"/>
+        <include name="org/argouml/pattern/**/*.class"/>
+        <include name="org/argouml/ocl/**/*.class"/>
+        <include name="org/argouml/model/**/*.class"/>
+        <include name="org/argouml/language/**/*.class"/>
+        <include name="org/argouml/kernel/**/*.class"/>
+        <include name="org/argouml/cognitive/**/*.class"/>
+        <include name="org/argouml/application/**/*.class"/>
+        <exclude name="**/*Test.class"/>
+      </fileset>
+    </instrument>
+  </target>
+
+  <path id="argo.runtime.classpath">
+    <!-- Currently same as the compile path. -->
+    <path refid="argo.compile.classpath"/>
+  </path>
+  
+  <!-- =================================================================== -->
+  <!-- Initialize for the junit tests.                                     -->
+  <!-- =================================================================== -->
+  <target depends="init-reports" name="junit-fetch-init">
+
+    <property name="011202.xml" value="tests/testmodels/01-12-02.xml"/>
+    <property name="991015.dtd" value="tests/testmodels/Model.dtd"/>
+
+    <available file="${011202.xml}" property="011202.xml.available"/>
+    <available file="${991015.dtd}" property="991015.dtd.available"/>
+  </target>
+  
+  <!-- From build.xml; executes both model and gui unit tests         -->
+  <!-- Note the instrumented classes are found first in the classpath -->
+  <target name="test" description="Unit test the application" depends="junit-fetch-init">
+
+    <echo>${basedir}</echo>
+    <echo>${argo-gen.jcoverage.instrumented.classes}</echo>
+    <echo>${argo.tests.classes}</echo>
+
+    <junit errorproperty="junit.failure" fork="yes" haltonfailure="false" maxmemory="48M" printsummary="true" dir="${basedir}">
+      <sysproperty key="test.model.uml13" value="${011202.xml}"/>
+      <sysproperty key="log4j.configuration" value="org/argouml/resource/default.lcf"/>
+      <sysproperty key="java.awt.headless" value="true"/>
+      <classpath>
+        <path refid="jcoverage"/>
+        <pathelement location="${argo-gen.jcoverage.instrumented.classes}"/>
+          <pathelement location="${argo.build.classes}"/>
+        <pathelement location="${argo.tests.classes}"/>
+        <path refid="argo.runtime.classpath"/>
+      </classpath>
+      <!--
+        the instrumented classes reference classes used by the
+        jcoverage runtime.
+        <classpath refid="jcoverage"/>
+      -->
+      <formatter type="xml"/>
+      <batchtest todir="${build.reports.dir}">
+        <fileset dir="${argo.tests.src}">
+          <include name="org/argouml/**/Test*.java"/>
+          <include name="org/argouml/**/GUITest*.java"/>
+          <exclude name="org/argouml/**/TestUmlModelEventPump.java"/>
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+
+  <target name="coverage" description="HTML and XML coverage reports can be found in build/coverage">
+    <report srcdir="${argo.src.dir}" destdir="${build.jcoverage.dir}"/>
+    <report srcdir="${argo.src.dir}" destdir="${build.jcoverage.dir}" format="xml"/>
+
+    <echo>
+jcoverage reports have been generated.
+The HTML report is ${build.jcoverage.dir}/index.html
+The XML report is ${build.jcoverage.dir}/coverage.xml
+    </echo>
+  </target>
+
+  <taskdef classname="org.apache.tools.ant.taskdefs.optional.jdepend.JDependTask" name="jdepend">
+    <classpath>
+      <pathelement location="${jdepend.jar.path}"/>
+      <fileset dir="${ant.home}">
+        <include name="**/*.jar"/>
+      </fileset>
+    </classpath>
+  </taskdef>
+  
+
+  <target name="jdepend">
+    <delete dir="jdepend"/>
+    <mkdir dir="jdepend/classes"/>
+
+
+    <jdepend outputfile="jdepend/jdepend.xml" fork="yes" format="xml">
+      <classpath>
+        <pathelement location="${jdepend.jar.path}"/>
+        <pathelement location="${argo.build.classes}"/>
+        <pathelement location="${argo.tests.classes}"/>
+        <fileset dir="${argo.lib.dir}">
+          <include name="**/*.jar"/>
+        </fileset>
+        <path refid="argo.runtime.classpath"/>
+      </classpath>
+      <exclude name="antlr"/>
+      <exclude name="java.*"/>
+      <exclude name="javax.*"/>
+      <exclude name="org.apache.log4j.*"/>
+      <classespath>
+          <!--pathelement location="${argo.build.classes}"/-->
+        <pathelement location="${argo.build.classes}/org/argouml/cognitive"/>
+      </classespath>
+    </jdepend>
+
+    <style basedir="jdepend" destdir="jdepend" style="${ant.home}/etc/jdepend-frames.xsl">
+      <param name="output.dir" expression="jdepend"/>
+    </style>
+
+  </target>
+</project>
