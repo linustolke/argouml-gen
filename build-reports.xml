@@ -180,7 +180,7 @@
       <classpath>
         <path refid="jcoverage"/>
         <pathelement location="${argo-gen.jcoverage.instrumented.classes}"/>
-          <pathelement location="${argo.build.classes}"/>
+	<!-- <pathelement location="${argo.build.classes}"/> -->
         <pathelement location="${argo.tests.classes}"/>
         <path refid="argo.runtime.classpath"/>
       </classpath>
