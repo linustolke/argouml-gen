@@ -115,6 +115,8 @@
     <mkdir dir="${report.findbugs.xml.dir}"/>
     <mkdir dir="${argo-gen.jcoverage.instrumented.classes}"/>
 
+    <ant dir="${argouml.src.dir}" target="compile"/>
+
     <!-- Now copy all none class stuff. -->
     <copy todir="${argo-gen.jcoverage.instrumented.classes}">
       <fileset dir="${argo.build.classes}">
