@@ -1,8 +1,12 @@
 <!--
  This build file checks out the latest version of 
  
- Run this build.xml file with the command:
-  ant -logger org.apache.tools.ant.XmlLogger -logfile log.xml
+ Ideally, run this build.xml file with the command:
+  ant -logger org.apache.tools.ant.XmlLogger -logfile www/log.xml
+
+ Unfornately, the resulting file is huge and renders VERY slowly.
+ So, instead use this:
+  ant -logfile www/log.txt
 
 
 -->
@@ -19,6 +23,7 @@
   <property name="src.module" value="argouml/src_new" />
   <property name="lib.module" value="argouml/lib" />
   <property name="tests.module" value="argouml/tests" />
+  <property name="docs.module" value="argouml/documentation" />
 
 
   <target name="init"
@@ -33,32 +38,30 @@
 
   <target name="update" depends="init"
      description="update the other project from CVS">
-    <cvs cvsRoot="${cvs.root}"
-         package="${src.module}"
-	 quiet="true"
-      />
-    <cvs cvsRoot="${cvs.root}"
-         package="${lib.module}"
-	 quiet="true"
-      />
-    <cvs cvsRoot="${cvs.root}"
-         package="${tests.module}"
-	 quiet="true"
-      />
+    <cvs cvsRoot="${cvs.root}" package="${src.module}" quiet="true" />
+    <cvs cvsRoot="${cvs.root}" package="${lib.module}" quiet="true" />
+    <cvs cvsRoot="${cvs.root}" package="${tests.module}" quiet="true" />
+    <cvs cvsRoot="${cvs.root}" package="${docs.module}" quiet="true" />
   </target>
 
   <target name="compile" depends="update"
         description="compile the source and assemble other files" >
-    <ant dir="${module.to.build}" target="compile"/>
+    <ant dir="${src.module}" target="compile" />
   </target>
 
   <target name="tests" depends="update"
-        description="run unit testss" >
-    <ant dir="${module.to.build}" target="tests" 
-          />
+        description="run unit tests" >
+    <ant dir="${src.module}" target="tests" />
     <copy todir="www">
      <fileset dir="${project.to.build}/build/tests/reports" />
     </copy>
+  </target>
+
+
+  <!-- this target is currently not working, due to saxon error -->
+  <target name="docs" depends="update"
+        description="generate html documentation" >
+    <ant dir="${docs.module}" />
     <copy todir="www">
      <fileset dir="${project.to.build}/www/documentation/defaulthtml" />
     </copy>
@@ -66,7 +69,7 @@
 
   <target name="javadocs" depends="update"
         description="generate javadocs" >
-    <ant dir="${module.to.build}" target="javadocs" />
+    <ant dir="${src.module}" target="javadocs" />
     <copy todir="www/api">
      <fileset dir="${project.to.build}/build/javadocs" />
     </copy>
