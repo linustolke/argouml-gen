@@ -8,7 +8,7 @@
      cvs co -d :pserver:guest@cvs.tigris.org:/cvs argouml-gen/build.xml
  3. Install ant.
  4. Run through everything:
-     ant -logger org.apache.tools.ant.XmlLogger -logfile www/<your tigris id>/log.xml
+     ant -logger org.apache.tools.ant.XmlLogger -logfile www/logs/<your tigris id>/log00001.xml
  5. Decide on what parts of this you are willing to run.
     Default is everything.
     Options are:
@@ -16,9 +16,27 @@
       daily build (not yet implemented)
       commit statistics (NYI)
       issuezilla statistics (NYI)
+      mailinglist statistics (NYI)
  6. Set up the cron job to run this regularly.
  7. Apply for a role in this project.
+ 8. Get the role granted.
+ 9. Monitor your commits.
 
+ The general design of these targets is that they run in a directory called
+ tmp that is created on the first invocation and that can be removed at any
+ time (after completion or between runs).
+ All data or result is then copied to and commited somewhere in the www tree.
+
+ Things that are snapshots from the source that depend on things like OS and 
+ JDK version that are not part of neither the argouml-gen, nor the argouml
+ project, are located in subdirectories in www that are instance specific
+ like www/snapshots/<user>/os/jdk. These targets rely heavily on the 
+ corresponding targets in argouml/src_new/build.xml.
+
+ Things that are independant are located in directories directly under www 
+ like www/issuezilla.
+
+ Logs are located under www/logs/<user>/ and they are new for each invocation.
  -->
 
 <project name="argouml-gen" default="all" basedir=".">
@@ -30,63 +48,128 @@
   <property name="cvs.user" value="${user.name}" />
   <property name="cvs.root" value=":pserver:${cvs.user}@tigris.org:/cvs" />
   <property name="project.to.build" value="argouml" />
-  <property name="src.module" value="argouml/src_new" />
-  <property name="lib.module" value="argouml/lib" />
-  <property name="tests.module" value="argouml/tests" />
-  <property name="docs.module" value="argouml/documentation" />
+  <property name="working.dir" value="tmp"/>
 
 
   <target name="init">
-    <!-- Common initializations. Nothing yet. -->
-    <echo>CVSROOT is ${cvs.root}</echo>
+    <!-- Common initializations. -->
+    <mkdir dir="${working.dir}"/>
   </target>
 
+
+  <target name="all" depends="compile,javadocs,tests"
+          description="do everything">
+  </target>
+
+
+  <!-- Copying and commiting one directory tree -->
+  <!-- Source is fromdir an existing directory with contents. -->
+  <!-- Target is todir a possibly not created path in the argouml-gen 
+       project cvs repository 
+    -->
+  <target name="commit-files">
+    <cvs cvsRoot="${cvs.root}" command="update -Ad" package="${todir}"/>
+    <mkdir dir="${todir}"/>
+    <delete dir="${todir}">
+      <fileset excludes="CVS CVS/*"/>
+    </delete>
+    <copy todir="${todir}">
+      <fileset dir="${fromdir}"/>
+    </copy>
+
+    <!-- WARNING! This is not portable! Please help in improving it! -->
+    <!-- Remove no longer needed files -->
+    <exec executable="sh">
+      <arg value="-c"/>
+      <arg value="cd ${todir} && cvs -nq update | grep -e '^U' | while read comm file; do ( cd `dirname $$file` && cvs remove `basename $$file` ); done"/>
+    </exec>
+
+    <!-- Add new files -->
+    <!-- one time for every level of directory -->
+    <exec executable="sh">
+      <arg value="-c"/>
+      <arg value="cd ${todir} && cvs -nq update | grep -e '^?' | while read comm file; do ( cd `dirname $$file` && cvs add `basename $$file` ); done"/>
+    </exec>
+    <exec executable="sh">
+      <arg value="-c"/>
+      <arg value="cd ${todir} && cvs -nq update | grep -e '^?' | while read comm file; do ( cd `dirname $$file` && cvs add `basename $$file` ); done"/>
+    </exec>
+    <exec executable="sh">
+      <arg value="-c"/>
+      <arg value="cd ${todir} && cvs -nq update | grep -e '^?' | while read comm file; do ( cd `dirname $$file` && cvs add `basename $$file` ); done"/>
+    </exec>
+    <exec executable="sh">
+      <arg value="-c"/>
+      <arg value="cd ${todir} && cvs -nq update | grep -e '^?' | while read comm file; do ( cd `dirname $$file` && cvs add `basename $$file` ); done"/>
+    </exec>
+
+    <!-- Should I write
+       <cvs cvsRoot="${cvs.root}" command="commit" package="${todir}"/>
+       or
+       <cvs cvsRoot="${cvs.root}" command="commit" dest="${todir}"/>
+       ?
+      -->
+    <exec executable="sh">
+      <arg value="-c"/>
+      <arg value="cd ${todir} && cvs commit -m'Updates.'"/>
+    </exec>
+
+  </target>
+
+
+
+  <!-- ================================================================ -->
+  <!-- Things that depend on the source of ArgoUML                      -->
+  <!-- ================================================================ -->
+
   <target name="update" depends="init"
-     description="update the other project from CVS">
-    <cvs cvsRoot="${cvs.root}" package="${src.module}" quiet="true" />
-    <cvs cvsRoot="${cvs.root}" package="${lib.module}" quiet="true" />
-    <cvs cvsRoot="${cvs.root}" package="${tests.module}" quiet="true" />
-    <cvs cvsRoot="${cvs.root}" package="${docs.module}" quiet="true" />
+          description="update the project from CVS">
+    <echo>CVSROOT is ${cvs.root}</echo>
+    <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/src_new"/>
+    <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/src"/>
+    <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/tests"/>
+    <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/lib"/>
+    <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/tools"/>
   </target>
 
   <target name="compile" depends="update"
-        description="compile the source and assemble other files" >
-    <ant dir="${src.module}" target="compile" />
+          description="compile the source and assemble other files" >
+    <ant dir="${working.dir}/argouml/src_new" target="compile" />
   </target>
 
   <target name="tests" depends="update"
         description="run unit tests" >
-    <ant dir="${src.module}" target="tests" />
-    <copy todir="www">
-     <fileset dir="${project.to.build}/build/tests/reports" />
-    </copy>
-  </target>
-
-
-  <!-- this target is currently not working, due to saxon error -->
-  <target name="docs" depends="update"
-        description="generate html documentation" >
-    <ant dir="${docs.module}" />
-    <copy todir="www">
-     <fileset dir="${project.to.build}/www/documentation/defaulthtml" />
-    </copy>
+    <ant dir="${working.dir}/argouml/src_new" target="tests" />
+    <property name="resultdir" value="www/snapshots/${cvs.user}/OS/JDK/tests/reports"/>
+    <antcall target="commit-files">
+      <param name="todir" value="${resultdir}"/>
+      <param name="fromdir" value="${working.dir}/argouml/build/tests/reports"/>
+    </antcall>
   </target>
 
   <target name="javadocs" depends="update"
         description="generate javadocs" >
-    <ant dir="${src.module}" target="javadocs" />
-    <copy todir="www/api">
-     <fileset dir="${project.to.build}/build/javadocs" />
+    <ant dir="${working.dir}/argouml/src_new" target="javadocs"/>
+    <antcall target="commit-files">
+      <param name="todir" value="www/snapshots/${cvs.user}/OS/JDK/javadocs"/>
+      <param name="fromdir" value="${working.dir}/argouml/build/javadocs"/>
     </copy>
-    <!-- <cvs command="-q add www/api/edu/uci/${project.to.build}/util/*.html" /> -->
   </target>
 
-  <target name="all" depends="compile,javadocs,tests"
-        description="do everything except commit">
-    <echo taskname="finished"
-      message="Build has finished. Please review locally,
-      then use 'cvs commit build.number www'." />
+  <!-- ================================================================ -->
+  <!-- Statistics things                                                -->
+  <!-- ================================================================ -->
+
+  <target name="stats-issuezilla" depends="init">
   </target>
 
+  <target name="stats-commit" depends="init">
+  </target>
+
+  <target name="stats-members" depends="init">
+  </target>
+
+  <target name="stats-mailinglist" depends="init">
+  </target>
 
 </project>
