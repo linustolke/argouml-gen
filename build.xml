@@ -155,7 +155,7 @@
 
     <!-- Make new version of the todir -->
 
-    <copy todir="${to.dir}">
+    <copy todir="${to.dir}" overwrite="true">
       <fileset dir="${from.dir}"/>
     </copy>
     
@@ -218,8 +218,12 @@
     <ant dir="${argouml.src.dir}" target="compile"/>
   </target>
 
+  <target name="jar" depends="update" description="compile the source and assemble other files">
+    <ant dir="${argouml.src.dir}" target="jar"/>
+  </target>
+
   <target name="report:all" 
-    depends="init-reports,report:junit,report:checkstyle,report:jcoverage,report:jdepend,report:javadocs" 
+    depends="init-reports,report:junit,report:checkstyle,report:jcoverage,report:jdepend,report:javadocs,report:findbugs" 
     description="generate reports"/>
 
   <target name="report:jcoverage" depends="init-reports" description="generate jcoverage reports">
@@ -272,15 +276,15 @@
     </antcall>
   </target>
 
-  <!--target name="commit-reports">
+  <target name="report:findbugs" depends="init-reports,jar" description="generate FindBug reports">
+    <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:findbugs"/>
     <tstamp/>
     <antcall target="commit-files">
-      <param name="in.todir" value="www/reports"/>
-      <param name="in.fromdir" value="${working.dir}/argouml/build/reports"/>
-      <param name="in.message" value="Reports of ${TODAY}."/>
+      <param name="in.todir" value="www/reports/javadocs"/>
+      <param name="in.fromdir" value="${working.dir}/argouml/build/reports/javadocs"/>
+      <param name="in.message" value="Javadocs of ${TODAY}."/>
     </antcall>
-  </target-->
-
+  </target>
 
   <!-- ================================================================ -->
   <!-- Statistics things                                                -->
@@ -293,5 +297,11 @@
   <target name="stats-members" depends="init"></target>
 
   <target name="stats-mailinglist" depends="init"></target>
+
+    <path id="jcoverage">
+    <fileset dir="${jcoverage.dir}">
+      <include name="**/jcoverage.jar"/>
+    </fileset>
+  </path>
 
 </project>
