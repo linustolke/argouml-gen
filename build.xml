@@ -76,10 +76,11 @@
     <property name="fromdir-files.xml" location="${working.dir}/fromdir-files.xml"/>
     <property name="fromdir-dirs.xml" location="${working.dir}/fromdir-dirs.xml"/>
     <property name="todir-files.xml" location="${working.dir}/todir-files.xml"/>
+    <property name="todir-dirs.xml" location="${working.dir}/todir-dirs.xml"/>
     <property name="cvs-add-ant.xml" location="${working.dir}/cvs-add-ant.xml"/>
     <property name="cvs-add-dirs-ant.xml" location="${working.dir}/cvs-add-dirs-ant.xml"/>
     <property name="cvs-remove-ant.xml" location="${working.dir}/cvs-remove-ant.xml"/>
-    
+
     <echo>to.dir = ${to.dir}</echo>
     <echo>from.dir = ${from.dir}</echo>
 
@@ -126,6 +127,14 @@
 
     <echo file="${fromdir-dirs.xml}">${fromdir-dirs-xml}</echo>
 
+    <!-- Create an xml file with an overview of all directories in todir                         -->
+    <dirset id="todir-dirs" dir="${to.dir}"/>
+
+    <pathconvert property="todir-dirs.tmp" refid="todir-dirs" pathSep="&lt;/pathelement&gt;&lt;pathelement&gt;"/>
+    <property name="todir-dirs-xml" value="&lt;path&gt;&lt;pathelement&gt;${todir-dirs.tmp}&lt;/pathelement&gt;&lt;/path&gt;"/>
+
+    <echo file="${todir-dirs.xml}">${todir-dirs-xml}</echo>
+
     <!-- Create Ant scripts -->
     
     <style in="${fromdir-files.xml}" out="${cvs-add-ant.xml}" style="${cvs-add-ant.xsl}">
@@ -133,7 +142,7 @@
     </style>
     
     <style in="${fromdir-dirs.xml}" out="${cvs-add-dirs-ant.xml}" style="${cvs-add-ant.xsl}">
-      <param name="todir" expression="${todir-files.xml}"/>
+      <param name="todir" expression="${todir-dirs.xml}"/>
     </style>
 
     <style in="${todir-files.xml}" out="${cvs-remove-ant.xml}" style="${cvs-remove-ant.xsl}">
@@ -209,16 +218,28 @@
     <ant dir="${argouml.src.dir}" target="compile"/>
   </target>
 
-  <target name="report:all" depends="init-reports" description="generate reports">
-    <ant dir="${argouml.src.dir}" antfile="build-reports.xml"/>
-  </target>
+  <target name="report:all" 
+    depends="init-reports,report:junit,report:checkstyle,report:jcoverage,report:jdepend,report:javadocs" 
+    description="generate reports"/>
 
   <target name="report:jcoverage" depends="init-reports" description="generate jcoverage reports">
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:jcoverage"/>
+    <tstamp/>
+    <antcall target="commit-files">
+      <param name="in.todir" value="www/reports/jcoverage"/>
+      <param name="in.fromdir" value="${working.dir}/argouml/build/reports/jcoverage"/>
+      <param name="in.message" value="JCoverage reports of ${TODAY}."/>
+    </antcall>
   </target>
 
   <target name="report:jdepend" depends="init-reports" description="generate jdepend reports">
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:jdepend"/>
+    <tstamp/>
+    <antcall target="commit-files">
+      <param name="in.todir" value="www/reports/jdepend"/>
+      <param name="in.fromdir" value="${working.dir}/argouml/build/reports/jdepend"/>
+      <param name="in.message" value="JDepend reports of ${TODAY}."/>
+    </antcall>
   </target>
   
   <target name="report:checkstyle" depends="init-reports" description="generate checkstyle reports">
@@ -233,20 +254,32 @@
   
   <target name="report:junit" depends="init-reports" description="generate junit reports">
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:junit"/>
+    <tstamp/>
+    <antcall target="commit-files">
+      <param name="in.todir" value="www/reports/junit"/>
+      <param name="in.fromdir" value="${working.dir}/argouml/build/reports/junit"/>
+      <param name="in.message" value="JUnit reports of ${TODAY}."/>
+    </antcall>
   </target>
 
   <target name="report:javadocs" depends="init-reports" description="generate javadocs reports">
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:javadocs"/>
+    <tstamp/>
+    <antcall target="commit-files">
+      <param name="in.todir" value="www/reports/javadocs"/>
+      <param name="in.fromdir" value="${working.dir}/argouml/build/reports/javadocs"/>
+      <param name="in.message" value="Javadocs of ${TODAY}."/>
+    </antcall>
   </target>
 
-  <target name="commit-reports">
+  <!--target name="commit-reports">
     <tstamp/>
-    <!--antcall target="commit-files">
+    <antcall target="commit-files">
       <param name="in.todir" value="www/reports"/>
       <param name="in.fromdir" value="${working.dir}/argouml/build/reports"/>
       <param name="in.message" value="Reports of ${TODAY}."/>
-    </antcall-->
-  </target>
+    </antcall>
+  </target-->
 
 
   <!-- ================================================================ -->
