@@ -41,15 +41,15 @@
  -->
 
 <project name="argouml-gen" default="all" basedir=".">
-    <description>
+  <description>
         Build some targets in another project and save results to CVS.
     </description>
   <!-- set global properties for this build -->
-  <property file="build.properties" />
-  <property name="cvs.user" value="${user.name}" />
-  <property name="cvs.root" value=":pserver:${cvs.user}@cvs.tigris.org:/cvs" />
-  <property name="project.to.build" value="argouml" />
-  <property name="working.dir" value="tmp"/>
+  <property file="build.properties"/>
+  <property name="cvs.user" value="${user.name}"/>
+  <property name="cvs.root" value=":pserver:${cvs.user}@cvs.tigris.org:/cvs"/>
+  <property name="project.to.build" value="argouml"/>
+  <property name="working.dir" value="${basedir}/tmp"/>
 
 
   <target name="init">
@@ -58,9 +58,7 @@
   </target>
 
 
-  <target name="all" depends="compile,javadocs,tests"
-          description="do everything">
-  </target>
+  <target name="all" depends="compile,javadocs,tests" description="do everything"></target>
 
 
   <!-- Copying and commiting one directory tree -->
@@ -126,13 +124,97 @@
     </antcall>
   </target>
 
+  <!--macrodef name="fileset2xml">
+    <attribute name="fs"/>
+    <attribute name="filename"/>
+    <sequential>
+      <pathconvert property="fs.tmp" refid="@{fs}" pathSep="&lt;/pathelement&gt;&lt;pathelement&gt;"/>
+      <property name="fs-xml" value="&lt;path&gt;&lt;pathelement&gt;${fs.tmp}&lt;/pathelement&gt;&lt;/path&gt;"/>
+      <echo file="@{filename}">${fs-xml}</echo>
+    </sequential>
+  </macrodef-->
+  
+  <target name="commit-files-2">
+    <property name="to.dir" location="${todir}"/>
+    <property name="from.dir" location="${fromdir}"/>
+    
+    <!-- Create directory in case it not exists yet. -->
+    <mkdir dir="${to.dir}"/>
+
+    <!-- Take care that everything in the todir is up to date -->
+    <delete>
+      <fileset dir="${to.dir}" excludes="CVS CVS/*"/>
+    </delete>
+    <cvs cvsRoot="${cvs.root}" command="update -A -d" dest="${to.dir}"/>
+    
+    <!-- Create an xml file with an overview of all files in the todir -->
+
+    <fileset id="todir-fs" dir="${to.dir}"/>
+
+    <pathconvert property="todir-fs.tmp" refid="todir-fs" pathSep="&lt;/pathelement&gt;&lt;pathelement&gt;"/>
+    <property name="todir-fs.xml" value="&lt;path&gt;&lt;pathelement&gt;${todir-fs.tmp}&lt;/pathelement&gt;&lt;/path&gt;"/>
+
+    <echo file="todir-fs.xml">${todir-fs.xml}</echo>
+
+    <!-- Create an xml file with an overview of all files in fromdir                             -->
+    <!-- Extra trick: map in the resulting xml file the fromdir directory to the todir directory -->
+    <fileset id="fromdir-fs" dir="${from.dir}"/>
+
+    <pathconvert property="fromdir-fs.tmp" refid="fromdir-fs" pathSep="&lt;/pathelement&gt;&lt;pathelement&gt;">
+      <map from="${from.dir}" to="${to.dir}"/>
+    </pathconvert>
+    <property name="fromdir-fs.xml" value="&lt;path&gt;&lt;pathelement&gt;${fromdir-fs.tmp}&lt;/pathelement&gt;&lt;/path&gt;"/>
+
+    <echo file="fromdir-fs.xml">${fromdir-fs.xml}</echo>
+
+    <!-- Create Ant scripts -->
+    
+    <style in="fromdir-fs.xml" out="cvs-add-ant.xml" style="cvs-add-ant.xsl">
+      <param name="todir" expression="todir-fs.xml"/>
+    </style>
+
+    <style in="todir-fs.xml" out="cvs-remove-ant.xml" style="cvs-remove-ant.xsl">
+      <param name="fromdir" expression="fromdir-fs.xml"/>
+    </style>
+
+    <!-- Make new version of the todir -->
+    
+    <delete>
+      <fileset dir="${to.dir}" excludes="CVS CVS/*"/>
+    </delete>
+    <copy todir="${to.dir}">
+      <fileset dir="${from.dir}"/>
+    </copy>
+    
+    <!-- Call ant scripts -->
+    <ant antfile="cvs-add-ant.xml"/>
+    <ant antfile="cvs-remove-ant.xml"/>
+    
+    <!-- Commit it all -->
+    <echo>Commiting: ${message}</echo>
+    <cvs command="commit -m${message} ${to.dir}" cvsRoot="${cvs.root}"/>
+  </target>
+
+  <target name="testing-commit-files-2" depends="init">
+    <echo>CVSROOT is ${cvs.root}</echo>
+    <property name="dir" value="${working.dir}/testing-2"/>
+    <copy todir="${dir}" file="build.xml"/>
+
+    <antcall target="commit-files-2">
+      <param name="todir" value="www/michiel/testing"/>
+      <param name="fromdir" value="${dir}"/>
+      <param name="message" value="Updates."/>
+    </antcall>
+
+    <!--cvschangelog cvsRoot="${cvs.root}" dir="${basedir}" destfile="changelog.xml"/-->
+  </target>
+
 
   <!-- ================================================================ -->
   <!-- Things that depend on the source of ArgoUML                      -->
   <!-- ================================================================ -->
 
-  <target name="update" depends="init"
-          description="update the project from CVS">
+  <target name="update" depends="init" description="update the project from CVS">
     <echo>CVSROOT is ${cvs.root}</echo>
     <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/src_new"/>
     <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/src"/>
@@ -141,14 +223,12 @@
     <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/tools"/>
   </target>
 
-  <target name="compile" depends="update"
-          description="compile the source and assemble other files" >
-    <ant dir="${working.dir}/argouml/src_new" target="compile" />
+  <target name="compile" depends="update" description="compile the source and assemble other files">
+    <ant dir="${working.dir}/argouml/src_new" target="compile"/>
   </target>
 
-  <target name="tests" depends="update"
-        description="run unit tests" >
-    <ant dir="${working.dir}/argouml/src_new" target="tests" />
+  <target name="tests" depends="update" description="run unit tests">
+    <ant dir="${working.dir}/argouml/src_new" target="tests"/>
     <property name="resultdir" value="www/snapshots/${cvs.user}/OS/JDK/tests/reports"/>
     <antcall target="commit-files">
       <param name="todir" value="${resultdir}"/>
@@ -156,8 +236,7 @@
     </antcall>
   </target>
 
-  <target name="javadocs" depends="update"
-        description="generate javadocs" >
+  <target name="javadocs" depends="update" description="generate javadocs">
     <ant dir="${working.dir}/argouml/src_new" target="javadocs"/>
     <antcall target="commit-files">
       <param name="todir" value="www/snapshots/${cvs.user}/OS/JDK/javadocs"/>
@@ -170,16 +249,12 @@
   <!-- Statistics things                                                -->
   <!-- ================================================================ -->
 
-  <target name="stats-issuezilla" depends="init">
-  </target>
+  <target name="stats-issuezilla" depends="init"></target>
 
-  <target name="stats-commit" depends="init">
-  </target>
+  <target name="stats-commit" depends="init"></target>
 
-  <target name="stats-members" depends="init">
-  </target>
+  <target name="stats-members" depends="init"></target>
 
-  <target name="stats-mailinglist" depends="init">
-  </target>
+  <target name="stats-mailinglist" depends="init"></target>
 
 </project>
