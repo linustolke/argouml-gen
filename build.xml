@@ -6,7 +6,9 @@
  1. Install cvs.
  2. Check out this file:
      cvs co -d :pserver:guest@cvs.tigris.org:/cvs argouml-gen/build.xml
+    [TODO: This doesn't work. You must checkout more.]
  3. Install ant.
+    [TODO: This isn't needed. Ant is provided in the more to check out]
  4. Run through everything:
      ant -logger org.apache.tools.ant.XmlLogger -logfile www/logs/<your tigris id>/log00001.xml
  5. Decide on what parts of this you are willing to run.
@@ -63,7 +65,7 @@
   </target>
 
 
-  <target name="all" depends="compile,report:all" description="do everything"></target>
+  <target name="all" depends="update,report:all" description="do everything"></target>
 
   <target name="commit-files">
     <property name="package" value="argouml-gen/${in.todir}"/>
@@ -89,11 +91,13 @@
       <fileset dir="${to.dir}" defaultexcludes="no"/>
     </delete>
     <echo>Updating ${to.dir}</echo>
-    <cvs command="update -d" cvsRoot="${cvs.root}" package="${package}" dest="${basedir}/.."/>
+    <cvs command="update -d"
+         cvsRoot="${cvs.root}" package="${package}" dest="${basedir}/.."
+         compressionlevel="9"/>
     
     <!-- Create an xml file with an overview of all files in the todir -->
 
-    <!-- Create directory it again - in case cvs checkout -Pruned it. -->
+    <!-- Create directory it again - in case this is the first time. -->
     <mkdir dir="${to.dir}"/>
     <cvs command="add ${to.dir}" cvsRoot="${cvs.root}"/>
 
@@ -190,10 +194,11 @@
 
   <target name="update" depends="init" description="update the project from CVS">
     <echo>CVSROOT is ${cvs.root}</echo>
-    <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/src_new"/>
     <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/src"/>
+    <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/src_new"/>
     <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/tests"/>
     <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/lib"/>
+    <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/modules"/>
     <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/tools"/>
   </target>
 
@@ -204,7 +209,10 @@
   <target name="init-reports">
     <copy file="build-reports.xml" todir="${argouml.src.dir}" overwrite="true"/>
     <copy file="reporting.properties" todir="${argouml.src.dir}" overwrite="true"/>
+
+<!--
     <copy file="${instrument-ant.xsl}" todir="${argouml.src.dir}/xsl" overwrite="true"/>
+
     <copy todir="${argouml.dir}/tools">
       <fileset dir="tools">
         <include name="**"/>
@@ -212,22 +220,18 @@
         <exclude name="CVS"/>
       </fileset>
     </copy>
+ -->
   </target>
   
-  <target name="compile" depends="update" description="compile the source and assemble other files">
-    <ant dir="${argouml.src.dir}" target="compile"/>
-  </target>
-
-  <target name="jar" depends="update" description="compile the source and assemble other files">
-    <ant dir="${argouml.src.dir}" target="jar"/>
-  </target>
-
   <target name="report:all" 
     depends="init-reports,report:junit,report:checkstyle,report:jcoverage,report:jdepend,report:javadocs,report:findbugs" 
     description="generate reports"/>
 
   <target name="report:jcoverage" depends="init-reports" description="generate jcoverage reports">
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:jcoverage"/>
+  </target>
+
+  <target name="commit:jcoverage" description="commit the last generated report">
     <tstamp/>
     <antcall target="commit-files">
       <param name="in.todir" value="www/reports/jcoverage"/>
@@ -238,6 +242,9 @@
 
   <target name="report:jdepend" depends="init-reports" description="generate jdepend reports">
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:jdepend"/>
+  </target>
+
+  <target name="commit:jdepend" description="commit the last generated report">
     <tstamp/>
     <antcall target="commit-files">
       <param name="in.todir" value="www/reports/jdepend"/>
@@ -248,6 +255,9 @@
   
   <target name="report:checkstyle" depends="init-reports" description="generate checkstyle reports">
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:checkstyle"/>
+  </target>
+
+  <target name="commit:checkstyle" description="commit the last generated report">
     <tstamp/>
     <antcall target="commit-files">
       <param name="in.todir" value="www/reports/checkstyle"/>
@@ -258,6 +268,9 @@
   
   <target name="report:junit" depends="init-reports" description="generate junit reports">
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:junit"/>
+  </target>
+
+  <target name="commit:junit" description="commit the last generated report">
     <tstamp/>
     <antcall target="commit-files">
       <param name="in.todir" value="www/reports/junit"/>
@@ -268,6 +281,9 @@
 
   <target name="report:javadocs" depends="init-reports" description="generate javadocs reports">
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:javadocs"/>
+  </target>
+
+  <target name="commit:javadocs" description="commit the last generated report">
     <tstamp/>
     <antcall target="commit-files">
       <param name="in.todir" value="www/reports/javadocs"/>
@@ -276,8 +292,11 @@
     </antcall>
   </target>
 
-  <target name="report:findbugs" depends="init-reports,jar" description="generate FindBug reports">
+  <target name="report:findbugs" depends="init-reports" description="generate FindBug reports">
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:findbugs"/>
+  </target>
+
+  <target name="commit:findbugs" description="commit the last generated report">
     <tstamp/>
     <antcall target="commit-files">
       <param name="in.todir" value="www/reports/findbugs"/>
