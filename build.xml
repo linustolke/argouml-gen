@@ -66,7 +66,7 @@
   <target name="all" depends="compile,report:all" description="do everything"></target>
 
   <target name="commit-files">
-    <property name="package" value="argouml-gen\${in.todir}"/>
+    <property name="package" value="argouml-gen/${in.todir}"/>
     <property name="to.dir" location="${in.todir}"/>
     <property name="from.dir" location="${in.fromdir}"/>
     <property name="cvs-add-ant.xsl" location="${xsl.dir}/cvs-add-ant.xsl"/>
@@ -165,7 +165,7 @@
     
     <!-- Commit it all -->
     <echo>Commiting: ${in.message}</echo>
-    <cvs command="commit -m&quot;${in.message}&quot; ${to.dir}" cvsRoot="${cvs.root}"/>
+    <cvs command="commit -m&quot;${in.message}&quot;" dest="${to.dir}" cvsRoot="${cvs.root}"/>
   </target>
 
   <!-- TO BE REMOVED -->
@@ -280,9 +280,9 @@
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:findbugs"/>
     <tstamp/>
     <antcall target="commit-files">
-      <param name="in.todir" value="www/reports/javadocs"/>
-      <param name="in.fromdir" value="${working.dir}/argouml/build/reports/javadocs"/>
-      <param name="in.message" value="Javadocs of ${TODAY}."/>
+      <param name="in.todir" value="www/reports/findbugs"/>
+      <param name="in.fromdir" value="${working.dir}/argouml/build/reports/findbugs"/>
+      <param name="in.message" value="FindBugs of ${TODAY}."/>
     </antcall>
   </target>
 
