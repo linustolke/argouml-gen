@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="build-reports" default="report:junit" basedir=".">
+<project name="build-reports" default="report:all" basedir=".">
   <description>
     Creates all reports.
   </description>
@@ -270,7 +270,9 @@ The XML report is ${coverage.index.xml}
   <target name="checkstyle" depends="init,cleanparser"
           description="Run checkstyle on all source.">
           
-    <checkstyle config="${checkstyle.sun-checks}" failOnViolation="false">
+    <!--checkstyle config="${checkstyle.sun-checks}" failOnViolation="false"-->
+    <checkstyle config="${argo.tools.dir}/checkstyle/checkstyle_argouml.xml" failOnViolation="false">
+      <property key="checkstyle.header.file" file="${argo.tools.dir}/checkstyle/java.header"/>
       <fileset dir="${argo.src.dir}">
         <include name="**/*.java"/>
       </fileset>
@@ -295,7 +297,7 @@ The XML report is ${coverage.index.xml}
   <target name="do:javadocs">
     <ant dir="${argouml.src.dir}" target="javadocs"/>
 
-    <!-- Junitreport has already run - put the reports in the right spot. -->
+    <!-- javadocs has already run - put the reports in the right spot. -->
     <copy todir="${report.javadocs.dir}">
       <fileset dir="${argo.javadocs.dir}"/>
     </copy>
