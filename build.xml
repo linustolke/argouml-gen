@@ -1,45 +1,9 @@
 <!--
- This build file contains all the different statistics and snapshot
- built by the argouml-gen project.
+ This build file contains the rules to build
+ all the different statistics and snapshots built
+ by the argouml-gen project.
  
- To take part in this you:
- 1. Install cvs.
- 2. Check out this file:
-     cvs co -d :pserver:guest@cvs.tigris.org:/cvs argouml-gen/build.xml
-    [TODO: This doesn't work. You must checkout more.]
- 3. Install ant.
-    [TODO: This isn't needed. Ant is provided in the more to check out]
- 4. Run through everything:
-     ant -logger org.apache.tools.ant.XmlLogger -logfile www/logs/<your tigris id>/log00001.xml
- 5. Decide on what parts of this you are willing to run.
-    Default is everything.
-    Options are:
-      javadoc
-      daily build (not yet implemented)
-      commit statistics (NYI)
-      issuezilla statistics (NYI)
-      mailinglist statistics (NYI)
- 6. Set up the cron job to run this regularly.
- 7. Apply for a role in this project.
- 8. Get the role granted.
- 9. Create the result directories in cvs.
-10. Monitor your commits.
-
- The general design of these targets is that they run in a directory called
- tmp that is created on the first invocation and that can be removed at any
- time (after completion or between runs).
- All data or result is then copied to and commited somewhere in the www tree.
-
- Things that are snapshots from the source that depend on things like OS and 
- JDK version that are not part of neither the argouml-gen, nor the argouml
- project, are located in subdirectories in www that are instance specific
- like www/snapshots/<user>/os/jdk. These targets rely heavily on the 
- corresponding targets in argouml/src_new/build.xml.
-
- Things that are independant are located in directories directly under www 
- like www/issuezilla.
-
- Logs are located under www/logs/<user>/ and they are new for each invocation.
+ Description of the set-up are in http://argouml-gen.tigris.org/techdoc.html
  -->
 
 <project name="argouml-gen" default="all" basedir=".">
