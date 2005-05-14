@@ -115,7 +115,8 @@ The XML report is ${coverage.index.xml}
   </taskdef>
   
 
-  <target name="report:jdepend" description="create jdepend reports">
+  <target name="report:jdepend" depends="compile"
+          description="create jdepend reports">
     <delete dir="${build.jdepend.dir}"/>
     <delete dir="${build.jdepend.xml.dir}"/>
     <mkdir dir="${build.jdepend.dir}"/>
