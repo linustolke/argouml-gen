@@ -185,12 +185,12 @@
 
   <target name="update" depends="init" description="update the project from CVS">
     <echo>CVSROOT is ${cvs.root}</echo>
-    <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/src"/>
-    <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/src_new"/>
-    <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/tests"/>
-    <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/lib"/>
-    <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/modules"/>
-    <cvs cvsRoot="${cvs.root}" dest="${working.dir}" package="argouml/tools"/>
+    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/src"/>
+    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/src_new"/>
+    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/tests"/>
+    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/lib"/>
+    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/modules"/>
+    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/tools"/>
   </target>
 
   <target name="clean" description="remove all generated reports">
