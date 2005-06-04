@@ -98,24 +98,24 @@ echo '<H1>List of incorrect files</H1>'
 for lang in $LANGUAGES
 do
     echo '<H2><A NAME="files-'`tolang $lang`'">For '`tolang $lang`'</A></H2>'
-    echo "<TABLE><TR><TH>Missing files</TH><TH>Extra files</TH></TR>"
-    echo "<TR><TD>"
+    echo '<TABLE BORDER="1"><TR><TH>Missing files</TH><TH>Extra files</TH></TR>'
+    echo '<TR VALIGN="TOP"><TD><PRE>'
     comm -23 $WORKINGDIR/files-correct $WORKINGDIR/files-`tolang $lang`
-    echo "</TD><TD>"
+    echo '</PRE></TD><TD><PRE>'
     comm -13 $WORKINGDIR/files-correct $WORKINGDIR/files-`tolang $lang`
-    echo "</TD></TR></TABLE>"
+    echo '&nbsp;</PRE></TD></TR></TABLE>'
 done
 
 echo '<H1>List of incorrect tags</H1>'
 for lang in $LANGUAGES
 do
     echo '<H2><A NAME="tags-'`tolang $lang`'">For '`tolang $lang`'</A></H2>'
-    echo "<TABLE><TR><TH>Missing tags</TH><TH>Extra tags</TH></TR>"
-    echo "<TR><TD>"
+    echo '<TABLE BORDER="1"><TR><TH>Missing tags</TH><TH>Extra tags</TH></TR>'
+    echo '<TR VALIGN="TOP"><TD><PRE>'
     comm -23 $WORKINGDIR/tags-correct $WORKINGDIR/tags-`tolang $lang`
-    echo "</TD><TD>"
+    echo '</PRE></TD><TD><PRE>'
     comm -13 $WORKINGDIR/tags-correct $WORKINGDIR/tags-`tolang $lang`
-    echo "</TD></TR></TABLE>"
+    echo '&nbsp;</PRE></TD></TR></TABLE>'
 done
 
 rm -r $WORKINGDIR
