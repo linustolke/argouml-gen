@@ -38,6 +38,7 @@
 
   <target name="coverage-test" description="Unit test the application" depends="junit-fetch-init">
 
+    <delete file="jcoverate.ser"/>
     <junit errorproperty="junit.failure" fork="yes" haltonfailure="false" maxmemory="48M" printsummary="true" dir="${basedir}">
       <sysproperty key="test.model.uml13" value="${011202.xml}"/>
       <sysproperty key="log4j.configuration" value="org/argouml/resource/default.lcf"/>
