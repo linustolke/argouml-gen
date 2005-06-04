@@ -13,7 +13,7 @@
 
 if test ! -d argouml-stats
 then
-    echo You need to download the argouml-stats directory.
+    echo You need to checkout the argouml-stats directory.
     exit 1
 fi
 
