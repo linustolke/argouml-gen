@@ -45,15 +45,16 @@ do
 done
 
 # Compare list of tags
-cat $CORRECT/*.properties | sed '/^[^A-Za-z]/d;/^$/d;s/ *=.*$//' | sort > $WORKINGDIR/tags-correct
+cat $CORRECT/*.properties | sed '/^[A-Za-z].*=/!d;/^$/d;s/ *=.*$//' | sort > $WORKINGDIR/tags-correct
 for lang in $LANGUAGES
 do
-    cat $lang/*.properties | sed '/^[^A-Za-z]/d;/^$/d;s/ *=.*$//' | sort > $WORKINGDIR/tags-`tolang $lang`
+    cat $lang/*.properties | sed '/^[A-Za-z].*=/!d;/^$/d;s/ *=.*$//' | sort > $WORKINGDIR/tags-`tolang $lang`
 done
 
 
 
 echo '<HTML><HEAD><TITLE>Language status</TITLE></HEAD><BODY>'
+echo 'Generated $Date$'
 echo '<H1>Toplist least missing files</H1>'
 echo '<OL>'
 for lang in $LANGUAGES
