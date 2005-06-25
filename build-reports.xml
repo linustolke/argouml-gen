@@ -28,6 +28,11 @@
   <property name="instrument-ant.xsl" location="${xsl.dir}/instrument-ant.xsl"/>
 
   <target name="instrument" description="Add jcoverage instrumentation">
+    <delete file="jcoverage.ser"/>
+    <delete>
+      <fileset dir="${argo-gen.jcoverage.instrumented.classes}"
+               includes="**/*.class"/>
+    </delete>
     <instrument todir="${argo-gen.jcoverage.instrumented.classes}">
       <ignore regex="org.apache.log4j.*"/>
       <fileset dir="${argo.build.classes}">
@@ -37,8 +42,6 @@
   </target>
 
   <target name="coverage-test" description="Unit test the application" depends="junit-fetch-init">
-
-    <delete file="jcoverate.ser"/>
     <junit errorproperty="junit.failure" fork="yes" haltonfailure="false" maxmemory="48M" printsummary="true" dir="${basedir}">
       <sysproperty key="test.model.uml13" value="${011202.xml}"/>
       <sysproperty key="log4j.configuration" value="org/argouml/resource/default.lcf"/>
@@ -72,13 +75,12 @@
     <report srcdir="${argo.src.dir}" destdir="${build.jcoverage.dir}"/>
     <report srcdir="${argo.src.dir}" destdir="${build.jcoverage.xml.dir}" format="xml"/>
 
-    <property name="coverage.index.html" location="${build.jcoverage.dir}/index.html"/>
-    <property name="coverage.index.xml" location="${build.jcoverage.xml.dir}/coverage.xml"/>
-    
+    <move file="argouml.log" todir="${build.jcoverage.dir}"/>
+
     <echo>
 jcoverage reports have been generated.
-The HTML report is ${coverage.index.html}
-The XML report is ${coverage.index.xml}
+The HTML report is ${build.jcoverage.dir}/index.html
+The XML report is ${build.jcoverage.xml.dir}/coverage.xml
     </echo>
   </target>
 
