@@ -29,16 +29,42 @@
 
   <target name="instrument" description="Add jcoverage instrumentation">
     <delete file="jcoverage.ser"/>
+
+    <property name="model.build.dir"
+              location="${argo.root.dir}/src/model/build"/>
+
     <delete>
       <fileset dir="${argo-gen.jcoverage.instrumented.classes}"
                includes="**/*.class"/>
+      <fileset dir="${model.build.dir}/instrumented-classes"/>
     </delete>
+
+    <instrument todir="${model.build.dir}/instrumented-classes">
+      <ignore regex="org.apache.log4j.*"/>
+      <fileset dir="${model.build.dir}/classes">
+        <include name="**/*.class"/>
+      </fileset>
+    </instrument>
+    <move file="jcoverage.ser" toFile="jcoverage.ser.model"/>
+
     <instrument todir="${argo-gen.jcoverage.instrumented.classes}">
       <ignore regex="org.apache.log4j.*"/>
       <fileset dir="${argo.build.classes}">
         <include name="**/*.class"/>
       </fileset>
     </instrument>
+    <move file="jcoverage.ser" toFile="jcoverage.ser.rest"/>
+
+    <merge>
+      <fileset dir=".">
+        <include name="jcoverage.ser.model"/>
+        <include name="jcoverage.ser.rest"/>
+      </fileset>
+    </merge>
+
+    <delete file="jcoverage.ser.model"/>
+    <delete file="jcoverage.ser.rest"/>
+
   </target>
 
   <target name="coverage-test" description="Unit test the application"
@@ -50,6 +76,7 @@
       <sysproperty key="argouml.tests.dir" value="${argo.tests.src}"/>
       <classpath>
         <path refid="jcoverage"/>
+        <pathelement location="${argo.root.dir}/src/model/build/instrumented-classes"/>
         <pathelement location="${argo-gen.jcoverage.instrumented.classes}"/>
 	<!-- <pathelement location="${argo.build.classes}"/> -->
         <pathelement location="${argo.tests.classes}"/>
@@ -68,10 +95,15 @@
 
   </target>
 
-  <target name="report:jcoverage" depends="init-reports,instrument,coverage-test">
+  <target name="report:jcoverage"
+          depends="init-reports,instrument,coverage-test">
     <description>instrument and unit test</description>
 
-    <report srcdir="${argo.src.dir}" destdir="${build.jcoverage.dir}"/>
+    <report destdir="${build.jcoverage.dir}">
+      <src location="${argo.src.dir}"/>
+      <src location="${argo.root.dir}/src/model/src"/>
+    </report>
+
     <!-- <report srcdir="${argo.src.dir}" destdir="${build.jcoverage.xml.dir}" format="xml"/> -->
 
     <exec executable="sed" input="argouml.log" output="${build.jcoverage.dir}/argouml.log">
@@ -97,6 +129,10 @@ The HTML report is ${build.jcoverage.dir}/index.html
     <fileset dir="${jcoverage.dir}">
       <include name="**/jcoverage.jar"/>
     </fileset>
+
+    <fileset dir="${jcoverage-patch.dir}">
+      <include name="**/jcovextras.jar"/>
+    </fileset>
   </path>
 
   <taskdef classpathref="jcoverage" resource="tasks.properties"/>
@@ -105,6 +141,10 @@ The HTML report is ${build.jcoverage.dir}/index.html
     <classpath>
       <fileset dir="${jcoverage.dir}">
         <include name="**/jcoverage.jar"/>
+      </fileset>
+
+      <fileset dir="${jcoverage-patch.dir}">
+        <include name="**/jcovextras.jar"/>
       </fileset>
     </classpath>
   </taskdef>
@@ -254,6 +294,7 @@ The HTML report is ${build.jcoverage.dir}/index.html
     <mkdir dir="${build.jcoverage.dir}"/>
     <!-- <mkdir dir="${build.jcoverage.xml.dir}"/> -->
     <mkdir dir="${argo-gen.jcoverage.instrumented.classes}"/>
+    <mkdir dir="${argo.root.dir}/src/model/build/instrumented-classes"/>
 
     <ant dir="${argouml.src.dir}" target="compile"/>
 
