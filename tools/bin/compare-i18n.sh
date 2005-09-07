@@ -54,7 +54,7 @@ done
 
 
 echo '<HTML><HEAD><TITLE>Language status</TITLE></HEAD><BODY>'
-echo 'Generated $Date$'
+echo 'Generated $Da''te$'
 echo '<H1>Toplist least missing files</H1>'
 echo '<OL>'
 for lang in $LANGUAGES
