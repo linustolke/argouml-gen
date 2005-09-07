@@ -86,8 +86,6 @@
       <batchtest todir="${argo.tests.reports}/junit/output">
         <fileset dir="${argo.tests.src}">
           <include name="org/argouml/**/Test*.java"/>
-          <include name="org/argouml/**/GUITest*.java"/>
-          <exclude name="org/argouml/**/TestUmlModelEventPump.java"/>
         </fileset>
       </batchtest>
     </junit>
