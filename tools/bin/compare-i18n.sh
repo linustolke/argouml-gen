@@ -3,15 +3,6 @@
 # Create a web page that is a comparison of the translations i.e. to how
 # great extent they agree to the current argouml.
 
-# Arguments are:
-# The directory with the correct files.
-# One argument for each directory following.
-
-CORRECT=$1
-shift
-LANGUAGES="$*"
-
-CORRECT=tmp/argouml/src_new/org/argouml/i18n
 LANGUAGES="tmp/argouml/src/i18n/de/src/org/argouml/i18n tmp/argouml-es/src/org/argouml/i18n tmp/argouml/src/i18n/en_GB/src/org/argouml/i18n tmp/argouml/src/i18n/fr/src/org/argouml/i18n tmp/argouml/src/i18n/ru/src/org/argouml/i18n tmp/argouml-nb/src/org/argouml/i18n tmp/argouml-sv/src/org/argouml/i18n tmp/argouml-i18n-zh/src/org/argouml/i18n"
 
 
@@ -40,14 +31,14 @@ function tolang() {
 }
 
 # Compare list of files.
-ls $CORRECT/*.properties | sed 's;^.*/i18n/;;;s;\.properties;;' | sort > $WORKINGDIR/files-correct
+ls tmp/argouml/src_new/org/argouml/i18n/*.properties tmp/argouml/modules/*/src/org/argouml/i18n/*.properties | sed 's;^.*/i18n/;;;s;\.properties;;' | sort > $WORKINGDIR/files-correct
 for lang in $LANGUAGES
 do
     ls $lang/*.properties | sed 's;^.*/i18n/;;;s/_[^.]*\.properties//' | sort > $WORKINGDIR/files-`tolang $lang`
 done
 
 # Compare list of tags
-cat $CORRECT/*.properties | sed '/^[A-Za-z].*=/!d;/^$/d;s/ *=.*$//' | sort > $WORKINGDIR/tags-correct
+cat tmp/argouml/src_new/org/argouml/i18n/*.properties tmp/argouml/modules/*/src/org/argouml/i18n/*.properties | sed '/^[A-Za-z].*=/!d;/^$/d;s/ *=.*$//' | sort > $WORKINGDIR/tags-correct
 for lang in $LANGUAGES
 do
     cat $lang/*.properties | sed '/^[A-Za-z].*=/!d;/^$/d;s/ *=.*$//' | sort > $WORKINGDIR/tags-`tolang $lang`
