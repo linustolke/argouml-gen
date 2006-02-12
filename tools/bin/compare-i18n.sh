@@ -12,7 +12,7 @@ shift
 LANGUAGES="$*"
 
 CORRECT=tmp/argouml/src_new/org/argouml/i18n
-LANGUAGES="tmp/argouml/src/i18n/de/src/org/argouml/i18n tmp/argouml-es/src/org/argouml/i18n tmp/argouml/src/i18n/en_GB/src/org/argouml/i18n tmp/argouml/src/i18n/fr/src/org/argouml/i18n tmp/argouml/src/i18n/ru/src/org/argouml/i18n tmp/argouml-nb/src/org/argouml/i18n tmp/argouml-i18n-zh/src/org/argouml/i18n"
+LANGUAGES="tmp/argouml/src/i18n/de/src/org/argouml/i18n tmp/argouml-es/src/org/argouml/i18n tmp/argouml/src/i18n/en_GB/src/org/argouml/i18n tmp/argouml/src/i18n/fr/src/org/argouml/i18n tmp/argouml/src/i18n/ru/src/org/argouml/i18n tmp/argouml-nb/src/org/argouml/i18n tmp/argouml-sv/src/org/argouml/i18n tmp/argouml-i18n-zh/src/org/argouml/i18n"
 
 
 WORKINGDIR=compare-i18n-workingdir-$$
@@ -22,7 +22,7 @@ function tolang() {
     case $1 in
     */de/*) echo de
             ;;
-    */es/*) echo es
+    *-es/*) echo es
             ;;
     */en_GB/*) echo en_GB
             ;;
@@ -31,6 +31,8 @@ function tolang() {
     */ru/*) echo ru
             ;;
     *-nb/*) echo nb
+            ;;
+    *-sv/*) echo sv
             ;;
     *-i18n-zh/*) echo zh
             ;;
