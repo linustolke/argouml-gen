@@ -24,7 +24,7 @@ function tolang() {
             ;;
     *-es/*) echo es
             ;;
-    *-en_GB/*) echo en_GB
+    *-en-gb/*) echo en_GB
             ;;
     *-fr/*) echo fr
             ;;
