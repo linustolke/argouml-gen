@@ -3,7 +3,16 @@
 # Create a web page that is a comparison of the translations i.e. to how
 # great extent they agree to the current argouml.
 
-LANGUAGES="tmp/argouml/src/i18n/de/src/org/argouml/i18n tmp/argouml-es/src/org/argouml/i18n tmp/argouml/src/i18n/en_GB/src/org/argouml/i18n tmp/argouml/src/i18n/fr/src/org/argouml/i18n tmp/argouml/src/i18n/ru/src/org/argouml/i18n tmp/argouml-nb/src/org/argouml/i18n tmp/argouml-sv/src/org/argouml/i18n tmp/argouml-i18n-zh/src/org/argouml/i18n"
+LANGUAGES="
+    tmp/argouml/src/i18n/de/src/org/argouml/i18n
+    tmp/argouml-en-gb/src/org/argouml/i18n
+    tmp/argouml-es/src/org/argouml/i18n
+    tmp/argouml-fr/src/org/argouml/i18n
+    tmp/argouml-nb/src/org/argouml/i18n
+    tmp/argouml-ru/src/org/argouml/i18n
+    tmp/argouml-sv/src/org/argouml/i18n
+    tmp/argouml-i18n-zh/src/org/argouml/i18n
+"
 
 
 WORKINGDIR=compare-i18n-workingdir-$$
