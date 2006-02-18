@@ -24,11 +24,11 @@ function tolang() {
             ;;
     *-es/*) echo es
             ;;
-    */en_GB/*) echo en_GB
+    *-en_GB/*) echo en_GB
             ;;
-    */fr/*) echo fr
+    *-fr/*) echo fr
             ;;
-    */ru/*) echo ru
+    *-ru/*) echo ru
             ;;
     *-nb/*) echo nb
             ;;
