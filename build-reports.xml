@@ -32,11 +32,15 @@
 
     <property name="model.build.dir"
               location="${argo.root.dir}/src/model/build"/>
+    <property name="model-mdr.build.dir"
+              location="${argo.root.dir}/src/model-mdr/build"/>
 
     <delete>
       <fileset dir="${argo-gen.jcoverage.instrumented.classes}"
                includes="**/*.class"/>
       <fileset dir="${model.build.dir}/instrumented-classes"/>
+      <fileset dir="${model-mdr.build.dir}/instrumented-classes"
+               includes="**/*.class"/>
     </delete>
 
     <instrument todir="${model.build.dir}/instrumented-classes">
@@ -46,6 +50,14 @@
       </fileset>
     </instrument>
     <move file="jcoverage.ser" toFile="jcoverage.ser.model"/>
+
+    <instrument todir="${model-mdr.build.dir}/instrumented-classes">
+      <ignore regex="org.apache.log4j.*"/>
+      <fileset dir="${model-mdr.build.dir}/classes">
+        <include name="**/*.class"/>
+      </fileset>
+    </instrument>
+    <move file="jcoverage.ser" toFile="jcoverage.ser.model-mdr"/>
 
     <instrument todir="${argo-gen.jcoverage.instrumented.classes}">
       <ignore regex="org.apache.log4j.*"/>
@@ -58,18 +70,22 @@
     <merge>
       <fileset dir=".">
         <include name="jcoverage.ser.model"/>
+        <include name="jcoverage.ser.model-mdr"/>
         <include name="jcoverage.ser.rest"/>
       </fileset>
     </merge>
 
     <delete file="jcoverage.ser.model"/>
+    <delete file="jcoverage.ser.model-mdr"/>
     <delete file="jcoverage.ser.rest"/>
 
   </target>
 
   <target name="coverage-test" description="Unit test the application"
           depends="junit-fetch-init,junit-report-clean">
-    <junit errorproperty="junit.failure" fork="yes" haltonfailure="false" maxmemory="48M" printsummary="true" dir="${basedir}">
+    <junit errorproperty="junit.failure" fork="yes"
+           haltonfailure="false" maxmemory="48M" printsummary="true"
+	   dir="${basedir}">
       <sysproperty key="test.model.uml13" value="${011202.xml}"/>
       <sysproperty key="log4j.configuration" value="org/argouml/resource/default.lcf"/>
       <sysproperty key="java.awt.headless" value="true"/>
@@ -77,6 +93,7 @@
       <classpath>
         <path refid="jcoverage"/>
         <pathelement location="${argo.root.dir}/src/model/build/instrumented-classes"/>
+        <pathelement location="${argo.root.dir}/src/model-mdr/build/instrumented-classes"/>
         <pathelement location="${argo-gen.jcoverage.instrumented.classes}"/>
 	<!-- <pathelement location="${argo.build.classes}"/> -->
         <pathelement location="${argo.tests.classes}"/>
@@ -90,7 +107,6 @@
       </batchtest>
     </junit>
     <antcall target="junit-report-create"/>
-
   </target>
 
   <target name="report:jcoverage"
@@ -100,6 +116,7 @@
     <report destdir="${build.jcoverage.dir}">
       <src location="${argo.src.dir}"/>
       <src location="${argo.root.dir}/src/model/src"/>
+      <src location="${argo.root.dir}/src/model-mdr/src"/>
     </report>
 
     <!-- <report srcdir="${argo.src.dir}" destdir="${build.jcoverage.xml.dir}" format="xml"/> -->
@@ -190,7 +207,8 @@ The HTML report is ${build.jcoverage.dir}/index.html
       </classespath>
     </jdepend>
 
-    <style basedir="${build.jdepend.xml.dir}" destdir="${build.jdepend.dir}" style="${ant.home}/etc/jdepend-frames.xsl">
+    <style basedir="${build.jdepend.xml.dir}" destdir="${build.jdepend.dir}"
+           style="${ant.home}/etc/jdepend-frames.xsl">
       <param name="output.dir" expression="${build.jdepend.dir}"/>
     </style>
 
@@ -240,8 +258,10 @@ The HTML report is ${build.jcoverage.dir}/index.html
   <!-- ################################################################### 
        # javadoc reports
   -->
-  <property name="report.javadocs.dir" location="${build.reports.dir}/javadocs"/>
-  <property name="report.javadocs-api.dir" location="${build.reports.dir}/javadocs-api"/>
+  <property name="report.javadocs.dir"
+            location="${build.reports.dir}/javadocs"/>
+  <property name="report.javadocs-api.dir"
+            location="${build.reports.dir}/javadocs-api"/>
 
   <target name="report:javadocs"
           description="create javadocs reports">
@@ -293,12 +313,23 @@ The HTML report is ${build.jcoverage.dir}/index.html
     <!-- <mkdir dir="${build.jcoverage.xml.dir}"/> -->
     <mkdir dir="${argo-gen.jcoverage.instrumented.classes}"/>
     <mkdir dir="${argo.root.dir}/src/model/build/instrumented-classes"/>
+    <mkdir dir="${argo.root.dir}/src/model-mdr/build/instrumented-classes"/>
 
     <ant dir="${argouml.src.dir}" target="compile"/>
+    <exec executable="sh" failOnError="yes">
+      <arg value="-c"/>
+      <arg value="cd ../src/model-mdr; chmod +x build.sh; ./build.sh compile"/>
+    </exec>
 
     <!-- Now copy all none class stuff. -->
     <copy todir="${argo-gen.jcoverage.instrumented.classes}">
       <fileset dir="${argo.build.classes}">
+        <exclude name="**/*.class"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${argo.root.dir}/src/model-mdr/build/instrumented-classes">
+      <fileset dir="${argo.root.dir}/src/model-mdr/build/classes">
         <exclude name="**/*.class"/>
       </fileset>
     </copy>
@@ -327,7 +358,8 @@ The HTML report is ${build.jcoverage.dir}/index.html
     </fileset>
   </path>
 
-  <taskdef name="findbugs" classpathref="findbugs.path" classname="edu.umd.cs.findbugs.anttask.FindBugsTask"/>
+  <taskdef name="findbugs" classpathref="findbugs.path"
+           classname="edu.umd.cs.findbugs.anttask.FindBugsTask"/>
 
   <target name="report:findbugs"
           description="create FindBugs reports">
@@ -335,7 +367,8 @@ The HTML report is ${build.jcoverage.dir}/index.html
 
     <mkdir dir="${report.findbugs.xml.dir}"/>
 
-    <findbugs home="${findbugs.dir}" output="xml" outputFile="${findbugs.xml}" conserveSpace="true" timeout="18000000">
+    <findbugs home="${findbugs.dir}" output="xml" outputFile="${findbugs.xml}"
+              conserveSpace="true" timeout="18000000">
       <class location="${argo.build.dir}/argouml-model.jar" />
       <class location="${argo.build.dir}/argouml.jar" />
       <auxClasspath>
