@@ -82,7 +82,7 @@
   </target>
 
   <target name="coverage-test" description="Unit test the application"
-          depends="junit-fetch-init,junit-report-clean">
+          depends="junit-report-clean">
     <junit errorproperty="junit.failure" fork="yes"
            haltonfailure="false" maxmemory="48M" printsummary="true"
 	   dir="${basedir}">
@@ -222,8 +222,8 @@ The HTML report is ${build.jcoverage.dir}/index.html
 
   <target name="report:checkstyle" depends="cleanparser"
           description="create checkstyle reports">
-    <ant target="delete-generated-for-checkstyle"/>
-    <ant target="checkstyle" output="checkstyle-result.txt"/>
+    <ant target="delete-generated-for-checkstyle" inheritall="false"/>
+    <ant target="checkstyle" output="checkstyle-result.txt" inheritall="false"/>
     <delete dir="${report.checkstyle.dir}"/>
     <mkdir dir="${report.checkstyle.dir}"/>
     <exec executable="sed"
@@ -244,7 +244,7 @@ The HTML report is ${build.jcoverage.dir}/index.html
   
   <target name="report:junit" depends="init-reports"
           description="create junit reports">
-    <ant dir="${argouml.src.dir}" target="tests"/>
+    <ant target="tests" inheritall="false"/>
 
     <mkdir dir="${report.junit.dir}"/>
 
@@ -265,7 +265,7 @@ The HTML report is ${build.jcoverage.dir}/index.html
 
   <target name="report:javadocs"
           description="create javadocs reports">
-    <antcall target="prepare-docs"/>
+    <antcall target="prepare-docs" inheritall="false"/>
 
     <!-- put the reports in the right spot. -->
     <delete dir="${report.javadocs.dir}"/>
@@ -309,17 +309,13 @@ The HTML report is ${build.jcoverage.dir}/index.html
   </target>
 
   <target name="init-reports" depends="init" description="create build directories">
+    <ant target="compile" inheritall="false"/>
+
     <mkdir dir="${build.jcoverage.dir}"/>
     <!-- <mkdir dir="${build.jcoverage.xml.dir}"/> -->
     <mkdir dir="${argo-gen.jcoverage.instrumented.classes}"/>
     <mkdir dir="${argo.root.dir}/src/model/build/instrumented-classes"/>
     <mkdir dir="${argo.root.dir}/src/model-mdr/build/instrumented-classes"/>
-
-    <ant dir="${argouml.src.dir}" target="compile"/>
-    <exec executable="sh" failOnError="yes">
-      <arg value="-c"/>
-      <arg value="cd ../src/model-mdr; chmod +x build.sh; ./build.sh compile"/>
-    </exec>
 
     <!-- Now copy all none class stuff. -->
     <copy todir="${argo-gen.jcoverage.instrumented.classes}">
@@ -363,7 +359,7 @@ The HTML report is ${build.jcoverage.dir}/index.html
 
   <target name="report:findbugs"
           description="create FindBugs reports">
-    <ant dir="${argouml.src.dir}" target="package"/>
+    <ant target="package" inheritall="false"/>
 
     <mkdir dir="${report.findbugs.xml.dir}"/>
 
