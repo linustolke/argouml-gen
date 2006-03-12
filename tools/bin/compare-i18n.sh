@@ -4,7 +4,7 @@
 # great extent they agree to the current argouml.
 
 LANGUAGES="
-    tmp/argouml/src/i18n/de/src/org/argouml/i18n
+    tmp/argouml-de/src/org/argouml/i18n
     tmp/argouml-en-gb/src/org/argouml/i18n
     tmp/argouml-es/src/org/argouml/i18n
     tmp/argouml-fr/src/org/argouml/i18n
@@ -20,17 +20,17 @@ mkdir $WORKINGDIR
 
 function tolang() {
     case $1 in
-    */de/*) echo de
-            ;;
-    *-es/*) echo es
+    *-de/*) echo de
             ;;
     *-en-gb/*) echo en_GB
             ;;
+    *-es/*) echo es
+            ;;
     *-fr/*) echo fr
             ;;
-    *-ru/*) echo ru
-            ;;
     *-nb/*) echo nb
+            ;;
+    *-ru/*) echo ru
             ;;
     *-sv/*) echo sv
             ;;
