@@ -10,6 +10,7 @@
 
   <import file="build.xml"/>
 
+  <property name="argo.root.dir" value="${basedir}/.." />
   <property file="default.properties"/>
   <property file="reporting.properties"/>
   
@@ -181,8 +182,10 @@ The HTML report is ${build.jcoverage.dir}/index.html
   </taskdef>
   
 
-  <target name="report:jdepend" depends="compile"
+  <target name="report:jdepend"
           description="create jdepend reports">
+    <ant target="compile" inheritall="false"/>
+
     <delete dir="${build.jdepend.dir}"/>
     <delete dir="${build.jdepend.xml.dir}"/>
     <mkdir dir="${build.jdepend.dir}"/>
