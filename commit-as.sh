@@ -28,7 +28,7 @@ fi
 for arg in $*
 do
     cp -r tmp/argouml/build/$arg `dirname argouml-stats/trunk/www/$arg`
-    ( cd argouml-stats/trunk/www;
+    ( cd argouml-stats/trunk/www/$arg &&
       svn status | while read type path
       do
           case "$type" in
@@ -50,4 +50,13 @@ awk 'BEGIN { print "<html><head><title>ArgoUML Automatically Generated Files</ti
      END { print "</ul>";
 	   print "</body>"; }' > argouml-stats/trunk/www/index.html
 
+for arg in $*
+do
+    echo Commiting $arg
+    ( cd argouml-stats/trunk/www/$arg &&
+      svn commit -m"New version of files in $arg."
+    )
+done
+
+echo Commiting the rest
 ( cd argouml-stats && svn commit -m'New version of files.' )
