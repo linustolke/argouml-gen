@@ -15,6 +15,7 @@
   <property name="working.dir" location="${basedir}/tmp"/>
   <property name="argouml.dir" location="${working.dir}/argouml"/>
   <property name="argouml.src.dir" location="${argouml.dir}/src_new"/>
+  <property name="argouml.documentation.dir" location="${argouml.dir}/documentation"/>
   
   <property name="xsl.dir" location="${basedir}/xsl"/>
 
@@ -29,7 +30,8 @@
   <!-- Things that depend on the source of ArgoUML                      -->
   <!-- ================================================================ -->
 
-  <target name="update" depends="init" description="update the project from CVS">
+  <target name="update" depends="init"
+          description="update the project source from CVS">
     <echo>CVSROOT is ${cvs.root}</echo>
     <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/src"/>
     <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/src_new"/>
@@ -87,6 +89,25 @@
     <mkdir dir="${output.dir}"/>
     <exec executable="tools/bin/compare-i18n.sh"
           output="${output.dir}/index.html"/>
+  </target>
+
+
+
+  <!-- ================================================================ -->
+  <!-- The documentation of ArgoUML                                     -->
+  <!-- ================================================================ -->
+
+  <target name="update-documentation" depends="init"
+          description="update the documentation from CVS">
+    <echo>CVSROOT is ${cvs.root}</echo>
+    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/documentation"/>
+    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/tools"/>
+  </target>
+
+  <target name="report:documentation" description="generate the documentation">
+    <ant dir="${argouml.documentation.dir}" target="defaulthtml" inheritAll="false">
+      <property name="argo.root.dir" value="${argouml.dir}"/>
+    </ant>
   </target>
 
 </project>
