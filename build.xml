@@ -39,6 +39,7 @@
     <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/lib"/>
     <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/modules"/>
     <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/tools"/>
+    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml-cpp/src"/>
     <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml-de/src"/>
     <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml-en-gb/src"/>
     <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml-es/src"/>
