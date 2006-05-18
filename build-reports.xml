@@ -99,6 +99,7 @@
 	<!-- <pathelement location="${argo.build.classes}"/> -->
         <pathelement location="${argo.tests.classes}"/>
         <path refid="argo.runtime.classpath"/>
+        <pathelement location="${easymock.jar.path}"/>
       </classpath>
       <formatter type="xml"/>
       <batchtest todir="${argo.tests.reports}/junit/output">
