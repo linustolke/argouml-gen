@@ -27,7 +27,10 @@ fi
 
 for arg in $*
 do
+    echo Copying $arg
     cp -r tmp/argouml/build/$arg `dirname argouml-stats/www/$arg`
+
+    echo Adding new files $arg
     ( cd argouml-stats/www/$arg &&
       svn status | while read type path
       do
@@ -39,6 +42,11 @@ do
           esac
       done
     )
+
+    echo Commiting $arg
+    ( cd argouml-stats/www/$arg &&
+      svn commit -m"New version of files in $arg."
+    )
 done
 
 echo Rebuilding the index.html file.
@@ -49,14 +57,6 @@ awk 'BEGIN { print "<html><head><title>ArgoUML Automatically Generated Files</ti
        printf "<li><a href=\"nonav/%s\">%s</a>\n", $NF, $NF; }
      END { print "</ul>";
 	   print "</body>"; }' > argouml-stats/www/index.html
-
-for arg in $*
-do
-    echo Commiting $arg
-    ( cd argouml-stats/www/$arg &&
-      svn commit -m"New version of files in $arg."
-    )
-done
 
 echo Commiting the rest
 ( cd argouml-stats && svn commit -m'New version of files.' )
