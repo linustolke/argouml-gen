@@ -8,6 +8,7 @@ LANGUAGES="
     tmp/argouml-en-gb/src/org/argouml/i18n
     tmp/argouml-es/src/org/argouml/i18n
     tmp/argouml-fr/src/org/argouml/i18n
+    tmp/argouml-it/src/org/argouml/i18n
     tmp/argouml-nb/src/org/argouml/i18n
     tmp/argouml-pt/src/org/argouml/i18n
     tmp/argouml-ru/src/org/argouml/i18n
@@ -28,6 +29,8 @@ function tolang() {
     *-es/*) echo es
             ;;
     *-fr/*) echo fr
+            ;;
+    *-it/*) echo it
             ;;
     *-nb/*) echo nb
             ;;
