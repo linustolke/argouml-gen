@@ -84,7 +84,7 @@
 
   <target name="coverage-test" description="Unit test the application"
           depends="junit-report-clean">
-    <junit errorproperty="junit.failure" fork="yes"
+    <junit failureproperty="junit.failure" fork="yes"
            haltonfailure="false" maxmemory="48M" printsummary="true"
 	   dir="${basedir}">
       <sysproperty key="test.model.uml13" value="${011202.xml}"/>
@@ -109,7 +109,32 @@
       </batchtest>
     </junit>
     <antcall target="junit-report-create"/>
+    <antcall target="junit-jcoverage-report-mail"/>
   </target>
+
+  <target name="junit-jcoverage-report-mail">
+    <description>Mail status from JUnit test run</description>
+
+    <mail from="users@argouml-stats.tigris.org"
+          tolist="linus@tigris.org"
+          mailhost="cylon1.sjc.collab.net"
+          subject="JUnit tests completed."
+          message="The JUnit tests run with coverage analysis are completed."
+      />
+    <antcall target="junit-jcoverage-report-mail-cond"/>
+  </target>
+
+  <target name="junit-jcoverage-report-mail-cond" if="junit.failure">
+
+    <mail from="users@argouml-stats.tigris.org"
+          tolist="users@argouml-stats.tigris.org"
+          mailhost="cylon1.sjc.collab.net"
+          subject="JUnit tests failed."
+          message="There was a JUnit test run with coverage analysis failing."
+      />
+  </target>
+
+
 
   <target name="report:jcoverage"
           depends="init-reports,instrument,coverage-test">
