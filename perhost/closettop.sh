@@ -11,9 +11,9 @@ fi
 JAVA_HOME=/usr/local/lib/java/j2sdk1.4.2_10
 export JAVA_HOME
 
-./build.sh update
+./build.sh update || exit 1
 
-( cd argouml-stats && svn update )
+( cd argouml-stats && svn update ) || exit 1
 
 ./build.sh report:jcoverage &&
   ./commit-as.sh reports/jcoverage reports/junit-result-jcoverage
@@ -34,7 +34,7 @@ export JAVA_HOME
   ./commit-as.sh reports/i18ncomparison
 
 
-./build.sh update-documentation
+./build.sh update-documentation || exit 1
 
 ./build.sh report:documentation &&
   ./commit-as.sh documentation/defaulthtml
