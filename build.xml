@@ -16,6 +16,9 @@
   <property name="argouml.dir" location="${working.dir}/argouml"/>
   <property name="argouml.src.dir" location="${argouml.dir}/src_new"/>
   <property name="argouml.documentation.dir" location="${argouml.dir}/documentation"/>
+
+  <property name="result.dir" location="${working.dir}/RESULT"/>
+
   
   <property name="xsl.dir" location="${basedir}/xsl"/>
 
@@ -24,6 +27,15 @@
   <target name="init">
     <!-- Common initializations. -->
     <mkdir dir="${working.dir}"/>
+  </target>
+
+  <target name="init-reports" depends="init-result">
+    <copy file="build-reports.xml" todir="${argouml.src.dir}" overwrite="true"/>
+    <copy file="reporting.properties" todir="${argouml.src.dir}" overwrite="true"/>
+  </target>
+  
+  <target name="init-result">
+    <mkdir dir="${result.dir}"/>
   </target>
 
   <!-- ================================================================ -->
@@ -54,11 +66,7 @@
 
   <target name="clean" description="remove all generated reports">
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="clean"/>
-  </target>
-  
-  <target name="init-reports">
-    <copy file="build-reports.xml" todir="${argouml.src.dir}" overwrite="true"/>
-    <copy file="reporting.properties" todir="${argouml.src.dir}" overwrite="true"/>
+    <delete dir="${result.dir}"/>
   </target>
   
   <target name="report:jcoverage" depends="init-reports" description="generate jcoverage reports">
@@ -85,9 +93,9 @@
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:findbugs"/>
   </target>
 
-  <target name="report:i18ncomparison" description="generate comparison between internationalizations.">
+  <target name="report:i18ncomparison" description="generate comparison between internationalizations." depends="init-result">
     <property name="output.dir"
-              location="${argouml.dir}/build/reports/i18ncomparison"/>
+              location="${result.dir}/reports/i18ncomparison"/>
     <mkdir dir="${output.dir}"/>
     <exec executable="tools/bin/compare-i18n.sh"
           output="${output.dir}/index.html"/>
@@ -105,7 +113,8 @@
     <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/tools"/>
   </target>
 
-  <target name="report:documentation" description="generate the documentation">
+  <target name="report:documentation" depends="init-result"
+          description="generate the documentation">
     <ant dir="${argouml.documentation.dir}" target="defaulthtml" inheritAll="false">
       <property name="argo.root.dir" value="${argouml.dir}"/>
     </ant>
@@ -116,6 +125,9 @@
       <arg value="-c"/>
       <arg value='for i in */*.html; do mv $i $i.orig &amp;&amp; sed &apos;s/\(name="[^"]*"\|href="[^"#]*#[^"#]*"\)/\n    &amp;\n/g&apos; $i.orig > $i &amp;&amp; rm $i.orig; done'/>
     </exec>
+
+    <delete dir="${result.dir}/documentation"/>
+    <move todir="${result.dir}" file="${argouml.dir}/build/documentation"/>
   </target>
 
 </project>

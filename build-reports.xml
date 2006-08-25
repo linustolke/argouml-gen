@@ -5,7 +5,7 @@
 
     This file is always copied to tmp/argouml/src_new directory before invoked.
 
-    Output of all scripts here is the tmp/argouml/build/reports directory.
+    Output of all scripts here is the ${result.dir}/reports directory.
   </description>
 
   <import file="build.xml"/>
@@ -17,7 +17,7 @@
   <!--
     reports are deposited in this directory.
   -->
-  <property name="build.reports.dir" location="${argo.build.dir}/reports"/>
+  <property name="build.reports.dir" location="${result.dir}/reports"/>
 
 
   <!-- ###################################################################
@@ -275,6 +275,7 @@ The HTML report is ${build.jcoverage.dir}/index.html
           description="create junit reports">
     <ant target="tests" inheritall="false"/>
 
+    <delete dir="${report.junit.dir}"/>
     <mkdir dir="${report.junit.dir}"/>
 
     <!-- Junitreport has already run - put the reports in the right spot. -->

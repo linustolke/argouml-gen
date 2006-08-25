@@ -26,7 +26,7 @@ fi
 for arg in $*
 do
     echo Copying $arg
-    cp -r tmp/argouml/build/$arg `dirname argouml-stats/www/$arg`
+    cp -r tmp/RESULT/$arg `dirname argouml-stats/www/$arg`
 
     echo Adding new files $arg
     ( cd argouml-stats/www/$arg &&
