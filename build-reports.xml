@@ -126,7 +126,7 @@
 
   <target name="junit-jcoverage-report-mail-cond" if="junit.failure">
 
-    <mail from="users@argouml-stats.tigris.org"
+    <mail from="linus@tigris.org"
           tolist="users@argouml-stats.tigris.org"
           mailhost="cylon1.sjc.collab.net"
           subject="JUnit tests failed."
