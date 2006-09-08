@@ -389,7 +389,6 @@ The HTML report is ${build.jcoverage.dir}/index.html
 
   <target name="report:findbugs"
           description="create FindBugs reports">
-    <ant target="clean" inheritall="false"/>
     <ant target="package" inheritall="false"/>
 
     <mkdir dir="${report.findbugs.xml.dir}"/>

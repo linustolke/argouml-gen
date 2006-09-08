@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 # $Id$
 
 # This is the script that is run by crontab on Linus' Linux host closettop
@@ -11,30 +11,48 @@ fi
 JAVA_HOME=/usr/local/lib/java/j2sdk1.4.2_10
 export JAVA_HOME
 
-./build.sh update || exit 1
+./build.sh clean update || exit 1
 
 ( cd argouml-stats && svn update ) || exit 1
 
-./build.sh report:jcoverage &&
-  ./commit-as.sh reports/jcoverage reports/junit-result-jcoverage
+PRESENTED=argouml-stats/www/reports
 
-./build.sh report:jdepend &&
-  ./commit-as.sh reports/jdepend
+if ./build.sh report:jcoverage > $PRESENTED/jcoverage/output.txt
+then
+  ./copy-add.sh reports reports/jcoverage reports/junit-result-jcoverage
+fi
+( cd argouml-stats/www/reports && time svn commit -m'Commiting result from report:jcoverage' )
+
+if ./build.sh report:jdepend > $PRESENTED/jdepend/output.txt
+then
+  ./copy-add.sh reports reports/jdepend
+fi
+( cd argouml-stats/www/reports && time svn commit -m'Commiting result from report:jdepend' )
+
+if ./build.sh report:javadocs > $PRESENTED/javadocs/output.txt
+then
+  ./copy-add.sh reports reports/javadocs reports/javadocs-api
+fi
+( cd argouml-stats/www/reports && time svn commit -m'Commiting result from report:javadocs' )
 
 ./build.sh report:checkstyle &&
-  ./commit-as.sh reports/checkstyle
-
-./build.sh report:javadocs &&
-  ./commit-as.sh reports/javadocs reports/javadocs-api
+  ./copy-add.sh reports reports/checkstyle
 
 ./build.sh report:findbugs &&
-  ./commit-as.sh reports/findbugs
+  ./copy-add.sh reports reports/findbugs
 
 ./build.sh report:i18ncomparison &&
-  ./commit-as.sh reports/i18ncomparison
-
+  ./copy-add.sh reports reports/i18ncomparison
+( cd argouml-stats/www/reports && time svn commit -m'Commiting result from report:checkstyle, report:findbugs, and 
+report:i18ncomparison' )
 
 ./build.sh update-documentation || exit 1
 
-./build.sh report:documentation &&
-  ./commit-as.sh documentation/defaulthtml
+if ./build.sh report:documentation > argouml-stats/www/documentation/output.txt
+then
+  ./copy-add.sh documentation documentation/defaulthtml
+fi
+( cd argouml-stats/www/documentation && time svn commit -m'Commiting result from report:documentation' )
+
+./create-index.sh > argouml-stats/www/index.html
+( cd argouml-stats/www && time svn commit -m'Commiting all the rest.' )
