@@ -17,21 +17,36 @@ export JAVA_HOME
 
 PRESENTED=argouml-stats/www/reports
 
-if ./build.sh report:jcoverage > $PRESENTED/jcoverage/output.txt
+statusfile=$PRESENTED/jcoverage/status.txt
+rm $statusfile
+if ./build.sh report:jcoverage 2>&1 > $PRESENTED/jcoverage/output.txt
 then
   ./copy-add.sh reports reports/jcoverage reports/junit-result-jcoverage
+  echo Succeeded at `date +"%b %d %H:%M"` > $statusfile
+else
+  echo Failed at `date +"%b %d %H:%M"` > $statusfile
 fi
 ( cd argouml-stats/www/reports && time svn commit -m'Commiting result from report:jcoverage' )
 
-if ./build.sh report:jdepend > $PRESENTED/jdepend/output.txt
+statusfile=$PRESENTED/jdepend/status.txt
+rm $statusfile
+if ./build.sh report:jdepend 2>&1 > $PRESENTED/jdepend/output.txt
 then
   ./copy-add.sh reports reports/jdepend
+  echo Succeeded at `date +"%b %d %H:%M"` > $statusfile
+else
+  echo Failed at `date +"%b %d %H:%M"` > $statusfile
 fi
 ( cd argouml-stats/www/reports && time svn commit -m'Commiting result from report:jdepend' )
 
+statusfile=$PRESENTED/javadocs/status.txt
+rm $statusfile
 if ./build.sh report:javadocs > $PRESENTED/javadocs/output.txt
 then
   ./copy-add.sh reports reports/javadocs reports/javadocs-api
+  echo Succeeded at `date +"%b %d %H:%M"` > $statusfile
+else
+  echo Failed at `date +"%b %d %H:%M"` > $statusfile
 fi
 ( cd argouml-stats/www/reports && time svn commit -m'Commiting result from report:javadocs' )
 
@@ -48,7 +63,7 @@ report:i18ncomparison' )
 
 ./build.sh update-documentation || exit 1
 
-if ./build.sh report:documentation > argouml-stats/www/documentation/output.txt
+if ./build.sh report:documentation 2>&1 > argouml-stats/www/documentation/output.txt
 then
   ./copy-add.sh documentation documentation/defaulthtml
 fi
