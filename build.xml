@@ -115,11 +115,19 @@
 
   <target name="report:documentation" depends="init-result"
           description="generate the documentation">
-    <ant dir="${argouml.documentation.dir}" target="defaulthtml" inheritAll="false">
+    <ant dir="${argouml.documentation.dir}" target="docs" inheritAll="false">
       <property name="argo.root.dir" value="${argouml.dir}"/>
     </ant>
     <!-- Special patching to reduce the size of the diff -->
     <exec dir="${argouml.dir}/build/documentation/defaulthtml"
+          executable="sh"
+          failonerror="true">
+      <arg value="-c"/>
+      <arg value='for i in */*.html; do mv $i $i.orig &amp;&amp; sed &apos;s/\(name="[^"]*"\|href="[^"#]*#[^"#]*"\)/\n    &amp;\n/g&apos; $i.orig > $i &amp;&amp; rm $i.orig; done'/>
+    </exec>
+
+    <!-- Special patching to reduce the size of the diff -->
+    <exec dir="${argouml.dir}/build/documentation/printablehtml"
           executable="sh"
           failonerror="true">
       <arg value="-c"/>

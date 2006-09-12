@@ -65,7 +65,7 @@ report:i18ncomparison' )
 
 if ./build.sh report:documentation 2>&1 > argouml-stats/www/documentation/output.txt
 then
-  ./copy-add.sh documentation documentation/defaulthtml
+  ./copy-add.sh documentation documentation/defaulthtml documentation/printablehtml documentation/pdf
 fi
 ( cd argouml-stats/www/documentation && time svn commit -m'Commiting result from report:documentation' )
 
