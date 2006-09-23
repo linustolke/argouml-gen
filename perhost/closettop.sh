@@ -11,7 +11,23 @@ fi
 JAVA_HOME=/usr/local/lib/java/j2sdk1.4.2_10
 export JAVA_HOME
 
-./build.sh clean update || exit 1
+./build.sh clean || exit 1
+
+(
+  cd tmp &&
+  cvs -d :pserver:linus@cvs.tigris.org:/cvs co argouml argouml-ru argouml-sv
+)
+(
+  cd tmp
+  for proj in argouml-cpp \
+              argouml-de argouml-en-gb argouml-es \
+              argouml-fr \
+              argouml-i18n-zh argouml-it argouml-nb \
+              argouml-pt
+  do
+    svn co http://$proj.tigris.org/svn/$proj/trunk $proj
+  done
+)
 
 ( cd argouml-stats && svn update ) || exit 1
 
