@@ -13,21 +13,37 @@ export JAVA_HOME
 
 ./build.sh clean || exit 1
 
-(
-  cd tmp &&
-  cvs -d :pserver:linus@cvs.tigris.org:/cvs co argouml argouml-ru argouml-sv
-)
-(
-  cd tmp
-  for proj in argouml-cpp \
+CVSPROJECTS="argouml argouml-ru argouml-sv"
+PROJECTS="argouml-cpp \
               argouml-de argouml-en-gb argouml-es \
               argouml-fr \
               argouml-i18n-zh argouml-it argouml-nb \
-              argouml-pt
+              argouml-pt"
+
+(
+  cd tmp &&
+  cvs -d :pserver:linus@cvs.tigris.org:/cvs co $CVSPROJECTS
+)
+(
+  cd tmp
+  for proj in $PROJECTS
   do
     svn co http://$proj.tigris.org/svn/$proj/trunk $proj
   done
 )
+
+REVISIONS=`
+(
+  cd tmp
+  for proj in $PROJECTS
+  do
+    (
+      cd $proj &&
+        svn info | awk '/^Revision:/ { printf "%s:%s ", proj, $2; }' proj=$proj
+    )
+  done
+)`
+
 
 ( cd argouml-stats && svn update ) || exit 1
 
@@ -44,7 +60,7 @@ else
 fi
 (
   cd argouml-stats/www/reports &&
-  time svn commit -m'Commiting result from report:jcoverage'
+  time svn commit -m"Commiting result from report:jcoverage for $REVISIONS"
 )
 
 statusfile=$PRESENTED/jdepend/status.txt
@@ -58,7 +74,7 @@ else
 fi
 (
   cd argouml-stats/www/reports &&
-  time svn commit -m'Commiting result from report:jdepend'
+  time svn commit -m"Commiting result from report:jdepend for $REVISIONS"
 )
 
 statusfile=$PRESENTED/javadocs/status.txt
@@ -72,7 +88,7 @@ else
 fi
 (
   cd argouml-stats/www/reports &&
-  time svn commit -m'Commiting result from report:javadocs'
+  time svn commit -m"Commiting result from report:javadocs for $REVISIONS"
 )
 
 ./build.sh report:checkstyle &&
@@ -85,8 +101,11 @@ fi
   ./copy-add.sh reports reports/i18ncomparison
 (
   cd argouml-stats/www/reports &&
-  time svn commit -m'Commiting result from report:checkstyle, report:findbugs, and 
-report:i18ncomparison'
+  time svn commit -m"Commiting result from 
+report:checkstyle,
+report:findbugs, and 
+report:i18ncomparison
+for $REVISIONS"
 )
 
 ./build.sh update-documentation || exit 1
@@ -97,11 +116,11 @@ then
 fi
 (
   cd argouml-stats/www/documentation &&
-  time svn commit -m'Commiting result from report:documentation'
+  time svn commit -m"Commiting result from report:documentation for $REVISIONS"
 )
 
 ./create-index.sh > argouml-stats/www/index.html
 (
   cd argouml-stats/www &&
-  time svn commit -m'Commiting all the rest.'
+  time svn commit -m"Commiting all the rest for $REVISIONS"
 )
