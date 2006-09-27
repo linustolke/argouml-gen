@@ -64,7 +64,9 @@
     <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml-i18n-zh/src"/>
   </target>
 
-  <target name="clean" description="remove all generated reports">
+  <target name="clean"
+          depends="init-reports"
+          description="remove all generated reports">
     <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="clean"/>
     <delete dir="${result.dir}"/>
   </target>
