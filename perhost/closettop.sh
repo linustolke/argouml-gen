@@ -13,17 +13,14 @@ export JAVA_HOME
 
 ./build.sh clean || exit 1
 
-CVSPROJECTS="argouml argouml-ru argouml-sv"
-PROJECTS="argouml-cpp \
+PROJECTS="argouml \
+              argouml-cpp \
               argouml-de argouml-en-gb argouml-es \
               argouml-fr \
               argouml-i18n-zh argouml-it argouml-nb \
-              argouml-pt"
+              argouml-pt
+              argouml-ru argouml-sv"
 
-(
-  cd tmp &&
-  cvs -d :pserver:linus@cvs.tigris.org:/cvs co $CVSPROJECTS
-)
 (
   cd tmp
   for proj in $PROJECTS
