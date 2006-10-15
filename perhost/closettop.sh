@@ -25,7 +25,7 @@ PROJECTS="argouml \
   cd tmp
   for proj in $PROJECTS
   do
-    svn co http://$proj.tigris.org/svn/$proj/trunk $proj
+    time svn co http://$proj.tigris.org/svn/$proj/trunk $proj
   done
 )
 
@@ -42,7 +42,7 @@ REVISIONS=`
 )`
 
 
-( cd argouml-stats && svn update ) || exit 1
+( cd argouml-stats && time svn update ) || exit 1
 
 PRESENTED=argouml-stats/www/reports
 
