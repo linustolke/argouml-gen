@@ -116,6 +116,33 @@ fi
   time svn commit -m"Commiting result from report:documentation for $REVISIONS"
 )
 
+
+
+# Do things for java5.
+
+JAVA_HOME=/usr/local/lib/java/jdk1.5.0_06
+export JAVA_HOME
+
+./build.sh clean || exit 1
+
+PRESENTED=argouml-stats/www/reports-java5
+
+statusfile=$PRESENTED/jcoverage/status.txt
+rm $statusfile
+if ./build.sh report:jcoverage -l $PRESENTED/jcoverage/output.txt
+then
+  ./copy-add.sh reports-java5 reports/jcoverage reports/junit-result-jcoverage
+  echo Succeeded at `date +"%b %d %H:%M"` > $statusfile
+else
+  echo Failed at `date +"%b %d %H:%M"` > $statusfile
+fi
+(
+  cd argouml-stats/www/reports-java5 &&
+  time svn commit -m"Commiting java5 result from report:jcoverage for $REVISIONS"
+)
+
+
+
 ./create-index.sh > argouml-stats/www/index.html
 (
   cd argouml-stats/www &&

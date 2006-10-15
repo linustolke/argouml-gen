@@ -326,7 +326,7 @@ The HTML report is ${build.jcoverage.dir}/index.html
     General targets.
   -->
 
-  <target name="clean" description="clean up build artefacts">
+  <target name="clean-reports" description="clean up build artefacts">
     <echo>${build.reports.dir}</echo>
     <delete quiet="true" includeEmptyDirs="true">
       <fileset dir="${build.reports.dir}"/>
