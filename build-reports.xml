@@ -23,10 +23,14 @@
   <!-- ###################################################################
        # coverage reports
   -->
-  <property name="build.jcoverage.dir" location="${build.reports.dir}/jcoverage"/>
-  <!-- <property name="build.jcoverage.xml.dir" location="${build.reports.dir}/jcoverage-xml"/> -->
+  <property name="build.jcoverage.dir"
+            location="${build.reports.dir}/jcoverage"/>
+  <!-- <property name="build.jcoverage.xml.dir"
+                 location="${build.reports.dir}/jcoverage-xml"/>
+    -->
   
-  <property name="instrument-ant.xsl" location="${xsl.dir}/instrument-ant.xsl"/>
+  <property name="instrument-ant.xsl"
+            location="${xsl.dir}/instrument-ant.xsl"/>
 
   <target name="instrument" description="Add jcoverage instrumentation">
     <delete file="jcoverage.ser"/>
@@ -196,7 +200,8 @@ The HTML report is ${build.jcoverage.dir}/index.html
        # jdepend reports
   -->
   <property name="build.jdepend.dir" location="${build.reports.dir}/jdepend"/>
-  <property name="build.jdepend.xml.dir" location="${build.reports.dir}/jdepend-xml"/>
+  <property name="build.jdepend.xml.dir"
+            location="${build.reports.dir}/jdepend-xml"/>
   
   <taskdef classname="org.apache.tools.ant.taskdefs.optional.jdepend.JDependTask" name="jdepend">
     <classpath>
@@ -217,7 +222,8 @@ The HTML report is ${build.jcoverage.dir}/index.html
     <mkdir dir="${build.jdepend.dir}"/>
     <mkdir dir="${build.jdepend.xml.dir}"/>
 
-    <jdepend outputfile="${build.jdepend.xml.dir}/jdepend.xml" fork="yes" format="xml">
+    <jdepend outputfile="${build.jdepend.xml.dir}/jdepend.xml"
+             fork="yes" format="xml">
       <classpath>
         <pathelement location="${jdepend.jar.path}"/>
         <pathelement location="${argo.build.classes}"/>
@@ -252,7 +258,8 @@ The HTML report is ${build.jcoverage.dir}/index.html
   <target name="report:checkstyle" depends="cleanparser"
           description="create checkstyle reports">
     <ant target="delete-generated-for-checkstyle" inheritall="false"/>
-    <ant target="checkstyle" output="checkstyle-result.txt" inheritall="false"/>
+    <ant target="checkstyle" output="checkstyle-result.txt"
+         inheritall="false"/>
     <delete dir="${report.checkstyle.dir}"/>
     <mkdir dir="${report.checkstyle.dir}"/>
     <exec executable="sed"
@@ -338,7 +345,8 @@ The HTML report is ${build.jcoverage.dir}/index.html
     </delete>
   </target>
 
-  <target name="init-reports" depends="init" description="create build directories">
+  <target name="init-reports" depends="init"
+          description="create build directories">
     <ant target="compile" inheritall="false"/>
 
     <mkdir dir="${build.jcoverage.dir}"/>
@@ -372,11 +380,16 @@ The HTML report is ${build.jcoverage.dir}/index.html
   <!-- Applying FindBugs                                                -->
   <!-- //////////////////////////////////////////////////////////////// -->
 
-  <property name="report.findbugs.dir" location="${build.reports.dir}/findbugs"/>
-  <property name="report.findbugs.xml.dir" location="${build.reports.dir}/findbugs-xml"/>
-  <property name="findbugs.xml" location="${report.findbugs.xml.dir}/findbugs.xml"/>
-  <property name="findbugs.html" location="${report.findbugs.dir}/findbugs_report.html"/>
-  <property name="findbugs.txt" location="${report.findbugs.dir}/findbugs_report.txt"/>
+  <property name="report.findbugs.dir"
+            location="${build.reports.dir}/findbugs"/>
+  <property name="report.findbugs.xml.dir"
+            location="${build.reports.dir}/findbugs-xml"/>
+  <property name="findbugs.xml"
+            location="${report.findbugs.xml.dir}/findbugs.xml"/>
+  <property name="findbugs.html"
+            location="${report.findbugs.dir}/findbugs_report.html"/>
+  <property name="findbugs.txt"
+            location="${report.findbugs.dir}/findbugs_report.txt"/>
   
   <path id="findbugs.path">
     <fileset dir="${findbugs.dir}">
@@ -397,6 +410,7 @@ The HTML report is ${build.jcoverage.dir}/index.html
               conserveSpace="true" timeout="18000000">
       <class location="${argo.build.dir}/argouml-model.jar" />
       <class location="${argo.build.dir}/argouml.jar" />
+      <class location="${argo.build.dir}/argouml-mdr.jar" />
       <auxClasspath>
         <fileset dir="${argo.build.dir}">
           <include name="**/*.jar"/>
@@ -404,6 +418,7 @@ The HTML report is ${build.jcoverage.dir}/index.html
       </auxClasspath>
       <sourcePath path="${argo.src.dir}/../src/model/src"/>
       <sourcePath path="${argo.src.dir}"/>
+      <sourcePath path="${argo.src.dir}/../src/model-mdr/src"/>
       <classpath>
         <path refid="findbugs.path"/>
       </classpath>
