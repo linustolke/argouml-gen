@@ -38,32 +38,6 @@
     <mkdir dir="${result.dir}"/>
   </target>
 
-  <!-- ================================================================ -->
-  <!-- Things that depend on the source of ArgoUML                      -->
-  <!-- ================================================================ -->
-
-  <target name="update" depends="init"
-          description="update the project source from CVS">
-    <echo>CVSROOT is ${cvs.root}</echo>
-    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/src"/>
-    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/src_new"/>
-    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/tests"/>
-    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/lib"/>
-    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/modules"/>
-    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/tools"/>
-    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml-cpp"/>
-    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml-de/src"/>
-    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml-en-gb/src"/>
-    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml-es/src"/>
-    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml-fr/src"/>
-    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml-it/src"/>
-    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml-nb/src"/>
-    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml-pt/src"/>
-    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml-ru/src"/>
-    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml-sv/src"/>
-    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml-i18n-zh/src"/>
-  </target>
-
   <target name="clean"
           depends="init-reports"
           description="remove all generated reports">
@@ -108,13 +82,6 @@
   <!-- ================================================================ -->
   <!-- The documentation of ArgoUML                                     -->
   <!-- ================================================================ -->
-
-  <target name="update-documentation" depends="init"
-          description="update the documentation from CVS">
-    <echo>CVSROOT is ${cvs.root}</echo>
-    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/documentation"/>
-    <cvs cvsRoot="${cvs.root}" quiet="Yes" dest="${working.dir}" package="argouml/tools"/>
-  </target>
 
   <target name="report:documentation" depends="init-result"
           description="generate the documentation">

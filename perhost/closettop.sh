@@ -12,27 +12,12 @@ JAVA_HOME=/usr/local/lib/java/j2sdk1.4.2_10
 export JAVA_HOME
 
 ./build.sh clean || exit 1
-
-PROJECTS="argouml \
-              argouml-cpp \
-              argouml-de argouml-en-gb argouml-es \
-              argouml-fr \
-              argouml-i18n-zh argouml-it argouml-nb \
-              argouml-pt
-              argouml-ru argouml-sv"
-
-(
-  cd tmp
-  for proj in $PROJECTS
-  do
-    time svn co http://$proj.tigris.org/svn/$proj/trunk $proj
-  done
-)
+./update.sh
 
 REVISIONS=`
 (
   cd tmp
-  for proj in $PROJECTS
+  for proj in a*
   do
     (
       cd $proj &&
