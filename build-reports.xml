@@ -255,11 +255,9 @@ The HTML report is ${build.jcoverage.dir}/index.html
   <property name="report.checkstyle.dir"
             location="${build.reports.dir}/checkstyle"/>
 
-  <target name="report:checkstyle" depends="cleanparser"
+  <target name="report:checkstyle"
+          depends="cleanparser,delete-generated-for-checkstyle,checkstyle"
           description="create checkstyle reports">
-    <ant target="delete-generated-for-checkstyle" inheritall="false"/>
-    <ant target="checkstyle" output="checkstyle-result.txt"
-         inheritall="false"/>
     <delete dir="${report.checkstyle.dir}"/>
     <mkdir dir="${report.checkstyle.dir}"/>
     <exec executable="sed"
@@ -267,11 +265,99 @@ The HTML report is ${build.jcoverage.dir}/index.html
           output="${report.checkstyle.dir}/index.html">
       <arg value="--expression=1i&lt;pre&gt;"/>
       <arg value="--expression=$i&lt;/pre&gt;"/>
-      <arg value="--expression=s; \.\.\(/[^:][^:]*\):\([0-9][0-9]*\)\(:[^ ]*\); &lt;a href='http://argouml.tigris.org/source/browse/argouml\1?annotate=HEAD#id\2'&gt;..\1:\2\3&lt;/a&gt;;"/>
+      <arg value="--expression=s; \.\./\.\./\([^/]*\)\(/[^:][^:]*\):\([0-9][0-9]*\)\(:[^ ]*\); &lt;a href='http://\1.tigris.org/source/browse/\1/trunk\2?annotate=HEAD#id\3'&gt;\1/trunk\2:\3\4&lt;/a&gt;;"/>
+      <arg value="--expression=s; \.\.\(/[^:][^:]*\):\([0-9][0-9]*\)\(:[^ ]*\); &lt;a href='http://argouml.tigris.org/source/browse/argouml/trunk\1?annotate=HEAD#id\2'&gt;argouml/trunk\1:\2\3&lt;/a&gt;;"/>
     </exec>
     <delete file="checkstyle-result.txt"/>
   </target>
   
+
+  <!-- =================================================================== -->
+  <!-- Runs checkstyle to find style problems in ArgoUML.                  -->
+  <!-- =================================================================== -->
+    <target name="checkstyle-main">
+      <echo>
+  Running checkstyle on ${source.dir}.
+  </echo>
+      <java classname="com.puppycrawl.tools.checkstyle.Main" failonerror="false" fork="true" maxmemory="32M">
+        <sysproperty key="checkstyle.header.file" value="${argo.tools.dir}/checkstyle/java.header"/>
+        <classpath>
+          <pathelement location="${checkstyle.jar.path}"/>
+        </classpath>
+        <arg value="-c"/>
+        <arg value="${argo.tools.dir}/checkstyle/checkstyle_argouml.xml"/>
+        <arg value="-r"/>
+        <arg value="${source.dir}"/>
+      </java>
+    </target>
+  <target name="checkstyle-cond">
+    <available file="${source.dir}" type="dir" property="directory.exists"/>
+    <antcall target="checkstyle-cond2">
+      <param name="source.dir" value="${source.dir}"/>
+    </antcall>
+  </target>
+
+  <target name="checkstyle-cond2" if="directory.exists">
+    <antcall target="checkstyle-main">
+      <param name="source.dir" value="${source.dir}"/>
+    </antcall>
+  </target>
+
+  <target name="checkstyle" depends="init,cleanparser"
+          description="Run checkstyle on all source.">
+    <antcall target="checkstyle-main">
+      <param name="source.dir" value="${argo.root.dir}/src/model/src"/>
+    </antcall>
+    <antcall target="checkstyle-main">
+      <param name="source.dir" value="${argo.root.dir}/src/model-mdr/src"/>
+    </antcall>
+    <antcall target="checkstyle-main">
+      <param name="source.dir" value="${argo.src.dir}/org"/>
+    </antcall>
+    <antcall target="checkstyle-main">
+      <param name="source.dir" value="${argo.root.dir}/tests"/>
+    </antcall>
+    <antcall target="checkstyle-main">
+      <param name="source.dir" value="${argo.root.dir}/modules"/>
+    </antcall>
+
+    <antcall target="checkstyle-cond">
+      <param name="source.dir"
+             value="${argo.root.dir}/../argouml-andromda/src"/>
+    </antcall>
+    <antcall target="checkstyle-cond">
+      <param name="source.dir"
+             value="${argo.root.dir}/../argouml-classfile/src"/>
+    </antcall>
+    <antcall target="checkstyle-cond">
+      <param name="source.dir" value="${argo.root.dir}/../argouml-cpp/src"/>
+    </antcall>
+    <antcall target="checkstyle-cond">
+      <param name="source.dir" value="${argo.root.dir}/../argouml-csharp/src"/>
+    </antcall>
+    <antcall target="checkstyle-cond">
+      <param name="source.dir" value="${argo.root.dir}/../argouml-idl/src"/>
+    </antcall>
+    <antcall target="checkstyle-cond">
+      <param name="source.dir" value="${argo.root.dir}/../argouml-php/src"/>
+    </antcall>
+    <antcall target="checkstyle-cond">
+      <param name="source.dir" value="${argo.root.dir}/../argouml-python/src"/>
+    </antcall>
+  </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Removes generated files so that they are not checked by xenofarm.   -->
+  <!-- =================================================================== -->
+  <target name="delete-generated-for-checkstyle" depends="init">
+    <echo>      
+Deleting some files that we are not interested in running checkstyle on
+because they are generated.
+    </echo>
+    <antcall target="cleanparser"/>
+
+  </target>
 
   <!-- ################################################################### 
        # junit reports
