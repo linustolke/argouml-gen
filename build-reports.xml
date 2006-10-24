@@ -256,8 +256,10 @@ The HTML report is ${build.jcoverage.dir}/index.html
             location="${build.reports.dir}/checkstyle"/>
 
   <target name="report:checkstyle"
-          depends="cleanparser,delete-generated-for-checkstyle,checkstyle"
+          depends="cleanparser,delete-generated-for-checkstyle"
           description="create checkstyle reports">
+    <ant target="checkstyle" antfile="build-reports.xml"
+         output="checkstyle-result.txt" inheritall="false"/>
     <delete dir="${report.checkstyle.dir}"/>
     <mkdir dir="${report.checkstyle.dir}"/>
     <exec executable="sed"
@@ -265,8 +267,8 @@ The HTML report is ${build.jcoverage.dir}/index.html
           output="${report.checkstyle.dir}/index.html">
       <arg value="--expression=1i&lt;pre&gt;"/>
       <arg value="--expression=$i&lt;/pre&gt;"/>
-      <arg value="--expression=s; \.\./\.\./\([^/]*\)\(/[^:][^:]*\):\([0-9][0-9]*\)\(:[^ ]*\); &lt;a href='http://\1.tigris.org/source/browse/\1/trunk\2?annotate=HEAD#id\3'&gt;\1/trunk\2:\3\4&lt;/a&gt;;"/>
-      <arg value="--expression=s; \.\.\(/[^:][^:]*\):\([0-9][0-9]*\)\(:[^ ]*\); &lt;a href='http://argouml.tigris.org/source/browse/argouml/trunk\1?annotate=HEAD#id\2'&gt;argouml/trunk\1:\2\3&lt;/a&gt;;"/>
+      <arg value="--expression=s; [^ ]*/\.\./\.\./\([^/]*\)\(/[^:][^:]*\):\([0-9][0-9]*\)\(:[^ ]*\); &lt;a href='http://\1.tigris.org/source/browse/\1/trunk\2?annotate=HEAD#id\3'&gt;\1/trunk\2:\3\4&lt;/a&gt;;"/>
+      <arg value="--expression=s; [^ ]*/\.\.\(/[^:][^:]*\):\([0-9][0-9]*\)\(:[^ ]*\); &lt;a href='http://argouml.tigris.org/source/browse/argouml/trunk\1?annotate=HEAD#id\2'&gt;argouml/trunk\1:\2\3&lt;/a&gt;;"/>
     </exec>
     <delete file="checkstyle-result.txt"/>
   </target>
