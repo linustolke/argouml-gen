@@ -90,8 +90,6 @@ report:i18ncomparison
 for $REVISIONS"
 )
 
-./build.sh update-documentation || exit 1
-
 if ./build.sh report:documentation -l argouml-stats/www/documentation/output.txt
 then
   ./copy-add.sh documentation documentation/defaulthtml documentation/printablehtml documentation/pdf
