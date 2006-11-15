@@ -123,7 +123,7 @@
           tolist="linus@tigris.org"
           mailhost="cylon1.sjc.collab.net"
           subject="JUnit tests completed."
-          message="The JUnit tests run with coverage analysis are completed."
+          message="The JUnit tests run with coverage analysis using ${java.home} are completed."
       />
     <antcall target="junit-jcoverage-report-mail-cond"/>
   </target>
@@ -134,7 +134,7 @@
           tolist="users@argouml-stats.tigris.org"
           mailhost="cylon1.sjc.collab.net"
           subject="JUnit tests failed."
-          message="There was a JUnit test run with coverage analysis failing."
+          message="There was a JUnit test run using ${java.home} with coverage analysis failing."
       />
   </target>
 
