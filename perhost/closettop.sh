@@ -132,20 +132,20 @@ export JAVA_HOME
 
 PRESENTED=argouml-stats/www/reports-java5
 
-statusfile=$PRESENTED/jcoverage/status.txt
+statusfile=$PRESENTED/junit/status.txt
 rm $statusfile
-if ./build.sh report:jcoverage -l $PRESENTED/jcoverage/output.txt
+if ./build.sh report:junit -l $PRESENTED/junit/output.txt
 then
-  ./copy-add.sh reports-java5 reports/jcoverage reports/junit-result-jcoverage
+  ./copy-add.sh reports-java5 reports/junit
   echo Succeeded at `date +"%b %d %H:%M"` > $statusfile
-  echo `date +"%b %d %H:%M"`: java5 jcoverage succeeded >> $LOG
+  echo `date +"%b %d %H:%M"`: java5 junit-tests succeeded >> $LOG
 else
   echo Failed at `date +"%b %d %H:%M"` > $statusfile
-  echo `date +"%b %d %H:%M"`: java5 jcoverage FAILED >> $LOG
+  echo `date +"%b %d %H:%M"`: java5 junit-tests FAILED >> $LOG
 fi
 (
   cd argouml-stats/www/reports-java5 &&
-  time svn commit -m"Commiting java5 result from report:jcoverage for $REVISIONS"
+  time svn commit -m"Commiting java5 result from report:junit for $REVISIONS"
 )
 
 
