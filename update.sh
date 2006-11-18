@@ -5,8 +5,9 @@ PROJECTS="argouml \
               argouml-de argouml-en-gb argouml-es \
               argouml-fr \
               argouml-i18n-zh argouml-it argouml-nb \
-              argouml-pt
-              argouml-ru argouml-sv"
+              argouml-pt \
+              argouml-ro argouml-ru \
+	      argouml-sv"
 
 (
   cd tmp
