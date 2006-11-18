@@ -30,6 +30,7 @@ REVISIONS=`
 ( cd argouml-stats && time svn update ) || exit 1
 
 PRESENTED=argouml-stats/www/reports
+LOG=argouml-stats/www/closettop.log
 
 statusfile=$PRESENTED/jcoverage/status.txt
 rm $statusfile
@@ -37,8 +38,10 @@ if ./build.sh report:jcoverage -l $PRESENTED/jcoverage/output.txt
 then
   ./copy-add.sh reports reports/jcoverage reports/junit-result-jcoverage
   echo Succeeded at `date +"%b %d %H:%M"` > $statusfile
+  echo `date +"%b %d %H:%M"`: java1.4 jcoverage succeeded  >> $LOG
 else
   echo Failed at `date +"%b %d %H:%M"` > $statusfile
+  echo `date +"%b %d %H:%M"`: java1.4 jcoverage FAILED >> $LOG
 fi
 (
   cd argouml-stats/www/reports &&
@@ -51,8 +54,10 @@ if ./build.sh report:jdepend -l $PRESENTED/jdepend/output.txt
 then
   ./copy-add.sh reports reports/jdepend
   echo Succeeded at `date +"%b %d %H:%M"` > $statusfile
+  echo `date +"%b %d %H:%M"`: java1.4 jdepend updated >> $LOG
 else
   echo Failed at `date +"%b %d %H:%M"` > $statusfile
+  echo `date +"%b %d %H:%M"`: java1.4 jdepend FAILED >> $LOG
 fi
 (
   cd argouml-stats/www/reports &&
@@ -65,34 +70,51 @@ if ./build.sh report:javadocs -l $PRESENTED/javadocs/output.txt
 then
   ./copy-add.sh reports reports/javadocs reports/javadocs-api
   echo Succeeded at `date +"%b %d %H:%M"` > $statusfile
+  echo `date +"%b %d %H:%M"`: java1.4 javadocs built >> $LOG
 else
   echo Failed at `date +"%b %d %H:%M"` > $statusfile
+  echo `date +"%b %d %H:%M"`: java1.4 javadocs FAILED >> $LOG
 fi
 (
   cd argouml-stats/www/reports &&
   time svn commit -m"Commiting result from report:javadocs for $REVISIONS"
 )
 
-./build.sh report:checkstyle &&
+if ./build.sh report:checkstyle
+then
   ./copy-add.sh reports reports/checkstyle
+  echo `date +"%b %d %H:%M"`: java1.4 checkstyle updated >> $LOG
+else
+  echo `date +"%b %d %H:%M"`: java1.4 checkstyle FAILED >> $LOG
+fi
 
-./build.sh report:findbugs &&
+if ./build.sh report:findbugs
+then
   ./copy-add.sh reports reports/findbugs
+  echo `date +"%b %d %H:%M"`: java1.4 findbugs updated >> $LOG
+else
+  echo `date +"%b %d %H:%M"`: java1.4 findbugs FAILED >> $LOG
+fi
 
-./build.sh report:i18ncomparison &&
+if ./build.sh report:i18ncomparison
+then
   ./copy-add.sh reports reports/i18ncomparison
+  echo `date +"%b %d %H:%M"`: java1.4 i18ncomparison updated >> $LOG
+else
+  echo `date +"%b %d %H:%M"`: java1.4 i18ncomparison FAILED >> $LOG
+fi
+
 (
   cd argouml-stats/www/reports &&
-  time svn commit -m"Commiting result from 
-report:checkstyle,
-report:findbugs, and 
-report:i18ncomparison
-for $REVISIONS"
+  time svn commit -m"Commiting result from report:checkstyle, report:findbugs, and report:i18ncomparison for $REVISIONS"
 )
 
 if ./build.sh report:documentation -l argouml-stats/www/documentation/output.txt
 then
   ./copy-add.sh documentation documentation/defaulthtml documentation/printablehtml documentation/pdf
+  echo `date +"%b %d %H:%M"`: java1.4 documentation built >> $LOG
+else
+  echo `date +"%b %d %H:%M"`: java1.4 documentation FAILED >> $LOG
 fi
 (
   cd argouml-stats/www/documentation &&
@@ -116,8 +138,10 @@ if ./build.sh report:jcoverage -l $PRESENTED/jcoverage/output.txt
 then
   ./copy-add.sh reports-java5 reports/jcoverage reports/junit-result-jcoverage
   echo Succeeded at `date +"%b %d %H:%M"` > $statusfile
+  echo `date +"%b %d %H:%M"`: java5 jcoverage succeeded >> $LOG
 else
   echo Failed at `date +"%b %d %H:%M"` > $statusfile
+  echo `date +"%b %d %H:%M"`: java5 jcoverage FAILED >> $LOG
 fi
 (
   cd argouml-stats/www/reports-java5 &&
