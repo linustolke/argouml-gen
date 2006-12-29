@@ -32,6 +32,26 @@ REVISIONS=`
 PRESENTED=argouml-stats/www/reports
 LOG=argouml-stats/www/closettop.log
 
+
+# Starting the reports.
+
+statusfile=$PRESENTED/cpp-junit/status.txt
+rm $statusfile
+if ./build.sh report:cpp-junit -l $PRESENTED/cpp-junit/output.txt
+then
+  ./copy-add.sh reports reports/cpp-junit
+  echo Succeeded at `date +"%b %d %H:%M"` > $statusfile
+  echo `date +"%b %d %H:%M"`: java1.4 cpp-junit succeeded  >> $LOG
+else
+  echo Failed at `date +"%b %d %H:%M"` > $statusfile
+  echo `date +"%b %d %H:%M"`: java1.4 cpp-junit FAILED >> $LOG
+fi
+(
+  cd argouml-stats/www/reports &&
+  time svn commit -m"Commiting result from report:cpp-junit for $REVISIONS"
+)
+
+
 statusfile=$PRESENTED/jcoverage/status.txt
 rm $statusfile
 if ./build.sh report:jcoverage -l $PRESENTED/jcoverage/output.txt
@@ -146,6 +166,22 @@ fi
 (
   cd argouml-stats/www/reports-java5 &&
   time svn commit -m"Commiting java5 result from report:junit for $REVISIONS"
+)
+
+statusfile=$PRESENTED/cpp-junit/status.txt
+rm $statusfile
+if ./build.sh report:cpp-junit -l $PRESENTED/cpp-junit/output.txt
+then
+  ./copy-add.sh reports reports/cpp-junit
+  echo Succeeded at `date +"%b %d %H:%M"` > $statusfile
+  echo `date +"%b %d %H:%M"`: java5 cpp-junit succeeded  >> $LOG
+else
+  echo Failed at `date +"%b %d %H:%M"` > $statusfile
+  echo `date +"%b %d %H:%M"`: java5 cpp-junit FAILED >> $LOG
+fi
+(
+  cd argouml-stats/www/reports &&
+  time svn commit -m"Commiting result from report:cpp-junit for $REVISIONS"
 )
 
 
