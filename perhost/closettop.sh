@@ -172,7 +172,7 @@ statusfile=$PRESENTED/cpp-junit/status.txt
 rm $statusfile
 if ./build.sh report:cpp-junit -l $PRESENTED/cpp-junit/output.txt
 then
-  ./copy-add.sh reports reports/cpp-junit
+  ./copy-add.sh reports-java5 reports/cpp-junit
   echo Succeeded at `date +"%b %d %H:%M"` > $statusfile
   echo `date +"%b %d %H:%M"`: java5 cpp-junit succeeded  >> $LOG
 else
@@ -180,8 +180,8 @@ else
   echo `date +"%b %d %H:%M"`: java5 cpp-junit FAILED >> $LOG
 fi
 (
-  cd argouml-stats/www/reports &&
-  time svn commit -m"Commiting result from report:cpp-junit for $REVISIONS"
+  cd argouml-stats/www/reports-java5 &&
+  time svn commit -m"Commiting java5 result from report:cpp-junit for $REVISIONS"
 )
 
 
