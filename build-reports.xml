@@ -368,7 +368,7 @@ because they are generated.
   
   <target name="report:junit" depends="init-reports"
           description="create junit reports">
-    <ant target="tests" inheritall="false"/>
+    <ant target="tests-dont-fail" inheritall="false"/>
 
     <delete dir="${report.junit.dir}"/>
     <mkdir dir="${report.junit.dir}"/>
