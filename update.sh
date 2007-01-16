@@ -5,7 +5,7 @@ PROJECTS="argouml \
               argouml-de argouml-en-gb argouml-es \
               argouml-fr \
               argouml-i18n-zh argouml-it argouml-nb \
-              argouml-pt \
+              argouml-pt argouml-pt-br \
               argouml-ro argouml-ru \
 	      argouml-sv"
 

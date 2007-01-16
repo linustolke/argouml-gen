@@ -11,6 +11,7 @@ LANGUAGES="
     tmp/argouml-it/src/org/argouml/i18n
     tmp/argouml-nb/src/org/argouml/i18n
     tmp/argouml-pt/src/org/argouml/i18n
+    tmp/argouml-pt-br/src/org/argouml/i18n
     tmp/argouml-ro/src/org/argouml/i18n
     tmp/argouml-ru/src/org/argouml/i18n
     tmp/argouml-sv/src/org/argouml/i18n
@@ -23,6 +24,12 @@ mkdir $WORKINGDIR
 
 function tolang() {
     case $1 in
+    *-ar/*) echo ar
+            ;;
+    *-br/*) echo br
+            ;;
+    *-ca/*) echo ca
+            ;;
     *-de/*) echo de
             ;;
     *-en-gb/*) echo en_GB
@@ -31,11 +38,17 @@ function tolang() {
             ;;
     *-fr/*) echo fr
             ;;
+    *-hi/*) echo hi
+            ;;
     *-it/*) echo it
+            ;;
+    *-ja/*) echo ja
             ;;
     *-nb/*) echo nb
             ;;
     *-pt/*) echo pt
+            ;;
+    *-pt-br/*) echo pt_BR
             ;;
     *-ro/*) echo ro
             ;;
@@ -44,6 +57,10 @@ function tolang() {
     *-sv/*) echo sv
             ;;
     *-i18n-zh/*) echo zh
+            ;;
+    *-zh-cn/*) echo zh_CN
+            ;;
+    *-zh-tw/*) echo zh_TW
             ;;
     esac
 }
