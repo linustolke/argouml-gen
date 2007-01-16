@@ -24,6 +24,23 @@ mkdir $WORKINGDIR
 
 function tolang() {
     case $1 in
+    # Two level languages.
+    # Keep the two level languages first in order not to get an incorrect
+    # match on any of the one level.
+
+    *-en-gb/*) echo en_GB
+            ;;
+    *-pt-br/*) echo pt_BR
+            ;;
+    *-i18n-zh/*) echo zh
+            ;;
+    *-zh-cn/*) echo zh_CN
+            ;;
+    *-zh-tw/*) echo zh_TW
+            ;;
+
+    # One level languages
+
     *-ar/*) echo ar
             ;;
     *-br/*) echo br
@@ -31,8 +48,6 @@ function tolang() {
     *-ca/*) echo ca
             ;;
     *-de/*) echo de
-            ;;
-    *-en-gb/*) echo en_GB
             ;;
     *-es/*) echo es
             ;;
@@ -48,19 +63,11 @@ function tolang() {
             ;;
     *-pt/*) echo pt
             ;;
-    *-pt-br/*) echo pt_BR
-            ;;
     *-ro/*) echo ro
             ;;
     *-ru/*) echo ru
             ;;
     *-sv/*) echo sv
-            ;;
-    *-i18n-zh/*) echo zh
-            ;;
-    *-zh-cn/*) echo zh_CN
-            ;;
-    *-zh-tw/*) echo zh_TW
             ;;
     esac
 }
