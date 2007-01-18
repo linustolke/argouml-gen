@@ -100,14 +100,6 @@ fi
   time svn commit -m"Commiting result from report:javadocs for $REVISIONS"
 )
 
-if ./build.sh report:checkstyle
-then
-  ./copy-add.sh reports reports/checkstyle
-  echo `date +"%b %d %H:%M"`: java1.4 checkstyle updated >> $LOG
-else
-  echo `date +"%b %d %H:%M"`: java1.4 checkstyle FAILED >> $LOG
-fi
-
 if ./build.sh report:findbugs
 then
   ./copy-add.sh reports reports/findbugs
@@ -122,6 +114,16 @@ then
   echo `date +"%b %d %H:%M"`: java1.4 i18ncomparison updated >> $LOG
 else
   echo `date +"%b %d %H:%M"`: java1.4 i18ncomparison FAILED >> $LOG
+fi
+
+./build.sh clean || exit 1
+
+if ./build.sh report:checkstyle
+then
+  ./copy-add.sh reports reports/checkstyle
+  echo `date +"%b %d %H:%M"`: java1.4 checkstyle updated >> $LOG
+else
+  echo `date +"%b %d %H:%M"`: java1.4 checkstyle FAILED >> $LOG
 fi
 
 (

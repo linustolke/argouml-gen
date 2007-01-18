@@ -277,21 +277,22 @@ The HTML report is ${build.jcoverage.dir}/index.html
   <!-- =================================================================== -->
   <!-- Runs checkstyle to find style problems in ArgoUML.                  -->
   <!-- =================================================================== -->
-    <target name="checkstyle-main">
-      <echo>
-  Running checkstyle on ${source.dir}.
-  </echo>
-      <java classname="com.puppycrawl.tools.checkstyle.Main" failonerror="false" fork="true" maxmemory="32M">
-        <sysproperty key="checkstyle.header.file" value="${argo.tools.dir}/checkstyle/java.header"/>
-        <classpath>
-          <pathelement location="${checkstyle.jar.path}"/>
-        </classpath>
-        <arg value="-c"/>
-        <arg value="${argo.tools.dir}/checkstyle/checkstyle_argouml.xml"/>
-        <arg value="-r"/>
-        <arg value="${source.dir}"/>
-      </java>
-    </target>
+  <target name="checkstyle-main">
+    <echo>
+Running checkstyle on ${source.dir}.
+</echo>
+    <java classname="com.puppycrawl.tools.checkstyle.Main" failonerror="false" fork="true" maxmemory="32M">
+      <sysproperty key="checkstyle.header.file" value="${argo.tools.dir}/checkstyle/java.header"/>
+      <classpath>
+	<pathelement location="${checkstyle.jar.path}"/>
+      </classpath>
+      <arg value="-c"/>
+      <arg value="${argo.tools.dir}/checkstyle/checkstyle_argouml.xml"/>
+      <arg value="-r"/>
+      <arg value="${source.dir}"/>
+    </java>
+  </target>
+
   <target name="checkstyle-cond">
     <available file="${source.dir}" type="dir" property="directory.exists"/>
     <antcall target="checkstyle-cond2">
