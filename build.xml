@@ -99,27 +99,51 @@
 
   <target name="report:documentation" depends="init-result"
           description="generate the documentation">
-    <ant dir="${argouml.documentation.dir}" target="docs" inheritAll="false">
-      <property name="argo.root.dir" value="${argouml.dir}"/>
-    </ant>
-    <!-- Special patching to reduce the size of the diff -->
-    <exec dir="${argouml.dir}/build/documentation/defaulthtml"
-          executable="sh"
-          failonerror="true">
-      <arg value="-c"/>
-      <arg value='for i in */*.html; do mv $i $i.orig &amp;&amp; sed &apos;s/\(name="[^"]*"\|href="[^"#]*#[^"#]*"\)/\n    &amp;\n/g&apos; $i.orig > $i &amp;&amp; rm $i.orig; done'/>
-    </exec>
-
-    <!-- Special patching to reduce the size of the diff -->
-    <exec dir="${argouml.dir}/build/documentation/printablehtml"
-          executable="sh"
-          failonerror="true">
-      <arg value="-c"/>
-      <arg value='for i in */*.html; do mv $i $i.orig &amp;&amp; sed &apos;s/\(name="[^"]*"\|href="[^"#]*#[^"#]*"\)/\n    &amp;\n/g&apos; $i.orig > $i &amp;&amp; rm $i.orig; done'/>
-    </exec>
+    <antcall target="one-documentation">
+      <param name="documentation.dir" value="${argouml.documentation.dir}"/>
+      <param name="build.result.dir"
+             value="${argouml.dir}/build/documentation"/>
+    </antcall>
 
     <delete dir="${result.dir}/documentation"/>
     <move todir="${result.dir}" file="${argouml.dir}/build/documentation"/>
   </target>
+
+  <target name="report:documentation-es" depends="init-result"
+          description="generate the Spanish documentation">
+    <antcall target="one-documentation">
+      <param name="documentation.dir"
+             value="${working.dir}/argouml-es/documentation"/>
+      <param name="build.result.dir"
+             value="${working.dir}/argouml-es/build/documentation"/>
+    </antcall>
+
+    <delete dir="${result.dir}/documentation-es"/>
+    <move todir="${result.dir}/documentation-es"
+          file="${working.dir}/argouml-es/build/documentation"/>
+  </target>
+
+  <target name="one-documentation">
+    <ant dir="${documentation.dir}" target="docs" inheritAll="false">
+      <property name="argo.root.dir" value="${argouml.dir}"/>
+    </ant>
+    <!-- Special patching to reduce the size of the diff -->
+    <exec dir="${build.result.dir}/defaulthtml"
+          executable="sh"
+          failonerror="true">
+      <arg value="-c"/>
+      <arg value='for i in */*.html; do mv $i $i.orig &amp;&amp; sed &apos;s/\(name="[^"]*"\|href="[^"#]*#[^"#]*"\)/\n    &amp;\n/g&apos; $i.orig > $i &amp;&amp; rm $i.orig; done'/>
+    </exec>
+
+    <!-- Special patching to reduce the size of the diff -->
+    <exec dir="${build.result.dir}/printablehtml"
+          executable="sh"
+          failonerror="true">
+      <arg value="-c"/>
+      <arg value='for i in */*.html; do mv $i $i.orig &amp;&amp; sed &apos;s/\(name="[^"]*"\|href="[^"#]*#[^"#]*"\)/\n    &amp;\n/g&apos; $i.orig > $i &amp;&amp; rm $i.orig; done'/>
+    </exec>
+  </target>
+
+
 
 </project>
