@@ -111,6 +111,7 @@
 
   <target name="report:documentation-es" depends="init-result"
           description="generate the Spanish documentation">
+
     <antcall target="one-documentation">
       <param name="documentation.dir"
              value="${working.dir}/argouml-es/documentation"/>
@@ -119,8 +120,13 @@
     </antcall>
 
     <delete dir="${result.dir}/documentation-es"/>
+    <mkdir  dir="${result.dir}/documentation-es"/>
     <move todir="${result.dir}/documentation-es"
-          file="${working.dir}/argouml-es/build/documentation"/>
+          file="${working.dir}/argouml-es/build/documentation/defaulthtml"/>
+    <move todir="${result.dir}/documentation-es"
+          file="${working.dir}/argouml-es/build/documentation/printablehtml"/>
+    <move todir="${result.dir}/documentation-es"
+          file="${working.dir}/argouml-es/build/documentation/pdf"/>
   </target>
 
   <target name="one-documentation">
