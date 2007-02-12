@@ -143,6 +143,18 @@ fi
   time svn commit -m"Commiting result from report:documentation for $REVISIONS"
 )
 
+if ./build.sh report:documentation-es -l argouml-stats/www/documentation-es/output.txt
+then
+  ./copy-add.sh documentation-es documentation-es/defaulthtml documentation-es/printablehtml documentation-es/pdf
+  echo `date +"%b %d %H:%M"`: java1.4 documentation-es built >> $LOG
+else
+  echo `date +"%b %d %H:%M"`: java1.4 documentation-es FAILED >> $LOG
+fi
+(
+  cd argouml-stats/www/documentation-es &&
+  time svn commit -m"Commiting result from report:documentation-es for $REVISIONS"
+)
+
 
 
 # Do things for java5.
