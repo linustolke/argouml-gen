@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 # $Id$
 
 # This is the script that is run by crontab on Linus' Linux host closettop
@@ -26,156 +26,55 @@ REVISIONS=`
   done
 )`
 
-
 ( cd argouml-stats && svn update ) || exit 1
-
 LOG=argouml-stats/www/closettop.log
 
+function onetarget() {
+    target=$1
+    echo "$(date) $target started..."
+    shift
+    if ./build.sh report:$target -l $PRESENTED/$target/output.txt
+    then
+      ./copy-add.sh $SHORTPRES $*
+      echo `date +"%b %d %H:%M"`: $JAVA_NAME $target updated >> $LOG
+    else
+      echo `date +"%b %d %H:%M"`: $JAVA_NAME $target FAILED >> $LOG
+    fi
+    (
+      cd $PRESENTED/$target &&
+      svn commit -m"Committing result from $JAVA_NAME $target for $REVISIONS"
+    )
+    echo "$(date) $target...........done."
+}
 
+# Starting the reports.
 
 # Do things for java5.
 
 JAVA_HOME=/usr/local/lib/java/jdk1.5.0_06
 export JAVA_HOME
 JAVA_NAME=java5
-PRESENTED=argouml-stats/www/reports-$JAVA_NAME
-
-
-# Starting the reports.
+SHORTPRES=reports-$JAVA_NAME
+PRESENTED=argouml-stats/www/$SHORTPRES
 
 ./build.sh clean || exit 1
+onetarget jdepend	reports/jdepend
+onetarget javadocs 	reports/javadocs reports/javadocs-api
+onetarget findbugs 	reports/findbugs
+onetarget i18ncomparison 	reports/i18ncomparison
+./build.sh clean
+onetarget checkstyle	reports/checkstyle
+onetarget junit		reports/junit
+onetarget cpp-junit	reports/cpp-junit
 
-statusfile=$PRESENTED/jdepend/status.txt
-LABEL="$JAVA_NAME report:jdepend"
-rm $statusfile
-if ./build.sh report:jdepend -l $PRESENTED/jdepend/output.txt
-then
-  ./copy-add.sh reports-java5 reports/jdepend
-  echo Succeeded at `date +"%b %d %H:%M"` > $statusfile
-  echo `date +"%b %d %H:%M"`: $LABEL updated >> $LOG
-else
-  echo Failed at `date +"%b %d %H:%M"` > $statusfile
-  echo `date +"%b %d %H:%M"`: $LABEL FAILED >> $LOG
-fi
-(
-  cd argouml-stats/www/reports-java5 &&
-  svn commit -m"Committing result from $LABEL for $REVISIONS"
-)
+# Building documentation
+PRESENTED=argouml-stats/www
 
+SHORTPRES=documentation
+onetarget documentation documentation/defaulthtml documentation/printablehtml documentation/pdf
 
-statusfile=$PRESENTED/javadocs/status.txt
-LABEL="$JAVA_NAME report:javadocs"
-rm $statusfile
-if ./build.sh report:javadocs -l $PRESENTED/javadocs/output.txt
-then
-  ./copy-add.sh reports-java5 reports/javadocs reports/javadocs-api
-  echo Succeeded at `date +"%b %d %H:%M"` > $statusfile
-  echo `date +"%b %d %H:%M"`: $LABEL built >> $LOG
-else
-  echo Failed at `date +"%b %d %H:%M"` > $statusfile
-  echo `date +"%b %d %H:%M"`: $LABEL FAILED >> $LOG
-fi
-(
-  cd argouml-stats/www/reports &&
-  svn commit -m"Committing result from $LABEL for $REVISIONS"
-)
-
-LABEL="$JAVA_NAME report:findbugs"
-if ./build.sh report:findbugs
-then
-  ./copy-add.sh reports-java5 reports/findbugs
-  echo `date +"%b %d %H:%M"`: $LABEL updated >> $LOG
-else
-  echo `date +"%b %d %H:%M"`: $LABEL FAILED >> $LOG
-fi
-
-LABEL="$JAVA_NAME report:i18ncomparison"
-if ./build.sh report:i18ncomparison
-then
-  ./copy-add.sh reports-java5 reports/i18ncomparison
-  echo `date +"%b %d %H:%M"`: $LABEL updated >> $LOG
-else
-  echo `date +"%b %d %H:%M"`: $LABEL FAILED >> $LOG
-fi
-
-./build.sh clean || exit 1
-
-LABEL="$JAVA_NAME report:checkstyle"
-if ./build.sh report:checkstyle
-then
-  ./copy-add.sh reports-java5 reports/checkstyle
-  echo `date +"%b %d %H:%M"`: $LABEL updated >> $LOG
-else
-  echo `date +"%b %d %H:%M"`: $LABEL FAILED >> $LOG
-fi
-(
-  cd argouml-stats/www/reports-java5 &&
-  svn commit -m"Committing result from report:checkstyle, report:findbugs, and report:i18ncomparison, java5, for $REVISIONS"
-)
-
-LABEL="$JAVA_NAME report:documentation"
-if ./build.sh report:documentation -l argouml-stats/www/documentation/output.txt
-then
-  ./copy-add.sh documentation documentation/defaulthtml documentation/printablehtml documentation/pdf
-  echo `date +"%b %d %H:%M"`: $LABEL built >> $LOG
-else
-  echo `date +"%b %d %H:%M"`: $LABEL FAILED >> $LOG
-fi
-(
-  cd argouml-stats/www/documentation &&
-  svn commit -m"Committing result from $LABEL for $REVISIONS"
-)
-
-LABEL="$JAVA_NAME report:documentation-es"
-if ./build.sh report:documentation-es -l argouml-stats/www/documentation-es/output.txt
-then
-  ./copy-add.sh documentation-es documentation-es/defaulthtml documentation-es/printablehtml documentation-es/pdf
-  echo `date +"%b %d %H:%M"`: $LABEL built >> $LOG
-else
-  echo `date +"%b %d %H:%M"`: $LABEL FAILED >> $LOG
-fi
-(
-  cd argouml-stats/www/documentation-es &&
-  svn commit -m"Committing result from $LABEL for $REVISIONS"
-)
-
-
-
-statusfile=$PRESENTED/junit/status.txt
-LABEL="$JAVA_NAME report:junit"
-rm $statusfile
-if ./build.sh report:junit -l $PRESENTED/junit/output.txt
-then
-  ./copy-add.sh reports-java5 reports/junit
-  echo Succeeded at `date +"%b %d %H:%M"` > $statusfile
-  echo `date +"%b %d %H:%M"`: $LABEL succeeded >> $LOG
-else
-  echo Failed at `date +"%b %d %H:%M"` > $statusfile
-  echo `date +"%b %d %H:%M"`: $LABEL FAILED >> $LOG
-fi
-(
-  cd argouml-stats/www/reports-java5 &&
-  svn commit -m"Committing result from $LABEL for $REVISIONS"
-)
-
-statusfile=$PRESENTED/cpp-junit/status.txt
-LABEL="$JAVA_NAME report:cpp-junit"
-rm $statusfile
-if ./build.sh report:cpp-junit -l $PRESENTED/cpp-junit/output.txt
-then
-  ./copy-add.sh reports-java5 reports/cpp-junit
-  echo Succeeded at `date +"%b %d %H:%M"` > $statusfile
-  echo `date +"%b %d %H:%M"`: $LABEL succeeded  >> $LOG
-else
-  echo Failed at `date +"%b %d %H:%M"` > $statusfile
-  echo `date +"%b %d %H:%M"`: $LABEL FAILED >> $LOG
-fi
-(
-  cd argouml-stats/www/reports-java5 &&
-  svn commit -m"Committing result from $LABEL for $REVISIONS"
-)
-
-
+SHORTPRES=documentation-es
+onetarget documentation-es documentation-es/defaulthtml documentation-es/printablehtml documentation-es/pdf
 
 ./create-index.sh > argouml-stats/www/index.html
 (
