@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# This is a list of all project for which we do nightly things:
 PROJECTS="argouml \
               argouml-cpp \
               argouml-de argouml-en-gb argouml-es \
@@ -9,11 +10,11 @@ PROJECTS="argouml \
               argouml-ro argouml-ru \
 	      argouml-sv"
 
+
 (
   cd tmp
   for proj in $PROJECTS
   do
-    time svn co http://$proj.tigris.org/svn/$proj/trunk $proj
+    svn co http://$proj.tigris.org/svn/$proj/trunk $proj
   done
 )
-
