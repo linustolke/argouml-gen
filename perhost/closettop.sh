@@ -26,7 +26,9 @@ REVISIONS=`
   done
 )`
 
-( cd argouml-stats && svn update ) || exit 1
+(
+  cd argouml-stats &&
+  svn update || sleep 10 && svn update ) || exit 1
 LOG=argouml-stats/www/closettop.log
 
 function onetarget() {
@@ -42,7 +44,10 @@ function onetarget() {
     fi
     (
       cd $PRESENTED/$target &&
+      svn commit -m"Committing result from $JAVA_NAME $target for $REVISIONS" ||
+      sleep 10 &&
       svn commit -m"Committing result from $JAVA_NAME $target for $REVISIONS"
+
     )
     echo "$(date) $target...........done."
 }
@@ -79,5 +84,8 @@ onetarget documentation-es documentation-es/defaulthtml documentation-es/printab
 ./create-index.sh > argouml-stats/www/index.html
 (
   cd argouml-stats/www &&
-  svn commit -m"Committing all the rest for $REVISIONS"
+  svn commit -m"Committing all the rest for $REVISIONS" ||
+  sleep 10 && svn commit -m"Committing all the rest for $REVISIONS (second attempt)" ||
+  sleep 100 && svn commit -m"Committing all the rest for $REVISIONS (third attempt)" ||
+  sleep 200 && svn commit -m"Committing all the rest for $REVISIONS (fourth attempt)"
 )
