@@ -50,8 +50,8 @@
     <delete dir="${result.dir}"/>
   </target>
   
-  <target name="report:jcoverage" depends="init-reports" description="generate jcoverage reports">
-    <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:jcoverage"/>
+  <target name="report:coverage" depends="init-reports" description="generate coverage reports">
+    <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:coverage"/>
   </target>
 
   <target name="report:jdepend" depends="init-reports" description="generate jdepend reports">

@@ -23,17 +23,18 @@
   <!-- ###################################################################
        # coverage reports
   -->
-  <property name="build.jcoverage.dir"
-            location="${build.reports.dir}/jcoverage"/>
-  <!-- <property name="build.jcoverage.xml.dir"
-                 location="${build.reports.dir}/jcoverage-xml"/>
+  <property name="build.coverage.dir"
+            location="${build.reports.dir}/coverage"/>
+  <!-- <property name="build.coverage.xml.dir"
+                 location="${build.reports.dir}/coverage-xml"/>
     -->
   
+  <!-- TODO: Is this property needed? -->
   <property name="instrument-ant.xsl"
             location="${xsl.dir}/instrument-ant.xsl"/>
 
-  <target name="instrument" description="Add jcoverage instrumentation">
-    <delete file="jcoverage.ser"/>
+  <target name="instrument" description="Add coverage instrumentation">
+    <delete file="cobertura.ser"/>
 
     <property name="model.build.dir"
               location="${argo.root.dir}/src/model/build"/>
@@ -41,48 +42,48 @@
               location="${argo.root.dir}/src/model-mdr/build"/>
 
     <delete>
-      <fileset dir="${argo-gen.jcoverage.instrumented.classes}"
+      <fileset dir="${argo-gen.coverage.instrumented.classes}"
                includes="**/*.class"/>
       <fileset dir="${model.build.dir}/instrumented-classes"/>
       <fileset dir="${model-mdr.build.dir}/instrumented-classes"
                includes="**/*.class"/>
     </delete>
 
-    <instrument todir="${model.build.dir}/instrumented-classes">
+    <cobertura-instrument todir="${model.build.dir}/instrumented-classes">
       <ignore regex="org.apache.log4j.*"/>
       <fileset dir="${model.build.dir}/classes">
         <include name="**/*.class"/>
       </fileset>
-    </instrument>
-    <move file="jcoverage.ser" toFile="jcoverage.ser.model"/>
+    </cobertura-instrument>
+    <move file="cobertura.ser" toFile="cobertura.ser.model"/>
 
-    <instrument todir="${model-mdr.build.dir}/instrumented-classes">
+    <cobertura-instrument todir="${model-mdr.build.dir}/instrumented-classes">
       <ignore regex="org.apache.log4j.*"/>
       <fileset dir="${model-mdr.build.dir}/classes">
         <include name="**/*.class"/>
       </fileset>
-    </instrument>
-    <move file="jcoverage.ser" toFile="jcoverage.ser.model-mdr"/>
+    </cobertura-instrument>
+    <move file="cobertura.ser" toFile="cobertura.ser.model-mdr"/>
 
-    <instrument todir="${argo-gen.jcoverage.instrumented.classes}">
+    <cobertura-instrument todir="${argo-gen.coverage.instrumented.classes}">
       <ignore regex="org.apache.log4j.*"/>
       <fileset dir="${argo.build.classes}">
         <include name="**/*.class"/>
       </fileset>
-    </instrument>
-    <move file="jcoverage.ser" toFile="jcoverage.ser.rest"/>
+    </cobertura-instrument>
+    <move file="cobertura.ser" toFile="cobertura.ser.rest"/>
 
-    <merge>
+    <cobertura-merge>
       <fileset dir=".">
-        <include name="jcoverage.ser.model"/>
-        <include name="jcoverage.ser.model-mdr"/>
-        <include name="jcoverage.ser.rest"/>
+        <include name="cobertura.ser.model"/>
+        <include name="cobertura.ser.model-mdr"/>
+        <include name="cobertura.ser.rest"/>
       </fileset>
-    </merge>
+    </cobertura-merge>
 
-    <delete file="jcoverage.ser.model"/>
-    <delete file="jcoverage.ser.model-mdr"/>
-    <delete file="jcoverage.ser.rest"/>
+    <delete file="cobertura.ser.model"/>
+    <delete file="cobertura.ser.model-mdr"/>
+    <delete file="cobertura.ser.rest"/>
 
   </target>
 
@@ -96,10 +97,10 @@
       <sysproperty key="java.awt.headless" value="true"/>
       <sysproperty key="argouml.tests.dir" value="${argo.tests.src}"/>
       <classpath>
-        <path refid="jcoverage"/>
+        <path refid="coverage"/>
         <pathelement location="${argo.root.dir}/src/model/build/instrumented-classes"/>
         <pathelement location="${argo.root.dir}/src/model-mdr/build/instrumented-classes"/>
-        <pathelement location="${argo-gen.jcoverage.instrumented.classes}"/>
+        <pathelement location="${argo-gen.coverage.instrumented.classes}"/>
 	<!-- <pathelement location="${argo.build.classes}"/> -->
         <pathelement location="${argo.tests.classes}"/>
         <path refid="argo.runtime.classpath"/>
@@ -116,60 +117,45 @@
   </target>
 
 
-  <target name="report:jcoverage"
+  <target name="report:coverage"
           depends="init-reports,instrument,coverage-test">
     <description>instrument and unit test</description>
 
-    <report destdir="${build.jcoverage.dir}">
+    <report destdir="${build.coverage.dir}">
       <src location="${argo.src.dir}"/>
       <src location="${argo.root.dir}/src/model/src"/>
       <src location="${argo.root.dir}/src/model-mdr/src"/>
     </report>
 
-    <!-- <report srcdir="${argo.src.dir}" destdir="${build.jcoverage.xml.dir}" format="xml"/> -->
+    <!-- <report srcdir="${argo.src.dir}" destdir="${build.coverage.xml.dir}" format="xml"/> -->
 
-    <exec executable="sed" input="argouml.log" output="${build.jcoverage.dir}/argouml.log">
+    <exec executable="sed" input="argouml.log" output="${build.coverage.dir}/argouml.log">
       <arg value="s/^20[0-9][0-9]-[01][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9]:[0-5][0-9],[0-9][0-9][0-9] //"/>
     </exec>
     <delete file="argouml.log"/>
-    <!-- <move file="argouml.log" todir="${build.jcoverage.dir}"/> -->
+    <!-- <move file="argouml.log" todir="${build.coverage.dir}"/> -->
 
-    <delete dir="${build.reports.dir}/junit-result-jcoverage"/>
-    <mkdir dir="${build.reports.dir}/junit-result-jcoverage"/>
-    <move todir="${build.reports.dir}/junit-result-jcoverage">
+    <delete dir="${build.reports.dir}/junit-result-coverage"/>
+    <mkdir dir="${build.reports.dir}/junit-result-coverage"/>
+    <move todir="${build.reports.dir}/junit-result-coverage">
       <fileset dir="${argo.tests.reports}/junit/output/html"/>
     </move>
 
     <echo>
-jcoverage reports have been generated.
-The HTML report is ${build.jcoverage.dir}/index.html
+coverage reports have been generated.
+The HTML report is ${build.coverage.dir}/index.html
     </echo>
   </target>
 
 
-  <path id="jcoverage">
-    <fileset dir="${jcoverage.dir}">
-      <include name="**/jcoverage.jar"/>
-    </fileset>
-
-    <fileset dir="${jcoverage-patch.dir}">
-      <include name="**/jcovextras.jar"/>
+  <path id="cobertura.classpath">
+    <fileset dir="${cobertura.dir}">
+      <include name="cobertura.jar"/>
+      <include name="lib/**/*.jar"/>
     </fileset>
   </path>
 
-  <taskdef classpathref="jcoverage" resource="tasks.properties"/>
-
-  <taskdef resource="tasks.properties">
-    <classpath>
-      <fileset dir="${jcoverage.dir}">
-        <include name="**/jcoverage.jar"/>
-      </fileset>
-
-      <fileset dir="${jcoverage-patch.dir}">
-        <include name="**/jcovextras.jar"/>
-      </fileset>
-    </classpath>
-  </taskdef>
+  <taskdef classpathref="cobertura.classpath" resource="tasks.properties"/>
 
 
   <!-- ################################################################### 
@@ -403,7 +389,7 @@ because they are generated.
     <echo>${build.reports.dir}</echo>
     <delete quiet="true" includeEmptyDirs="true">
       <fileset dir="${build.reports.dir}"/>
-      <fileset dir="${argo-gen.jcoverage.instrumented.classes}"/>
+      <fileset dir="${argo-gen.coverage.instrumented.classes}"/>
       <fileset dir="${argo.root.dir}">
         <include name="jcoverage.ser"/>
         <include name="jcoverage.log"/>
@@ -415,14 +401,14 @@ because they are generated.
           description="create build directories">
     <ant target="compile" inheritall="false"/>
 
-    <mkdir dir="${build.jcoverage.dir}"/>
-    <!-- <mkdir dir="${build.jcoverage.xml.dir}"/> -->
-    <mkdir dir="${argo-gen.jcoverage.instrumented.classes}"/>
+    <mkdir dir="${build.coverage.dir}"/>
+    <!-- <mkdir dir="${build.coverage.xml.dir}"/> -->
+    <mkdir dir="${argo-gen.coverage.instrumented.classes}"/>
     <mkdir dir="${argo.root.dir}/src/model/build/instrumented-classes"/>
     <mkdir dir="${argo.root.dir}/src/model-mdr/build/instrumented-classes"/>
 
     <!-- Now copy all none class stuff. -->
-    <copy todir="${argo-gen.jcoverage.instrumented.classes}">
+    <copy todir="${argo-gen.coverage.instrumented.classes}">
       <fileset dir="${argo.build.classes}">
         <exclude name="**/*.class"/>
       </fileset>
