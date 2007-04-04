@@ -32,11 +32,12 @@ shift
 
 for arg in $*
 do
+    whereto=argouml-stats/www/$target/`basename $arg`
     echo Copying $arg
-    cp -r tmp/RESULT/$arg `dirname argouml-stats/www/$target/\`basename $arg\``
+    cp -r tmp/RESULT/$arg `dirname $whereto`
 
     echo Adding new files for $arg
-    ( cd argouml-stats/www/$target/`basename $arg` &&
+    ( cd $whereto &&
       svn status | while read type path
       do
           case "$type" in
