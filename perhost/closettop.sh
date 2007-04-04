@@ -31,7 +31,7 @@ REVISIONS=`
   svn update || sleep 10 && svn update ) || exit 1
 LOG=argouml-stats/www/closettop.log
 
-function onetarget() {
+function DO_ONE_TARGET() {
     target=$1
     echo "$(date) $target started..."
     shift
@@ -63,23 +63,27 @@ SHORTPRES=reports-$JAVA_NAME
 PRESENTED=argouml-stats/www/$SHORTPRES
 
 ./build.sh clean || exit 1
-onetarget jdepend	reports/jdepend
-onetarget javadocs 	reports/javadocs reports/javadocs-api
-onetarget findbugs 	reports/findbugs
-onetarget i18ncomparison 	reports/i18ncomparison
+DO_ONE_TARGET jdepend	reports/jdepend
+DO_ONE_TARGET javadocs 	reports/javadocs reports/javadocs-api
+( cd $PRESENTED/javadocs-api &&
+  svn commit -m"Committing result from $JAVA_NAME javadocs-api for $REVISIONS"
+)
+
+DO_ONE_TARGET findbugs	 	reports/findbugs
+DO_ONE_TARGET i18ncomparison 	reports/i18ncomparison
 ./build.sh clean
-onetarget checkstyle	reports/checkstyle
-onetarget junit		reports/junit
-onetarget cpp-junit	reports/cpp-junit
+DO_ONE_TARGET checkstyle	reports/checkstyle
+DO_ONE_TARGET junit		reports/junit
+DO_ONE_TARGET cpp-junit		reports/cpp-junit
 
 # Building documentation
 PRESENTED=argouml-stats/www
 
 SHORTPRES=documentation
-onetarget documentation documentation/defaulthtml documentation/printablehtml documentation/pdf
+DO_ONE_TARGET documentation documentation/defaulthtml documentation/printablehtml documentation/pdf
 
 SHORTPRES=documentation-es
-onetarget documentation-es documentation-es/defaulthtml documentation-es/printablehtml documentation-es/pdf
+DO_ONE_TARGET documentation-es documentation-es/defaulthtml documentation-es/printablehtml documentation-es/pdf
 
 ./create-index.sh > argouml-stats/www/index.html
 (
