@@ -85,6 +85,9 @@ DO_ONE_TARGET documentation documentation/defaulthtml documentation/printablehtm
 SHORTPRES=documentation-es
 DO_ONE_TARGET documentation-es documentation-es/defaulthtml documentation-es/printablehtml documentation-es/pdf
 
+SHORTPRES=documentation-de
+DO_ONE_TARGET documentation-de documentation-de/defaulthtml documentation-de/printablehtml documentation-de/pdf
+
 ./create-index.sh > argouml-stats/www/index.html
 (
   cd argouml-stats/www &&

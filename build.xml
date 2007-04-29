@@ -129,6 +129,26 @@
           file="${working.dir}/argouml-es/build/documentation/pdf"/>
   </target>
 
+  <target name="report:documentation-de" depends="init-result"
+          description="generate the German documentation">
+
+    <antcall target="one-documentation">
+      <param name="documentation.dir"
+             value="${working.dir}/argouml-de/documentation"/>
+      <param name="build.result.dir"
+             value="${working.dir}/argouml-de/build/documentation"/>
+    </antcall>
+
+    <delete dir="${result.dir}/documentation-de"/>
+    <mkdir  dir="${result.dir}/documentation-de"/>
+    <move todir="${result.dir}/documentation-de"
+          file="${working.dir}/argouml-de/build/documentation/defaulthtml"/>
+    <move todir="${result.dir}/documentation-de"
+          file="${working.dir}/argouml-de/build/documentation/printablehtml"/>
+    <move todir="${result.dir}/documentation-de"
+          file="${working.dir}/argouml-de/build/documentation/pdf"/>
+  </target>
+
   <target name="one-documentation">
     <ant dir="${documentation.dir}" target="docs" inheritAll="false">
       <property name="argo.root.dir" value="${argouml.dir}"/>
