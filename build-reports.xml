@@ -148,14 +148,14 @@ The HTML report is ${build.coverage.dir}/index.html
   </target>
 
 
-  <path id="cobertura.classpath">
+  <path id="coverage">
     <fileset dir="${cobertura.dir}">
       <include name="cobertura.jar"/>
       <include name="lib/**/*.jar"/>
     </fileset>
   </path>
 
-  <taskdef classpathref="cobertura.classpath" resource="tasks.properties"/>
+  <taskdef classpathref="coverage" resource="tasks.properties"/>
 
 
   <!-- ################################################################### 
