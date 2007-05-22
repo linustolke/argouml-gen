@@ -121,11 +121,11 @@
           depends="init-reports,instrument,coverage-test">
     <description>instrument and unit test</description>
 
-    <report destdir="${build.coverage.dir}">
-      <src location="${argo.src.dir}"/>
-      <src location="${argo.root.dir}/src/model/src"/>
-      <src location="${argo.root.dir}/src/model-mdr/src"/>
-    </report>
+    <cobertura-report destdir="${build.coverage.dir}">
+      <fileset dir="${argo.src.dir}"/>
+      <fileset dir="${argo.root.dir}/src/model/src"/>
+      <fileset dir="${argo.root.dir}/src/model-mdr/src"/>
+    </cobertura-report>
 
     <!-- <report srcdir="${argo.src.dir}" destdir="${build.coverage.xml.dir}" format="xml"/> -->
 
