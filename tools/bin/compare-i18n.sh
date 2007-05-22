@@ -97,7 +97,7 @@ do
     echo -n '<LI><A HREF="#files-'`tolang $lang`'">'`tolang $lang`' '
     echo -n $(comm -23 $WORKINGDIR/files-correct $WORKINGDIR/files-`tolang $lang` | wc -l)
     echo '</A>'
-done | sort +2n
+done | sort -k 3 -n
 echo '</OL>'
 
 echo '<H1>Toplist least extra files</H1>'
@@ -107,7 +107,7 @@ do
     echo -n '<LI><A HREF="#files-'`tolang $lang`'">'`tolang $lang`' '
     echo -n $(comm -13 $WORKINGDIR/files-correct $WORKINGDIR/files-`tolang $lang` | wc -l)
     echo '</A>'
-done | sort +2n
+done | sort -k 3 -n
 echo '</OL>'
 
 echo '<H1>Toplist least missing tags</H1>'
@@ -117,7 +117,7 @@ do
     echo -n '<LI><A HREF="#tags-'`tolang $lang`'">'`tolang $lang`' '
     echo -n $(comm -23 $WORKINGDIR/tags-correct $WORKINGDIR/tags-`tolang $lang` | wc -l)
     echo '</A>'
-done | sort +2n
+done | sort -k 3 -n
 echo '</OL>'
 
 echo '<H1>Toplist least extra tags</H1>'
@@ -127,7 +127,7 @@ do
     echo -n '<LI><A HREF="#tags-'`tolang $lang`'">'`tolang $lang`' '
     echo -n $(comm -13 $WORKINGDIR/tags-correct $WORKINGDIR/tags-`tolang $lang` | wc -l)
     echo '</A>'
-done | sort +2n
+done | sort -k 3 -n
 echo '</OL>'
 
 echo '<H1>List of incorrect files</H1>'
