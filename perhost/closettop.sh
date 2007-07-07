@@ -75,6 +75,7 @@ DO_ONE_TARGET i18ncomparison 	reports/i18ncomparison
 DO_ONE_TARGET checkstyle	reports/checkstyle
 DO_ONE_TARGET junit		reports/junit
 DO_ONE_TARGET cpp-junit		reports/cpp-junit
+DO_ONE_TARGET coverage          reports/coverage
 
 # Building documentation
 PRESENTED=argouml-stats/www

@@ -118,32 +118,36 @@
 
 
   <target name="report:coverage"
-          depends="init-reports,instrument,coverage-test">
+          depends="init-reports" description=",instrument,coverage-test">
     <description>instrument and unit test</description>
 
-    <cobertura-report destdir="${build.coverage.dir}">
+    <delete dir="${build.coverage.dir}"/>
+    <mkdir dir="${build.coverage.dir}"/>
+
+    <cobertura-report destdir="${build.coverage.dir}/coverage">
       <fileset dir="${argo.src.dir}"/>
       <fileset dir="${argo.root.dir}/src/model/src"/>
       <fileset dir="${argo.root.dir}/src/model-mdr/src"/>
     </cobertura-report>
 
-    <!-- <report srcdir="${argo.src.dir}" destdir="${build.coverage.xml.dir}" format="xml"/> -->
-
     <exec executable="sed" input="argouml.log" output="${build.coverage.dir}/argouml.log">
       <arg value="s/^20[0-9][0-9]-[01][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9]:[0-5][0-9],[0-9][0-9][0-9] //"/>
     </exec>
     <delete file="argouml.log"/>
-    <!-- <move file="argouml.log" todir="${build.coverage.dir}"/> -->
 
-    <delete dir="${build.reports.dir}/junit-result-coverage"/>
-    <mkdir dir="${build.reports.dir}/junit-result-coverage"/>
-    <move todir="${build.reports.dir}/junit-result-coverage">
+    <mkdir dir="${build.coverage.dir}/junit"/>
+    <move todir="${build.coverage.dir}/junit">
       <fileset dir="${argo.tests.reports}/junit/output/html"/>
     </move>
 
+    <echo file="${build.coverage.dir}/index.html">
+&lt;a href="coverage/index.html"&gt;Coverage result&lt;/a&gt; &lt;br&gt;
+&lt;a href="junit/index.html"&gt;JUnit tests result&lt;/a&gt;
+    </echo>
+
     <echo>
 coverage reports have been generated.
-The HTML report is ${build.coverage.dir}/index.html
+The report is ${build.coverage.dir}/index.html
     </echo>
   </target>
 
