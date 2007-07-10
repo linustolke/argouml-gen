@@ -28,8 +28,26 @@ REVISIONS=`
 
 (
   cd argouml-stats &&
-  svn update || sleep 10 && svn update ) || exit 1
+  svn update || sleep 10 && svn update
+) || exit 1
+
 LOG=argouml-stats/www/closettop.log
+
+function COMMIT() {
+  message=$1
+  svn commit -m"$message
+Corresponding to $REVISIONS." ||
+  sleep 10 && svn commit -m"$message
+Corresponding to $REVISIONS.
+Second attempt to commit." ||
+  sleep 100 && svn commit -m"$message
+Corresponding to $REVISIONS.
+Third attempt to commit." ||
+  sleep 200 && svn commit -m"$message
+Corresponding to $REVISIONS.
+Fourth attempt to commit." ||
+  echo ERROR: $(date): Four commit attempts failed in $(pwd) with message $message. Giving up.
+}
 
 function DO_ONE_TARGET() {
     target=$1
@@ -44,15 +62,13 @@ function DO_ONE_TARGET() {
     fi
     (
       cd $PRESENTED/$target &&
-      svn commit -m"Committing result from $JAVA_NAME $target for $REVISIONS" ||
-      sleep 10 &&
-      svn commit -m"Committing result from $JAVA_NAME $target for $REVISIONS"
-
+      COMMIT "Committing result from $JAVA_NAME $target"
     )
     echo "$(date) $target...........done."
 }
 
 # Starting the reports.
+
 
 # Do things for java5.
 
@@ -65,8 +81,9 @@ PRESENTED=argouml-stats/www/$SHORTPRES
 ./build.sh clean || exit 1
 DO_ONE_TARGET jdepend	reports/jdepend
 DO_ONE_TARGET javadocs 	reports/javadocs reports/javadocs-api
-( cd $PRESENTED/javadocs-api &&
-  svn commit -m"Committing result from $JAVA_NAME javadocs-api for $REVISIONS"
+(
+  cd $PRESENTED/javadocs-api &&
+  COMMIT "Committing result from $JAVA_NAME javadocs-api"
 )
 
 DO_ONE_TARGET findbugs	 	reports/findbugs
@@ -76,6 +93,57 @@ DO_ONE_TARGET checkstyle	reports/checkstyle
 DO_ONE_TARGET junit		reports/junit
 DO_ONE_TARGET cpp-junit		reports/cpp-junit
 DO_ONE_TARGET coverage          reports/coverage
+(
+  cd $PRESENTED/coverage/coverage &&
+  COMMIT "Committing extra split coverage"
+)
+(
+  cd $PRESENTED/coverage/junit &&
+  COMMIT "Committing extra split coverage"
+)
+(
+  cd $PRESENTED/coverage &&
+  COMMIT "Committing extra coverage"
+)
+
+./build.sh clean
+
+
+# Do things for java6
+
+JAVA_HOME=/usr/local/lib/java/jdk1.6.0
+export JAVA_HOME
+JAVA_NAME=java6
+SHORTPRES=reports-$JAVA_NAME
+PRESENTED=argouml-stats/www/$SHORTPRES
+
+./build.sh clean
+DO_ONE_TARGET javadocs 	reports/javadocs reports/javadocs-api
+(
+  cd $PRESENTED/javadocs-api &&
+  COMMIT "Committing result from $JAVA_NAME javadocs-api"
+)
+
+./build.sh clean
+DO_ONE_TARGET checkstyle	reports/checkstyle
+DO_ONE_TARGET junit		reports/junit
+DO_ONE_TARGET cpp-junit		reports/cpp-junit
+DO_ONE_TARGET coverage          reports/coverage
+(
+  cd $PRESENTED/coverage/coverage &&
+  COMMIT "Committing extra split coverage"
+)
+(
+  cd $PRESENTED/coverage/junit &&
+  COMMIT "Committing extra split coverage"
+)
+(
+  cd $PRESENTED/coverage &&
+  COMMIT "Committing extra coverage"
+)
+
+./build.sh clean
+
 
 # Building documentation
 PRESENTED=argouml-stats/www
@@ -92,8 +160,11 @@ DO_ONE_TARGET documentation-de documentation-de/defaulthtml documentation-de/pri
 ./create-index.sh > argouml-stats/www/index.html
 (
   cd argouml-stats/www &&
-  svn commit -m"Committing all the rest for $REVISIONS" ||
-  sleep 10 && svn commit -m"Committing all the rest for $REVISIONS (second attempt)" ||
-  sleep 100 && svn commit -m"Committing all the rest for $REVISIONS (third attempt)" ||
-  sleep 200 && svn commit -m"Committing all the rest for $REVISIONS (fourth attempt)"
+  COMMIT "Committing all the rest"
+)
+
+echo Any files left:
+(
+  cd argouml-stats/www &&
+  svn status
 )
