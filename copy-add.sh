@@ -42,6 +42,12 @@ do
       do
           case "$type" in
           '?') svn add $path
+               case "$path" in
+               *.html | *.css | *.log | *.txt )
+                   svn propset svn:keywords "Author Date Id Revision" $path
+		   svn propset svn:eol-style native $path
+		   ;;
+	       esac
                ;;
           '!') svn rm $path
                ;;
