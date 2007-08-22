@@ -333,9 +333,8 @@ because they are generated.
   -->
   <property name="report.junit.dir" location="${build.reports.dir}/junit"/>
   
-  <target name="report:junit" depends="init-reports"
+  <target name="report:junit" depends="init-reports,tests-dont-fail"
           description="create junit reports">
-    <ant target="tests-dont-fail" inheritall="false"/>
     <antcall target="junit-report-mail"/>
 
     <delete dir="${report.junit.dir}"/>
