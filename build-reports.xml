@@ -516,7 +516,7 @@ because they are generated.
 
     <mail from="linus@tigris.org"
           tolist="dev@argouml-stats.tigris.org"
-          mailhost="cylon1.sjc.collab.net"
+          mailhost="smtp.vokby.se"
           subject="JUnit tests completed."
           message="The JUnit tests using ${java.home} are completed."
       />
@@ -527,7 +527,7 @@ because they are generated.
 
     <mail from="linus@tigris.org"
           tolist="users@argouml-stats.tigris.org"
-          mailhost="cylon1.sjc.collab.net"
+          mailhost="smtp.vokby.se"
           subject="JUnit tests failed."
           message="There was a JUnit test run using ${java.home} failing."
       />
