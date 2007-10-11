@@ -118,7 +118,7 @@
 
 
   <target name="report:coverage"
-          depends="init-reports" description=",instrument,coverage-test">
+          depends="init-reports,instrument,coverage-test">
     <description>instrument and unit test</description>
 
     <delete dir="${build.coverage.dir}"/>
