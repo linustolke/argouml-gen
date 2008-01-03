@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
     xmlns:lxslt="http://xml.apache.org/xslt"
-    xmlns:redirect="org.apache.xalan.xslt.extensions.Redirect"
+    xmlns:redirect="http://xml.apache.org/xalan/redirect"
     extension-element-prefixes="redirect">
 
 <!--
@@ -303,14 +303,14 @@
                             <xsl:with-param name="details" select="$desc2"/>
                           </xsl:call-template>
                         </xsl:variable>
-                        <xsl:variable name="desc3">
+                        <xsl:variable name="desc4">
                           <xsl:call-template name="processDetailsUl">
                             <xsl:with-param name="details" select="$desc2"/>
                           </xsl:call-template>
                         </xsl:variable>
-                        <xsl:variable name="desc4">
+                        <xsl:variable name="desc5">
                           <xsl:call-template name="processDetailsLi">
-                            <xsl:with-param name="details" select="$desc3"/>
+                            <xsl:with-param name="details" select="$desc4"/>
                           </xsl:call-template>
                         </xsl:variable>
                         <xsl:value-of select="$desc4"/>
