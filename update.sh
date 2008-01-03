@@ -12,6 +12,10 @@ PROJECTS="argouml \
 
 
 (
+  if [ ! -d tmp ]
+  then
+    mkdir tmp
+  fi
   cd tmp
   for proj in $PROJECTS
   do
