@@ -472,18 +472,45 @@ because they are generated.
     <mkdir dir="${report.findbugs.xml.dir}"/>
 
     <findbugs home="${findbugs.dir}" output="xml" outputFile="${findbugs.xml}"
-              conserveSpace="true" timeout="18000000">
+              conserveSpace="true" timeout="18000000"
+              jvmargs="-Xms64M -Xmx256M -verbosegc">
       <class location="${argo.build.dir}/argouml-model.jar" />
-      <class location="${argo.build.dir}/argouml.jar" />
-      <class location="${argo.build.dir}/argouml-mdr.jar" />
       <auxClasspath>
         <fileset dir="${argo.build.dir}">
           <include name="**/*.jar"/>
         </fileset>
       </auxClasspath>
       <sourcePath path="${argo.src.dir}/../src/model/src"/>
-      <sourcePath path="${argo.src.dir}"/>
+      <classpath>
+        <path refid="findbugs.path"/>
+      </classpath>
+    </findbugs>
+
+    <findbugs home="${findbugs.dir}" output="xml" outputFile="${findbugs.xml}"
+              conserveSpace="true" timeout="18000000"
+              jvmargs="-Xms64M -Xmx256M -verbosegc">
+      <class location="${argo.build.dir}/argouml-mdr.jar" />
+      <auxClasspath>
+        <fileset dir="${argo.build.dir}">
+          <include name="**/*.jar"/>
+        </fileset>
+      </auxClasspath>
       <sourcePath path="${argo.src.dir}/../src/model-mdr/src"/>
+      <classpath>
+        <path refid="findbugs.path"/>
+      </classpath>
+    </findbugs>
+
+    <findbugs home="${findbugs.dir}" output="xml" outputFile="${findbugs.xml}"
+              conserveSpace="true" timeout="18000000"
+              jvmargs="-Xms64M -Xmx256M -verbosegc">
+      <class location="${argo.build.dir}/argouml.jar" />
+      <auxClasspath>
+        <fileset dir="${argo.build.dir}">
+          <include name="**/*.jar"/>
+        </fileset>
+      </auxClasspath>
+      <sourcePath path="${argo.src.dir}"/>
       <classpath>
         <path refid="findbugs.path"/>
       </classpath>
