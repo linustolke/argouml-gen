@@ -503,7 +503,7 @@ because they are generated.
 
     <findbugs home="${findbugs.dir}" output="xml" outputFile="${findbugs.xml}"
               conserveSpace="true" timeout="18000000"
-              jvmargs="-Xms64M -Xmx256M -verbosegc">
+              jvmargs="-Xms512M -Xmx512M -verbosegc">
       <class location="${argo.build.dir}/argouml.jar" />
       <auxClasspath>
         <fileset dir="${argo.build.dir}">
