@@ -449,8 +449,6 @@ because they are generated.
             location="${build.reports.dir}/findbugs"/>
   <property name="report.findbugs.xml.dir"
             location="${build.reports.dir}/findbugs-xml"/>
-  <property name="findbugs.xml"
-            location="${report.findbugs.xml.dir}/findbugs.xml"/>
   <property name="findbugs.html"
             location="${report.findbugs.dir}/findbugs_report.html"/>
   <property name="findbugs.txt"
@@ -471,7 +469,18 @@ because they are generated.
 
     <mkdir dir="${report.findbugs.xml.dir}"/>
 
-    <findbugs home="${findbugs.dir}" output="xml" outputFile="${findbugs.xml}"
+    <!-- Prepare for result processing. -->
+    <unzip src="${findbugs.dir}/plugin/coreplugin.jar"
+       dest="${working.dir}">
+        <patternset>
+            <include name="**/messages.xml"/>
+        </patternset>
+    </unzip>
+    <mkdir dir="${report.findbugs.dir}"/>
+
+
+    <findbugs home="${findbugs.dir}" output="xml"
+              outputFile="${report.findbugs.xml.dir}/out-argouml-model.xml"
               conserveSpace="true" timeout="18000000"
               jvmargs="-Xms64M -Xmx256M -verbosegc">
       <class location="${argo.build.dir}/argouml-model.jar" />
@@ -486,7 +495,17 @@ because they are generated.
       </classpath>
     </findbugs>
 
-    <findbugs home="${findbugs.dir}" output="xml" outputFile="${findbugs.xml}"
+    <style basedir="${report.findbugs.xml.dir}"
+           includes="out-argouml-model.xml"
+           destdir="${report.findbugs.dir}/argouml-model"
+           style="${xsl.dir}/findbugs-frames.xsl">
+      <param name="output.dir" expression="${report.findbugs.dir}/argouml-model"/>
+      <param name="messages.xml" expression="${working.dir}/messages.xml"/>
+    </style>
+
+
+    <findbugs home="${findbugs.dir}" output="xml"
+              outputFile="${report.findbugs.xml.dir}/out-argouml-mdr.xml"
               conserveSpace="true" timeout="18000000"
               jvmargs="-Xms64M -Xmx256M -verbosegc">
       <class location="${argo.build.dir}/argouml-mdr.jar" />
@@ -501,7 +520,17 @@ because they are generated.
       </classpath>
     </findbugs>
 
-    <findbugs home="${findbugs.dir}" output="xml" outputFile="${findbugs.xml}"
+    <style basedir="${report.findbugs.xml.dir}"
+           includes="out-argouml-mdr.xml"
+           destdir="${report.findbugs.dir}/argouml-mdr"
+           style="${xsl.dir}/findbugs-frames.xsl">
+      <param name="output.dir" expression="${report.findbugs.dir}/argouml-mdr"/>
+      <param name="messages.xml" expression="${working.dir}/messages.xml"/>
+    </style>
+
+
+    <findbugs home="${findbugs.dir}" output="xml"
+              outputFile="${report.findbugs.xml.dir}/out-argouml.xml"
               conserveSpace="true" timeout="18000000"
               jvmargs="-Xms512M -Xmx512M -verbosegc">
       <class location="${argo.build.dir}/argouml.jar" />
@@ -516,22 +545,14 @@ because they are generated.
       </classpath>
     </findbugs>
 
-    <unzip src="${findbugs.dir}/plugin/coreplugin.jar"
-       dest="${working.dir}">
-        <patternset>
-            <include name="**/messages.xml"/>
-        </patternset>
-    </unzip>
-
-    <mkdir dir="${report.findbugs.dir}"/>
-
     <style basedir="${report.findbugs.xml.dir}"
-           destdir="${report.findbugs.dir}"
+           includes="out-argouml.xml"
+           destdir="${report.findbugs.dir}/argouml"
            style="${xsl.dir}/findbugs-frames.xsl">
-      <param name="output.dir" expression="${report.findbugs.dir}"/>
+      <param name="output.dir" expression="${report.findbugs.dir}/argouml"/>
       <param name="messages.xml" expression="${working.dir}/messages.xml"/>
     </style>
-  
+
   </target>
 
 
