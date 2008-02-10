@@ -10,13 +10,12 @@
   <description>
         Build some targets in another project and save results to CVS.
     </description>
-  <property name="cvs.root" value=":pserver:guest@cvs.tigris.org:/cvs"/>
   <property name="project.to.build" value="argouml"/>
   <property name="working.dir" location="${basedir}/tmp"/>
   <property name="argouml.dir" location="${working.dir}/argouml"/>
   <property name="argouml-cpp.dir" location="${working.dir}/argouml-cpp"/>
 
-  <property name="argouml.src.dir" location="${argouml.dir}/src_new"/>
+  <property name="argouml.src.dir" location="${argouml.dir}/src"/>
   <property name="argouml.documentation.dir" location="${argouml.dir}/documentation"/>
 
   <property name="result.dir" location="${working.dir}/RESULT"/>

@@ -333,7 +333,7 @@ because they are generated.
   -->
   <property name="report.junit.dir" location="${build.reports.dir}/junit"/>
   
-  <target name="report:junit" depends="init-reports,tests-dont-fail"
+  <target name="report:junit" depends="init-reports,tests"
           description="create junit reports">
     <antcall target="junit-report-mail"/>
 
