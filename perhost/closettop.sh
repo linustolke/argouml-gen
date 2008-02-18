@@ -78,7 +78,7 @@ JAVA_NAME=java5
 SHORTPRES=reports-$JAVA_NAME
 PRESENTED=argouml-stats/www/$SHORTPRES
 
-./build.sh clean || exit 1
+./build.sh clean ## TODO: Avoid to do this since it doesn't work || exit 1
 DO_ONE_TARGET jdepend	reports/jdepend
 DO_ONE_TARGET javadocs 	reports/javadocs reports/javadocs-api
 (
