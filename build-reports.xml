@@ -87,8 +87,7 @@
 
   </target>
 
-  <target name="coverage-test" description="Unit test the application"
-          depends="junit-report-clean">
+  <target name="coverage-test" description="Unit test the application">
     <junit failureproperty="junit.failure" fork="yes"
            haltonfailure="false" maxmemory="48M" printsummary="true"
 	   dir="${basedir}">
@@ -113,7 +112,7 @@
         </fileset>
       </batchtest>
     </junit>
-    <antcall target="junit-report-create"/>
+    <antcall target="tests-reports"/>
   </target>
 
 
@@ -222,7 +221,6 @@ The report is ${build.coverage.dir}/index.html
             location="${build.reports.dir}/checkstyle"/>
 
   <target name="report:checkstyle"
-          depends="cleanparser,delete-generated-for-checkstyle"
           description="create checkstyle reports">
     <ant target="checkstyle" antfile="build-reports.xml"
          output="checkstyle-result.txt" inheritall="false"/>
@@ -272,7 +270,7 @@ Running checkstyle on ${source.dir}.
     </antcall>
   </target>
 
-  <target name="checkstyle" depends="init,cleanparser"
+  <target name="checkstyle" depends="init"
           description="Run checkstyle on all source.">
     <antcall target="checkstyle-main">
       <param name="source.dir" value="${argo.root.dir}/src/model/src"/>
@@ -315,18 +313,6 @@ Running checkstyle on ${source.dir}.
     </antcall>
   </target>
 
-
-  <!-- =================================================================== -->
-  <!-- Removes generated files so that they are not checked by xenofarm.   -->
-  <!-- =================================================================== -->
-  <target name="delete-generated-for-checkstyle" depends="init">
-    <echo>      
-Deleting some files that we are not interested in running checkstyle on
-because they are generated.
-    </echo>
-    <antcall target="cleanparser"/>
-
-  </target>
 
   <!-- ################################################################### 
        # junit reports
