@@ -88,6 +88,10 @@
   </target>
 
   <target name="coverage-test" description="Unit test the application">
+    <echo>
+THIS DOESN'T WORK
+</echo>
+
     <junit failureproperty="junit.failure" fork="yes"
            haltonfailure="false" maxmemory="48M" printsummary="true"
 	   dir="${basedir}">
@@ -106,7 +110,7 @@
         <pathelement location="${easymock.jar.path}"/>
       </classpath>
       <formatter type="xml"/>
-      <batchtest todir="${argo.tests.reports}/junit/output">
+      <batchtest todir="${tests.reports}">
         <fileset dir="${argo.tests.src}">
           <include name="org/argouml/**/Test*.java"/>
         </fileset>
@@ -136,7 +140,7 @@
 
     <mkdir dir="${build.coverage.dir}/junit"/>
     <move todir="${build.coverage.dir}/junit">
-      <fileset dir="${argo.tests.reports}/junit/output/html"/>
+      <fileset dir="${tests.reports}/html"/>
     </move>
 
     <echo file="${build.coverage.dir}/index.html">
@@ -328,7 +332,7 @@ Running checkstyle on ${source.dir}.
 
     <!-- Junitreport has already run - put the reports in the right spot. -->
     <copy todir="${report.junit.dir}">
-      <fileset dir="${argo.tests.reports}/junit/output/html"/>
+      <fileset dir="${tests.reports}/html"/>
     </copy>
   </target>
   
