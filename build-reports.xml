@@ -193,11 +193,6 @@ The report is ${build.coverage.dir}/index.html
              fork="yes" format="xml">
       <classpath>
         <pathelement location="${jdepend.jar.path}"/>
-
-        <fileset dir="${argo.build.dir}">
-          <include name="**/*.jar"/>
-          <exclude name="**/argouml*.jar"/>
-        </fileset>
       </classpath>
       <exclude name="antlr.*"/>
       <exclude name="java.*"/>
