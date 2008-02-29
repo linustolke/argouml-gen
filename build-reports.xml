@@ -180,7 +180,7 @@ The report is ${build.coverage.dir}/index.html
 
   <target name="report:jdepend"
           description="create jdepend reports">
-    <ant target="compile" inheritall="false"/>
+    <ant target="package" inheritall="false"/>
 
     <delete dir="${build.jdepend.dir}"/>
     <delete dir="${build.jdepend.xml.dir}"/>
@@ -398,7 +398,7 @@ Running checkstyle on ${source.dir}.
 
   <target name="init-reports" depends="init"
           description="create build directories">
-    <ant target="compile" inheritall="false"/>
+    <ant target="package" inheritall="false"/>
 
     <mkdir dir="${build.coverage.dir}"/>
     <!-- <mkdir dir="${build.coverage.xml.dir}"/> -->
