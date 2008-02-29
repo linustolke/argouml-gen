@@ -182,10 +182,8 @@ The report is ${build.coverage.dir}/index.html
   </taskdef>
   
 
-  <target name="report:jdepend"
+  <target name="report:jdepend" depends="package"
           description="create jdepend reports">
-    <ant target="package" inheritall="false"/>
-
     <delete dir="${build.jdepend.dir}"/>
     <delete dir="${build.jdepend.xml.dir}"/>
     <mkdir dir="${build.jdepend.dir}"/>
@@ -195,19 +193,20 @@ The report is ${build.coverage.dir}/index.html
              fork="yes" format="xml">
       <classpath>
         <pathelement location="${jdepend.jar.path}"/>
-        <pathelement location="${argo.build.classes}"/>
-        <pathelement location="${argo.tests.classes}"/>
-        <fileset dir="${argo.lib.dir}">
+
+        <fileset dir="${argo.build.dir}">
           <include name="**/*.jar"/>
+          <exclude name="**/argouml*.jar"/>
         </fileset>
-        <path refid="argo.runtime.classpath"/>
       </classpath>
-      <exclude name="antlr"/>
+      <exclude name="antlr.*"/>
       <exclude name="java.*"/>
       <exclude name="javax.*"/>
       <exclude name="org.apache.log4j.*"/>
       <classespath>
-        <pathelement location="${argo.build.classes}"/>
+        <dirset dir=".">
+          <include name="**/build/classes/**"/>
+        </dirset>
       </classespath>
     </jdepend>
 
