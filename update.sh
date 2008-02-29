@@ -19,6 +19,6 @@ PROJECTS="argouml \
   cd tmp
   for proj in $PROJECTS
   do
-    svn co http://$proj.tigris.org/svn/$proj/trunk $proj
+    svn co http://$proj.tigris.org/svn/$proj/trunk $proj --username=guest --password=''
   done
 )
