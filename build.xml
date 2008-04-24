@@ -15,7 +15,8 @@
   <property name="argouml.dir" location="${working.dir}/argouml"/>
   <property name="argouml-cpp.dir" location="${working.dir}/argouml-cpp"/>
 
-  <property name="argouml.src.dir" location="${argouml.dir}/src/argouml-build"/>
+  <property name="argouml.src.dir" location="${argouml.dir}/src"/>
+  <property name="argouml.argouml-build.dir" location="${argouml.src.dir}/argouml-build"/>
   <property name="argouml.documentation.dir" location="${argouml.dir}/documentation"/>
 
   <property name="result.dir" location="${working.dir}/RESULT"/>
@@ -31,8 +32,8 @@
   </target>
 
   <target name="init-reports" depends="init-result">
-    <copy file="build-reports.xml" todir="${argouml.src.dir}" overwrite="true"/>
-    <copy file="reporting.properties" todir="${argouml.src.dir}" overwrite="true"/>
+    <copy file="build-reports.xml" todir="${argouml.argouml-build.dir}" overwrite="true"/>
+    <copy file="reporting.properties" todir="${argouml.argouml-build.dir}" overwrite="true"/>
   </target>
   
   <target name="init-result">
@@ -62,7 +63,7 @@
   </target>
 
   <target name="report:junit" depends="init-reports" description="generate junit reports">
-    <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:junit"/>
+    <ant dir="${argouml.src.dir}" antfile="argouml-build/build-reports.xml" target="report:junit"/>
   </target>
 
   <target name="report:cpp-junit" depends="init-reports" description="generate junit reports for cpp">

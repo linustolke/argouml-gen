@@ -13,7 +13,7 @@
 
   <property name="argo.root.dir" value="${basedir}/.." />
   <property file="default.properties"/>
-  <property file="reporting.properties"/>
+  <property file="argouml-build/reporting.properties"/>
   
   <!--
     reports are deposited in this directory.
@@ -35,6 +35,25 @@
             location="${xsl.dir}/instrument-ant.xsl"/>
 
   <target name="instrument" description="Add coverage instrumentation">
+    <mkdir dir="${build.coverage.dir}"/>
+    <!-- <mkdir dir="${build.coverage.xml.dir}"/> -->
+    <mkdir dir="${argo-gen.coverage.instrumented.classes}"/>
+    <mkdir dir="${argo.root.dir}/src/model/build/instrumented-classes"/>
+    <mkdir dir="${argo.root.dir}/src/model-mdr/build/instrumented-classes"/>
+
+    <!-- Now copy all none class stuff. -->
+    <copy todir="${argo-gen.coverage.instrumented.classes}">
+      <fileset dir="${argo.build.classes}">
+        <exclude name="**/*.class"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${argo.root.dir}/src/model-mdr/build/instrumented-classes">
+      <fileset dir="${argo.root.dir}/src/model-mdr/build/classes">
+        <exclude name="**/*.class"/>
+      </fileset>
+    </copy>
+
     <delete file="cobertura.ser"/>
 
     <property name="model.build.dir"
@@ -398,27 +417,7 @@ Running checkstyle on ${source.dir}.
 
   <target name="init-reports" depends="init"
           description="create build directories">
-    <ant dir=".." antfile="argouml-build/build.xml"
-         target="package" inheritall="false"/>
-
-    <mkdir dir="${build.coverage.dir}"/>
-    <!-- <mkdir dir="${build.coverage.xml.dir}"/> -->
-    <mkdir dir="${argo-gen.coverage.instrumented.classes}"/>
-    <mkdir dir="${argo.root.dir}/src/model/build/instrumented-classes"/>
-    <mkdir dir="${argo.root.dir}/src/model-mdr/build/instrumented-classes"/>
-
-    <!-- Now copy all none class stuff. -->
-    <copy todir="${argo-gen.coverage.instrumented.classes}">
-      <fileset dir="${argo.build.classes}">
-        <exclude name="**/*.class"/>
-      </fileset>
-    </copy>
-
-    <copy todir="${argo.root.dir}/src/model-mdr/build/instrumented-classes">
-      <fileset dir="${argo.root.dir}/src/model-mdr/build/classes">
-        <exclude name="**/*.class"/>
-      </fileset>
-    </copy>
+    <ant antfile="argouml-build/build.xml" target="package" inheritall="false"/>
   </target>
 
   <path id="argo.runtime.classpath">
