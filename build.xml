@@ -15,7 +15,7 @@
   <property name="argouml.dir" location="${working.dir}/argouml"/>
   <property name="argouml-cpp.dir" location="${working.dir}/argouml-cpp"/>
 
-  <property name="argouml.src.dir" location="${argouml.dir}/src"/>
+  <property name="argouml.src.dir" location="${argouml.dir}/src/argouml-build"/>
   <property name="argouml.documentation.dir" location="${argouml.dir}/documentation"/>
 
   <property name="result.dir" location="${working.dir}/RESULT"/>

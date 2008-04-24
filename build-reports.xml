@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="build-reports" basedir=".">
+<project name="build-reports" basedir="..">
   <description>
     Creates all reports.
 
-    This file is always copied to tmp/argouml/src_new directory before invoked.
+    This file is always copied to tmp/argouml/src/argouml-build directory 
+    before invoked.
 
     Output of all scripts here is the ${result.dir}/reports directory.
   </description>
@@ -220,7 +221,8 @@ The report is ${build.coverage.dir}/index.html
 
   <target name="report:checkstyle"
           description="create checkstyle reports">
-    <ant target="checkstyle" antfile="build-reports.xml"
+    <ant dir=".." antfile="argouml-build/build-reports.xml"
+         target="checkstyle"
          output="checkstyle-result.txt" inheritall="false"/>
     <delete dir="${report.checkstyle.dir}"/>
     <mkdir dir="${report.checkstyle.dir}"/>
@@ -396,7 +398,8 @@ Running checkstyle on ${source.dir}.
 
   <target name="init-reports" depends="init"
           description="create build directories">
-    <ant target="package" inheritall="false"/>
+    <ant dir=".." antfile="argouml-build/build.xml"
+         target="package" inheritall="false"/>
 
     <mkdir dir="${build.coverage.dir}"/>
     <!-- <mkdir dir="${build.coverage.xml.dir}"/> -->
@@ -449,7 +452,8 @@ Running checkstyle on ${source.dir}.
 
   <target name="report:findbugs"
           description="create FindBugs reports">
-    <ant target="package" inheritall="false"/>
+    <ant dir=".." antfile="argouml-build/build.xml"
+         target="package" inheritall="false"/>
 
     <mkdir dir="${report.findbugs.xml.dir}"/>
 
