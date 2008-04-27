@@ -102,11 +102,11 @@
     <antcall target="one-documentation">
       <param name="documentation.dir" value="${argouml.documentation.dir}"/>
       <param name="build.result.dir"
-             value="${argouml.dir}/build/documentation"/>
+             value="${argouml.dir}/documentation/build/documentation"/>
     </antcall>
 
     <delete dir="${result.dir}/documentation"/>
-    <move todir="${result.dir}" file="${argouml.dir}/build/documentation"/>
+    <move todir="${result.dir}" file="${argouml.dir}/documentation/build/documentation"/>
   </target>
 
   <target name="report:documentation-es" depends="init-result"
