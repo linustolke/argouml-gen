@@ -44,30 +44,31 @@
           depends="init-reports"
           description="remove all generated reports">
     <!-- This cleans all projects. -->
-    <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="clean-reports"/>
+    <ant dir="${argouml.argouml-build.dir}" antfile="build-reports.xml" target="clean-reports"/>
     <ant dir="${argouml-cpp.dir}" antfile="build.xml" target="clean"/>
-    <ant dir="${argouml.src.dir}" antfile="build.xml" target="clean"/>
+    <ant dir="${argouml.argouml-build.dir}" antfile="build.xml" target="clean"/>
     <delete dir="${result.dir}"/>
   </target>
   
   <target name="report:coverage" depends="init-reports" description="generate coverage reports">
-    <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:coverage"/>
+    <ant dir="${argouml.argouml-build.dir}" antfile="build-reports.xml" target="report:coverage"/>
   </target>
 
   <target name="report:jdepend" depends="init-reports" description="generate jdepend reports">
-    <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:jdepend"/>
+    <ant dir="${argouml.argouml-build.dir}" antfile="build-reports.xml" target="report:jdepend"/>
   </target>
 
   <target name="report:checkstyle" depends="init-reports" description="generate checkstyle reports">
-    <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:checkstyle"/>
+    <ant dir="${argouml.argouml-build.dir}" antfile="build-reports.xml" target="report:checkstyle"/>
   </target>
 
   <target name="report:junit" depends="init-reports" description="generate junit reports">
-    <ant dir="${argouml.src.dir}" antfile="argouml-build/build-reports.xml" target="report:junit"/>
+    <ant dir="${argouml.argouml-build.dir}" antfile="build-reports.xml"
+         target="report:junit"/>
   </target>
 
   <target name="report:cpp-junit" depends="init-reports" description="generate junit reports for cpp">
-    <ant dir="${argouml.src.dir}" antfile="build.xml" target="package"/>
+    <ant dir="${argouml.dir}" antfile="build.xml" target="install"/>
     <ant dir="${argouml-cpp.dir}" antfile="build.xml" target="tests"/>
 
     <delete dir="${result.dir}/reports/cpp-junit"/>
@@ -77,11 +78,11 @@
   </target>
 
   <target name="report:javadocs" depends="init-reports" description="generate javadocs reports">
-    <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:javadocs"/>
+    <ant dir="${argouml.argouml-build.dir}" antfile="build-reports.xml" target="report:javadocs"/>
   </target>
 
   <target name="report:findbugs" depends="init-reports" description="generate FindBug reports">
-    <ant dir="${argouml.src.dir}" antfile="build-reports.xml" target="report:findbugs"/>
+    <ant dir="${argouml.argouml-build.dir}" antfile="build-reports.xml" target="report:findbugs"/>
   </target>
 
   <target name="report:i18ncomparison" description="generate comparison between internationalizations." depends="init-result">
