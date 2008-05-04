@@ -8,6 +8,7 @@ PROJECTS="argouml \
               argouml-cpp \
               argouml-csharp \
               argouml-db \
+              argouml-graphviz \
               argouml-idl \
               argouml-java \
               argouml-php \
