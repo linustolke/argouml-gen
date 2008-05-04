@@ -17,7 +17,6 @@
 
   <property name="argouml.src.dir" location="${argouml.dir}/src"/>
   <property name="argouml.argouml-build.dir" location="${argouml.src.dir}/argouml-build"/>
-  <property name="argouml.documentation.dir" location="${argouml.dir}/documentation"/>
 
   <property name="result.dir" location="${working.dir}/RESULT"/>
 
@@ -101,9 +100,10 @@
   <target name="report:documentation" depends="init-result"
           description="generate the documentation">
     <antcall target="one-documentation">
-      <param name="documentation.dir" value="${argouml.documentation.dir}"/>
+      <param name="documentation.dir"
+             value="${working.dir}/argouml/documentation"/>
       <param name="build.result.dir"
-             value="${argouml.dir}/documentation/build/documentation"/>
+             value="${working.dir}/argouml/documentation/build/documentation"/>
     </antcall>
 
     <delete dir="${result.dir}/documentation"/>
@@ -153,6 +153,7 @@
   <target name="one-documentation">
     <ant dir="${documentation.dir}" target="docs" inheritAll="false">
       <property name="argo.root.dir" value="${argouml.dir}"/>
+      <property name="argo.tools.dir" value="${argouml.dir}/tools"/>
     </ant>
     <!-- Special patching to reduce the size of the diff -->
     <exec dir="${build.result.dir}/defaulthtml"
