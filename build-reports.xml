@@ -240,7 +240,10 @@ The report is ${build.coverage.dir}/index.html
 
   <target name="report:checkstyle"
           description="create checkstyle reports">
-    <ant target="checkstyle"
+    <ant dir="../argouml-app" inheritAll="false" target="cleanparser"/>
+
+    <ant target="argouml-gen.checkstyle"
+         antfile="build-reports.xml"
          output="checkstyle-result.txt" inheritall="false"/>
     <delete dir="${report.checkstyle.dir}"/>
     <mkdir dir="${report.checkstyle.dir}"/>
@@ -259,14 +262,14 @@ The report is ${build.coverage.dir}/index.html
   <!-- =================================================================== -->
   <!-- Runs checkstyle to find style problems in ArgoUML.                  -->
   <!-- =================================================================== -->
-  <target name="checkstyle-main">
+  <target name="do-checkstyle" depends="init">
     <echo>
 Running checkstyle on ${source.dir}.
 </echo>
     <java classname="com.puppycrawl.tools.checkstyle.Main" failonerror="false" fork="true" maxmemory="32M">
       <sysproperty key="checkstyle.header.file" value="${argo.tools.dir}/checkstyle/java.header"/>
       <classpath>
-	<pathelement location="${checkstyle.jar.path}"/>
+	<pathelement location="${argouml-gen.checkstyle.jar.path}"/>
       </classpath>
       <arg value="-c"/>
       <arg value="${argo.tools.dir}/checkstyle/checkstyle_argouml.xml"/>
@@ -275,58 +278,61 @@ Running checkstyle on ${source.dir}.
     </java>
   </target>
 
-  <target name="checkstyle-cond">
-    <available file="${source.dir}" type="dir" property="directory.exists"/>
-    <antcall target="checkstyle-cond2">
-      <param name="source.dir" value="${source.dir}"/>
-    </antcall>
-  </target>
-
-  <target name="checkstyle-cond2" if="directory.exists">
-    <antcall target="checkstyle-main">
-      <param name="source.dir" value="${source.dir}"/>
-    </antcall>
-  </target>
-
-  <target name="checkstyle" depends="init"
+  <target name="argouml-gen.checkstyle" depends="init"
           description="Run checkstyle on all source.">
-    <antcall target="checkstyle-main">
-      <param name="source.dir" value="${argo.root.dir}/src/model/src"/>
+    <antcall target="do-checkstyle">
+      <param name="source.dir" value="../argouml-core-model/src"/>
     </antcall>
-    <antcall target="checkstyle-main">
-      <param name="source.dir" value="${argo.root.dir}/src/model-mdr/src"/>
+    <antcall target="do-checkstyle">
+      <param name="source.dir" value="../argouml-core-model-mdr/src"/>
     </antcall>
-    <antcall target="checkstyle-main">
-      <param name="source.dir" value="${argo.src.dir}/org"/>
+    <antcall target="do-checkstyle">
+      <param name="source.dir" value="../argouml-core-model-euml/src"/>
     </antcall>
-    <antcall target="checkstyle-main">
-      <param name="source.dir" value="${argo.root.dir}/tests"/>
+    <antcall target="do-checkstyle">
+      <param name="source.dir" value="../argouml-app/src"/>
     </antcall>
-    <antcall target="checkstyle-main">
-      <param name="source.dir" value="${argo.root.dir}/modules"/>
+    <antcall target="do-checkstyle">
+      <param name="source.dir" value="../argouml-core-diagrams-sequence2/src"/>
     </antcall>
 
-    <antcall target="checkstyle-cond">
+    <antcall target="do-checkstyle">
+      <param name="source.dir" value="../argouml-core-model/tests"/>
+    </antcall>
+    <antcall target="do-checkstyle">
+      <param name="source.dir" value="../argouml-core-model-mdr/tests"/>
+    </antcall>
+    <antcall target="do-checkstyle">
+      <param name="source.dir" value="../argouml-core-model-euml/tests"/>
+    </antcall>
+    <antcall target="do-checkstyle">
+      <param name="source.dir" value="../argouml-core-diagrams-sequence2/tests"/>
+    </antcall>
+    <antcall target="do-checkstyle">
+      <param name="source.dir" value="../argouml-app/tests"/>
+    </antcall>
+
+    <antcall target="do-checkstyle">
       <param name="source.dir"
              value="${argo.root.dir}/../argouml-andromda/src"/>
     </antcall>
-    <antcall target="checkstyle-cond">
+    <antcall target="do-checkstyle">
       <param name="source.dir"
              value="${argo.root.dir}/../argouml-classfile/src"/>
     </antcall>
-    <antcall target="checkstyle-cond">
+    <antcall target="do-checkstyle">
       <param name="source.dir" value="${argo.root.dir}/../argouml-cpp/src"/>
     </antcall>
-    <antcall target="checkstyle-cond">
+    <antcall target="do-checkstyle">
       <param name="source.dir" value="${argo.root.dir}/../argouml-csharp/src"/>
     </antcall>
-    <antcall target="checkstyle-cond">
+    <antcall target="do-checkstyle">
       <param name="source.dir" value="${argo.root.dir}/../argouml-idl/src"/>
     </antcall>
-    <antcall target="checkstyle-cond">
+    <antcall target="do-checkstyle">
       <param name="source.dir" value="${argo.root.dir}/../argouml-php/src"/>
     </antcall>
-    <antcall target="checkstyle-cond">
+    <antcall target="do-checkstyle">
       <param name="source.dir" value="${argo.root.dir}/../argouml-python/src"/>
     </antcall>
   </target>
