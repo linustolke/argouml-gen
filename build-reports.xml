@@ -37,106 +37,142 @@
   <target name="instrument" description="Add coverage instrumentation">
     <mkdir dir="${build.coverage.dir}"/>
     <!-- <mkdir dir="${build.coverage.xml.dir}"/> -->
-    <mkdir dir="${argo-gen.coverage.instrumented.classes}"/>
-    <mkdir dir="${argo.root.dir}/src/model/build/instrumented-classes"/>
-    <mkdir dir="${argo.root.dir}/src/model-mdr/build/instrumented-classes"/>
+
+    <property name="b1" location="../argouml-app/build"/>
+    <property name="b2" location="../argouml-core-diagrams-sequence2/build"/>
+    <property name="b3" location="../argouml-core-model/build"/>
+    <property name="b4" location="../argouml-core-model-euml/build"/>
+    <property name="b5" location="../argouml-core-model-mdr/build"/>
+
+    <!-- b2 and b4 are not included. -->
+
+    <delete>
+      <fileset dir="${b1}/instrumented-classes"/>
+      <fileset dir="${b3}/instrumented-classes"/>
+      <fileset dir="${b5}/instrumented-classes"/>
+    </delete>
+
+    <mkdir dir="${b1}/instrumented-classes"/>
+    <mkdir dir="${b3}/instrumented-classes"/>
+    <mkdir dir="${b5}/instrumented-classes"/>
 
     <!-- Now copy all none class stuff. -->
-    <copy todir="${argo-gen.coverage.instrumented.classes}">
-      <fileset dir="${argo.build.classes}">
+    <copy todir="${b1}/instrumented-classes">
+      <fileset dir="${b1}/classes">
         <exclude name="**/*.class"/>
       </fileset>
     </copy>
 
-    <copy todir="${argo.root.dir}/src/model-mdr/build/instrumented-classes">
-      <fileset dir="${argo.root.dir}/src/model-mdr/build/classes">
+    <copy todir="${b3}/instrumented-classes">
+      <fileset dir="${b3}/classes">
         <exclude name="**/*.class"/>
       </fileset>
     </copy>
+
+    <copy todir="${b5}/instrumented-classes">
+      <fileset dir="${b5}/classes">
+        <exclude name="**/*.class"/>
+      </fileset>
+    </copy>
+
 
     <delete file="cobertura.ser"/>
 
-    <property name="model.build.dir"
-              location="${argo.root.dir}/src/model/build"/>
-    <property name="model-mdr.build.dir"
-              location="${argo.root.dir}/src/model-mdr/build"/>
-
-    <delete>
-      <fileset dir="${argo-gen.coverage.instrumented.classes}"
-               includes="**/*.class"/>
-      <fileset dir="${model.build.dir}/instrumented-classes"/>
-      <fileset dir="${model-mdr.build.dir}/instrumented-classes"
-               includes="**/*.class"/>
-    </delete>
-
-    <cobertura-instrument todir="${model.build.dir}/instrumented-classes">
+    <cobertura-instrument todir="${b1}/instrumented-classes">
       <ignore regex="org.apache.log4j.*"/>
-      <fileset dir="${model.build.dir}/classes">
+      <fileset dir="${b1}/classes">
         <include name="**/*.class"/>
       </fileset>
     </cobertura-instrument>
-    <move file="cobertura.ser" toFile="cobertura.ser.model"/>
+    <move file="cobertura.ser" toFile="cobertura.ser.1"/>
 
-    <cobertura-instrument todir="${model-mdr.build.dir}/instrumented-classes">
+    <cobertura-instrument todir="${b3}/instrumented-classes">
       <ignore regex="org.apache.log4j.*"/>
-      <fileset dir="${model-mdr.build.dir}/classes">
+      <fileset dir="${b3}/classes">
         <include name="**/*.class"/>
       </fileset>
     </cobertura-instrument>
-    <move file="cobertura.ser" toFile="cobertura.ser.model-mdr"/>
+    <move file="cobertura.ser" toFile="cobertura.ser.3"/>
 
-    <cobertura-instrument todir="${argo-gen.coverage.instrumented.classes}">
+    <cobertura-instrument todir="${b5}/instrumented-classes">
       <ignore regex="org.apache.log4j.*"/>
-      <fileset dir="${argo.build.classes}">
+      <fileset dir="${b5}/classes">
         <include name="**/*.class"/>
       </fileset>
     </cobertura-instrument>
-    <move file="cobertura.ser" toFile="cobertura.ser.rest"/>
+    <move file="cobertura.ser" toFile="cobertura.ser.5"/>
+
 
     <cobertura-merge>
       <fileset dir=".">
-        <include name="cobertura.ser.model"/>
-        <include name="cobertura.ser.model-mdr"/>
-        <include name="cobertura.ser.rest"/>
+        <include name="cobertura.ser.1"/>
+        <include name="cobertura.ser.3"/>
+        <include name="cobertura.ser.5"/>
       </fileset>
     </cobertura-merge>
 
-    <delete file="cobertura.ser.model"/>
-    <delete file="cobertura.ser.model-mdr"/>
-    <delete file="cobertura.ser.rest"/>
+    <delete file="cobertura.ser.1"/>
+    <delete file="cobertura.ser.3"/>
+    <delete file="cobertura.ser.5"/>
 
   </target>
 
-  <target name="coverage-test" description="Unit test the application">
-    <echo>
-THIS DOESN'T WORK
-</echo>
+  <target name="compile-tests">
+    <ant dir="../argouml-app" inheritAll="false" target="compile-tests"/>
+  </target>
 
-    <junit failureproperty="junit.failure" fork="yes"
-           haltonfailure="false" maxmemory="48M" printsummary="true"
-	   dir="${basedir}">
+  <target name="coverage-test" depends="compile-tests"
+          description="Unit test the application">
+
+    <delete dir="build/tests/reports"/>
+    <mkdir dir="build/tests/reports"/>
+
+    <junit errorproperty="junit.failure" failureproperty="junit.failure"
+           fork="yes" dir="${basedir}" forkmode="perTest"
+           haltonfailure="false"
+           maxmemory="48M" printsummary="true"
+	   >
       <sysproperty key="test.model.uml13" value="${011202.xml}"/>
+      <sysproperty key="test.model.uml" 
+            value="../argouml-core-model-mdr/src/org/argouml/model/mdr/mof/01-02-15.xml"/>
+      <sysproperty key="argouml.model.implementation" 
+            value="${test.model.implementation}"/>
       <sysproperty key="log4j.configuration" value="org/argouml/resource/default.lcf"/>
       <sysproperty key="java.awt.headless" value="true"/>
-      <sysproperty key="argouml.tests.dir" value="${argo.tests.src}"/>
+      <sysproperty key="argouml.tests.dir" value="../argouml-app/tests"/>
+      <sysproperty key="net.sourceforge.cobertura.datafile"
+                   file="cobertura.ser" />
+      <assertions>
+        <enable/>
+      </assertions>
+
       <classpath>
         <path refid="coverage"/>
-        <pathelement location="${argo.root.dir}/src/model/build/instrumented-classes"/>
-        <pathelement location="${argo.root.dir}/src/model-mdr/build/instrumented-classes"/>
-        <pathelement location="${argo-gen.coverage.instrumented.classes}"/>
-	<!-- <pathelement location="${argo.build.classes}"/> -->
-        <pathelement location="${argo.tests.classes}"/>
-        <path refid="argo.runtime.classpath"/>
-        <pathelement location="${easymock.jar.path}"/>
+        <pathelement location="../argouml-app/build/instrumented-classes"/>
+        <pathelement location="../argouml-core-model/build/instrumented-classes"/>
+        <pathelement location="../argouml-core-model-mdr/build/instrumented-classes"/>
+        <fileset dir="build">
+          <include name="*.jar"/>
+        </fileset>
+        <pathelement location="../argouml-app/build/tests/classes"/>
       </classpath>
       <formatter type="xml"/>
-      <batchtest todir="${tests.reports}">
-        <fileset dir="${argo.tests.src}">
+      <batchtest todir="build/tests/reports">
+        <fileset dir="../argouml-app/tests">
           <include name="org/argouml/**/Test*.java"/>
+          <exclude name="org/argouml/TestDependencies.java"/>
         </fileset>
       </batchtest>
     </junit>
-    <antcall target="tests-reports"/>
+
+    <mkdir dir="${build.coverage.dir}/junit"/>
+    <junitreport todir="${build.coverage.dir}/junit">
+      <fileset dir="build/tests/reports">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="build/tests/reports/html"/>
+    </junitreport>
+
   </target>
 
 
@@ -148,9 +184,9 @@ THIS DOESN'T WORK
     <mkdir dir="${build.coverage.dir}"/>
 
     <cobertura-report destdir="${build.coverage.dir}/coverage">
-      <fileset dir="${argo.src.dir}"/>
-      <fileset dir="${argo.root.dir}/src/model/src"/>
-      <fileset dir="${argo.root.dir}/src/model-mdr/src"/>
+      <fileset dir="../argouml-app/src"/>
+      <fileset dir="../argouml-core-model/src"/>
+      <fileset dir="../argouml-core-model-mdr/src"/>
     </cobertura-report>
 
     <exec executable="sed" input="argouml.log" output="${build.coverage.dir}/argouml.log">
