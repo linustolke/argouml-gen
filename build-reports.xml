@@ -46,7 +46,7 @@
 
     <!-- b2 and b4 are not included. -->
 
-    <delete>
+    <delete failonerror="false">
       <fileset dir="${b1}/instrumented-classes"/>
       <fileset dir="${b3}/instrumented-classes"/>
       <fileset dir="${b5}/instrumented-classes"/>
