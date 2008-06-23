@@ -73,14 +73,14 @@ function tolang() {
 }
 
 # Compare list of files.
-ls tmp/argouml/src_new/org/argouml/i18n/*.properties tmp/argouml-cpp/src/org/argouml/i18n/*.properties | sed 's;^.*/i18n/;;;s;\.properties;;' | sort > $WORKINGDIR/files-correct
+ls tmp/argouml/src/argouml-app/src/org/argouml/i18n/*.properties tmp/argouml-cpp/src/org/argouml/i18n/*.properties | sed 's;^.*/i18n/;;;s;\.properties;;' | sort > $WORKINGDIR/files-correct
 for lang in $LANGUAGES
 do
     ls $lang/*.properties | sed 's;^.*/i18n/;;;s/_[^.]*\.properties//' | sort > $WORKINGDIR/files-`tolang $lang`
 done
 
 # Compare list of tags
-cat tmp/argouml/src_new/org/argouml/i18n/*.properties tmp/argouml-cpp/src/org/argouml/i18n/*.properties | sed '/^[A-Za-z].*=/!d;/^$/d;s/ *=.*$//' | sort > $WORKINGDIR/tags-correct
+cat tmp/argouml/src/argouml-app/src/org/argouml/i18n/*.properties tmp/argouml-cpp/src/org/argouml/i18n/*.properties | sed '/^[A-Za-z].*=/!d;/^$/d;s/ *=.*$//' | sort > $WORKINGDIR/tags-correct
 for lang in $LANGUAGES
 do
     cat $lang/*.properties | sed '/^[A-Za-z].*=/!d;/^$/d;s/ *=.*$//' | sort > $WORKINGDIR/tags-`tolang $lang`
