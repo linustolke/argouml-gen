@@ -37,13 +37,13 @@ function COMMIT() {
   message=$1
   svn commit -m"$message
 Corresponding to $REVISIONS." ||
-  sleep 10 && svn commit -m"$message
+  sleep 1 && svn commit -m"$message
 Corresponding to $REVISIONS.
 Second attempt to commit." ||
-  sleep 100 && svn commit -m"$message
+  sleep 10 && svn commit -m"$message
 Corresponding to $REVISIONS.
 Third attempt to commit." ||
-  sleep 200 && svn commit -m"$message
+  sleep 20 && svn commit -m"$message
 Corresponding to $REVISIONS.
 Fourth attempt to commit." ||
   echo ERROR: $(date): Four commit attempts failed in $(pwd) with message $message. Giving up.
