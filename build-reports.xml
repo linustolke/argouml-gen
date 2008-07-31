@@ -510,13 +510,8 @@ Running checkstyle on ${source.dir}.
               outputFile="${report.findbugs.xml.dir}/out-argouml-model.xml"
               conserveSpace="true" timeout="18000000"
               jvmargs="-Xms64M -Xmx256M -verbosegc">
-      <class location="${argo.build.dir}/argouml-model.jar" />
-      <auxClasspath>
-        <fileset dir="${argo.build.dir}">
-          <include name="**/*.jar"/>
-        </fileset>
-      </auxClasspath>
-      <sourcePath path="${argo.src.dir}/../src/model/src"/>
+      <class location="../argouml-core-model/build/argouml-model.jar" />
+      <sourcePath path="../argouml-core-model/src"/>
       <classpath>
         <path refid="findbugs.path"/>
       </classpath>
@@ -534,14 +529,20 @@ Running checkstyle on ${source.dir}.
     <findbugs home="${findbugs.dir}" output="xml"
               outputFile="${report.findbugs.xml.dir}/out-argouml-mdr.xml"
               conserveSpace="true" timeout="18000000"
-              jvmargs="-Xms64M -Xmx256M -verbosegc">
-      <class location="${argo.build.dir}/argouml-mdr.jar" />
+              jvmargs="-Xms64M -Xmx256M -verbosegc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps">
+      <class location="../argouml-core-model-mdr/build/argouml-mdr.jar" />
       <auxClasspath>
-        <fileset dir="${argo.build.dir}">
-          <include name="**/*.jar"/>
+        <fileset dir="../argouml-core-model/build">
+          <include name="*.jar"/>
+        </fileset>
+        <fileset dir="../argouml-core-infra/build">
+          <include name="*.jar"/>
+        </fileset>
+        <fileset dir="../argouml-core-model-mdr/build">
+          <include name="*.jar"/>
         </fileset>
       </auxClasspath>
-      <sourcePath path="${argo.src.dir}/../src/model-mdr/src"/>
+      <sourcePath path="../argouml-core-model-mdr/src"/>
       <classpath>
         <path refid="findbugs.path"/>
       </classpath>
@@ -555,22 +556,43 @@ Running checkstyle on ${source.dir}.
       <param name="messages.xml" expression="${working.dir}/messages.xml"/>
     </style>
 
+    <property name="to-be-examined.jar"
+              value="../argouml-app/build/argouml-for-findbugs.jar"/>
+    <delete file="${to-be-examined.jar}"/>
+    <jar destfile="${to-be-examined.jar}">
+      <zipfileset src="../argouml-app/build/argouml.jar">
+        <include name="**/*.class"/>
+        <exclude name="**/JavaLexer.class"/>
+        <exclude name="**/JavaRecognizer.class"/>
+        <exclude name="**/JavaTokenTypes.class"/>
+      </zipfileset>
+    </jar>
 
     <findbugs home="${findbugs.dir}" output="xml"
               outputFile="${report.findbugs.xml.dir}/out-argouml.xml"
               conserveSpace="true" timeout="18000000"
-              jvmargs="-Xms512M -Xmx512M -verbosegc">
-      <class location="${argo.build.dir}/argouml.jar" />
+              jvmargs="-Xms96M -Xmx512M -verbosegc -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:CMSIncrementalDutyCycleMin=0 -XX:+CMSIncrementalPacing -XX:+PrintGCDetails -XX:+PrintGCTimeStamps">
+      <class location="${to-be-examined.jar}" />
       <auxClasspath>
-        <fileset dir="${argo.build.dir}">
-          <include name="**/*.jar"/>
+        <fileset dir="../argouml-core-model/build">
+          <include name="*.jar"/>
+        </fileset>
+        <fileset dir="../argouml-core-infra/build">
+          <include name="*.jar"/>
+        </fileset>
+        <fileset dir="../argouml-core-model-mdr/build">
+          <include name="*.jar"/>
+        </fileset>
+        <fileset dir="../argouml-app/build">
+          <include name="*.jar"/>
         </fileset>
       </auxClasspath>
-      <sourcePath path="${argo.src.dir}"/>
+      <sourcePath path="../argouml-app/src"/>
       <classpath>
         <path refid="findbugs.path"/>
       </classpath>
     </findbugs>
+    <delete file="${to-be-examined.jar}"/>
 
     <style basedir="${report.findbugs.xml.dir}"
            includes="out-argouml.xml"
