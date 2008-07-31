@@ -87,7 +87,7 @@ DO_ONE_TARGET javadocs 	reports/javadocs reports/javadocs-api
   COMMIT "Committing result from $JAVA_NAME javadocs-api"
 )
 
-DO_ONE_TARGET findbugs	 	reports/findbugs
+DO_ONE_TARGET findbugs	 	reports/findbugs reports/findbugs-xml
 DO_ONE_TARGET i18ncomparison 	reports/i18ncomparison
 ./build.sh clean
 DO_ONE_TARGET checkstyle	reports/checkstyle
