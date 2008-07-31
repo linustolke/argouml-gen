@@ -46,6 +46,36 @@
     <ant dir="${argouml.argouml-build.dir}" antfile="build-reports.xml" target="clean-reports"/>
     <ant dir="${argouml-cpp.dir}" antfile="build.xml" target="clean"/>
     <ant dir="${argouml.argouml-build.dir}" antfile="build.xml" target="clean"/>
+
+    <!-- Call the clean target in the top of each directory. -->
+    <ant dir="tmp/argoeclipse"          target="clean"/>
+    <ant dir="tmp/argopdf"              target="clean"/>
+    <ant dir="tmp/argoprint"            target="clean"/>
+    <ant dir="tmp/argouml"              target="clean"/>
+    <ant dir="tmp/argouml-andromda"     target="clean"/>
+    <ant dir="tmp/argouml-classfile"    target="clean"/>
+    <ant dir="tmp/argouml-cpp"          target="clean"/>
+    <ant dir="tmp/argouml-csharp"       target="clean"/>
+    <ant dir="tmp/argouml-db"           target="clean"/>
+    <ant dir="tmp/argouml-de"           target="clean"/>
+    <ant dir="tmp/argouml-en-gb"        target="clean"/>
+    <ant dir="tmp/argouml-es"           target="clean"/>
+    <ant dir="tmp/argouml-fr"           target="clean"/>
+    <ant dir="tmp/argouml-graphviz"     target="clean"/>
+    <ant dir="tmp/argouml-i18n-zh"      target="clean"/>
+    <ant dir="tmp/argouml-idl"          target="clean"/>
+    <ant dir="tmp/argouml-it"           target="clean"/>
+    <ant dir="tmp/argouml-java"         target="clean"/>
+    <ant dir="tmp/argouml-nb"           target="clean"/>
+    <ant dir="tmp/argouml-php"          target="clean"/>
+    <ant dir="tmp/argouml-pt"           target="clean"/>
+    <ant dir="tmp/argouml-pt-br"        target="clean"/>
+    <ant dir="tmp/argouml-python"       target="clean"/>
+    <ant dir="tmp/argouml-ro"           target="clean"/>
+    <ant dir="tmp/argouml-ru"           target="clean"/>
+    <ant dir="tmp/argouml-sql"          target="clean"/>
+    <ant dir="tmp/argouml-sv"           target="clean"/>
+
     <delete dir="${result.dir}"/>
   </target>
 
