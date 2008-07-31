@@ -79,6 +79,7 @@ SHORTPRES=reports-$JAVA_NAME
 PRESENTED=argouml-stats/www/$SHORTPRES
 
 ./build.sh clean ## TODO: Avoid to do this since it doesn't work || exit 1
+DO_ONE_TARGET release   reports/release
 DO_ONE_TARGET jdepend	reports/jdepend
 DO_ONE_TARGET javadocs 	reports/javadocs reports/javadocs-api
 (
@@ -125,6 +126,7 @@ DO_ONE_TARGET javadocs 	reports/javadocs reports/javadocs-api
 )
 
 ./build.sh clean
+DO_ONE_TARGET release           reports/release
 DO_ONE_TARGET checkstyle	reports/checkstyle
 DO_ONE_TARGET junit		reports/junit
 DO_ONE_TARGET cpp-junit		reports/cpp-junit

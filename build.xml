@@ -48,7 +48,44 @@
     <ant dir="${argouml.argouml-build.dir}" antfile="build.xml" target="clean"/>
     <delete dir="${result.dir}"/>
   </target>
-  
+
+
+  <target name="report:release"
+          description="Prepare a release-like set to be published.">
+    <delete dir="tmp/argouml/build"/>
+
+    <!-- This list of projects should preferably look like the list
+         of projects distributed using the official.sh script in the
+         argoumlinstaller project.
+     -->
+    <ant dir="tmp/argouml"              target="install"/>
+    <ant dir="tmp/argouml-classfile"    target="install"/>
+    <ant dir="tmp/argouml-cpp"          target="install"/>
+    <ant dir="tmp/argouml-csharp"       target="install"/>
+    <ant dir="tmp/argouml-de"           target="install"/>
+    <ant dir="tmp/argouml-en-gb"        target="install"/>
+    <ant dir="tmp/argouml-es"           target="install"/>
+    <ant dir="tmp/argouml-fr"           target="install"/>
+    <ant dir="tmp/argouml-i18n-zh"      target="install"/>
+    <ant dir="tmp/argouml-idl"          target="install"/>
+    <ant dir="tmp/argouml-it"           target="install"/>
+    <ant dir="tmp/argouml-nb"           target="install"/>
+    <ant dir="tmp/argouml-php"          target="install"/>
+    <ant dir="tmp/argouml-pt"           target="install"/>
+    <ant dir="tmp/argouml-pt-br"        target="install"/>
+    <ant dir="tmp/argouml-ro"           target="install"/>
+    <ant dir="tmp/argouml-ru"           target="install"/>
+    <ant dir="tmp/argouml-sql"          target="install"/>
+
+    <ant dir="tmp/argouml"              target="update-argouml.jar-manifest"/>
+
+    <delete dir="${result.dir}/reports/release"/>
+    <move todir="${result.dir}/reports/release">
+      <fileset dir="tmp/argouml/build"/>
+    </move>
+  </target>
+
+
   <target name="report:coverage" depends="init-reports" description="generate coverage reports">
     <ant dir="${argouml.argouml-build.dir}" antfile="build-reports.xml" target="report:coverage"/>
   </target>
