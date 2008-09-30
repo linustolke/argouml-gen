@@ -15,6 +15,8 @@ PROJECTS="argouml \
               argouml-python \
               argouml-sql \
               \
+              argouml-documentation \
+              \
               argouml-de argouml-en-gb argouml-es \
               argouml-fr \
               argouml-i18n-zh argouml-it argouml-nb \
@@ -34,6 +36,7 @@ PROJECTS="argouml \
   cd tmp
   for proj in $PROJECTS
   do
+    echo checking out $proj
     svn co http://$proj.tigris.org/svn/$proj/trunk $proj --username=guest --password=''
   done
 )
