@@ -177,6 +177,19 @@
     <move todir="${result.dir}" file="${argouml.dir}/documentation/build/documentation"/>
   </target>
 
+  <target name="report:argouml-documentation" depends="init-result"
+          description="generate the documentation">
+    <antcall target="one-documentation">
+      <param name="documentation.dir"
+             value="${working.dir}/argouml-documentation"/>
+      <param name="build.result.dir"
+             value="${working.dir}/argouml-documentation/build"/>
+    </antcall>
+
+    <delete dir="${result.dir}/userdoc"/>
+    <move todir="${result.dir}/userdoc" file="${working.dir}/argouml-documentation/build"/>
+  </target>
+
   <target name="report:documentation-es" depends="init-result"
           description="generate the Spanish documentation">
 
