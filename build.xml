@@ -186,8 +186,13 @@
              value="${working.dir}/argouml-documentation/build"/>
     </antcall>
 
-    <delete dir="${result.dir}/userdoc"/>
-    <move todir="${result.dir}/userdoc" file="${working.dir}/argouml-documentation/build"/>
+    <delete dir="${result.dir}/documentation"/>
+    <move todir="${result.dir}/documentation" 
+          file="${working.dir}/argouml-documentation/build/defaulthtml"/>
+    <move todir="${result.dir}/documentation" 
+          file="${working.dir}/argouml-documentation/build/printablehtml"/>
+    <move todir="${result.dir}/documentation" 
+          file="${working.dir}/argouml-documentation/build/pdf"/>
   </target>
 
   <target name="report:documentation-es" depends="init-result"

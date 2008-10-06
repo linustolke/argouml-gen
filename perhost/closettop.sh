@@ -151,7 +151,10 @@ DO_ONE_TARGET coverage          reports/coverage
 PRESENTED=argouml-stats/www
 
 SHORTPRES=documentation
+# Cookbook
 DO_ONE_TARGET documentation documentation/defaulthtml documentation/printablehtml documentation/pdf
+
+DO_ONE_TARGET argouml-documentation documentation/defaulthtml documentation/printablehtml documentation/pdf
 
 SHORTPRES=documentation-es
 DO_ONE_TARGET documentation-es documentation-es/defaulthtml documentation-es/printablehtml documentation-es/pdf
