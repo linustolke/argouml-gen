@@ -166,14 +166,13 @@
 
   <target name="report:daily-userdoc" depends="init-result"
           description="generate the documentation from the argouml-documentation project">
-<!--
     <ant dir="${working.dir}/argouml-documentation"
          target="docs" inheritAll="false"/>
 
     <exec dir="${working.dir}/argouml-documentation/build"
           executable="${basedir}/tools/bin/reduce-html-diff-size.sh"
           failonerror="true"/>
--->
+
     <delete dir="${result.dir}/daily-userdoc"/>
     <move todir="${result.dir}/daily-userdoc">
       <fileset dir="${working.dir}/argouml-documentation/build">
