@@ -164,6 +164,24 @@
   <!-- The documentation of ArgoUML                                     -->
   <!-- ================================================================ -->
 
+  <target name="report:daily-userdoc" depends="init-result"
+          description="generate the documentation from the argouml-documentation project">
+<!--
+    <ant dir="${working.dir}/argouml-documentation"
+         target="docs" inheritAll="false"/>
+
+    <exec dir="${working.dir}/argouml-documentation/build"
+          executable="${basedir}/tools/bin/reduce-html-diff-size.sh"
+          failonerror="true"/>
+-->
+    <delete dir="${result.dir}/daily-userdoc"/>
+    <move todir="${result.dir}/daily-userdoc">
+      <fileset dir="${working.dir}/argouml-documentation/build">
+        <include name="**"/>
+      </fileset>
+    </move>
+  </target>
+
   <target name="report:documentation" depends="init-result"
           description="generate the documentation">
     <antcall target="one-documentation">
@@ -175,23 +193,6 @@
 
     <delete dir="${result.dir}/documentation"/>
     <move todir="${result.dir}" file="${argouml.dir}/documentation/build/documentation"/>
-  </target>
-
-  <target name="report:argouml-documentation" depends="init-result"
-          description="generate the documentation">
-    <ant dir="${working.dir}/argouml-documentation"
-         target="docs" inheritAll="false"/>
-
-    <delete dir="${result.dir}/documentation"/>
-
-    <exec dir="${working.dir}/argouml-documentation/build"
-          executable="${basedir}/tools/bin/reduce-html-diff-size.sh"
-          failonerror="true"/>
-
-    <move todir="${result.dir}/documentation" 
-          file="${working.dir}/argouml-documentation/build/en"/>
-    <move todir="${result.dir}/documentation" 
-          file="${working.dir}/argouml-documentation/build/de"/>
   </target>
 
   <target name="report:documentation-es" depends="init-result"

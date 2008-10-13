@@ -150,11 +150,12 @@ DO_ONE_TARGET coverage          reports/coverage
 # Building documentation
 PRESENTED=argouml-stats/www
 
+SHORTPRES=daily-userdoc
+DO_ONE_TARGET daily-userdoc daily-userdoc/en daily-userdoc/de
+
 SHORTPRES=documentation
 # Cookbook
 DO_ONE_TARGET documentation documentation/defaulthtml documentation/printablehtml documentation/pdf
-
-DO_ONE_TARGET argouml-documentation documentation/defaulthtml documentation/printablehtml documentation/pdf
 
 SHORTPRES=documentation-es
 DO_ONE_TARGET documentation-es documentation-es/defaulthtml documentation-es/printablehtml documentation-es/pdf
