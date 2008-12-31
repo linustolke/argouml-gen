@@ -5,19 +5,45 @@ do
     name=`echo $i | sed 's/^argouml-//'`
     NAME=`echo $name | tr a-z A-Z`
 
+    file=$i/www/project_tools.html
+    if test ! -f $file
+    then
+        echo $file does not exist
+        sleep 1
+        continue
+    fi
+
     PROJECTDOCUMENTLISTLINK=false
-    if grep -qs 'href="/servlets/ProjectDocumentList"' $i/www/project_tools.html
+    if grep -qs 'href="/servlets/ProjectDocumentList"' $file
     then
         PROJECTDOCUMENTLISTLINK=true
+    fi
+
+    ISSUESLINK=false
+    if grep -qs 'href="/servlets/ProjectIssues"' $file
+    then
+        ISSUESLINK=true
     fi
 
     {
         cat <<EOF
 <!-- \$Id\$ -->
+<!-- This files is generated from the generate-project-tools.sh script. -->
   <ul>
     <li><a href="/servlets/ProjectMemberList">Membership ($NAME)</a></li>
-    <li><a href="/servlets/ProjectMailingListList">Mailing lists ($NAME)</a></li>
 EOF
+
+        if $ISSUESLINK
+        then
+            cat <<EOF
+    <li><a href="/servlets/ProjectIssues">Issues ($NAME)</a></li>
+EOF
+        fi
+
+        cat <<EOF
+    <li><a href="/ds/viewForums.do">Mailing lists ($NAME)</a></li>
+EOF
+
         if $PROJECTDOCUMENTLISTLINK
         then
             cat <<EOF
@@ -40,5 +66,21 @@ EOF
   </ul>
 EOF
     } |
-    cat > $i/www/project_tools.html
+    cat > $file
+
+    if svn status $file | grep -qs M
+    then
+	svn diff -x -w $file
+	echo -n "Replace? N/Y "
+	read ans
+	case "$ans" in
+	Y)
+	    svn commit -m"Update to the file created by the generate-project-tools.sh script.
+    $*" $file
+	    ;;
+	*)
+	    svn revert $file
+	    ;;
+	esac
+    fi
 done
