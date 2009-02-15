@@ -37,16 +37,11 @@ function COMMIT() {
   message=$1
   svn commit -m"$message
 Corresponding to $REVISIONS." ||
-  sleep 1 && svn commit -m"$message
+  sleep 30 &&
+  svn commit -m"$message
 Corresponding to $REVISIONS.
 Second attempt to commit." ||
-  sleep 10 && svn commit -m"$message
-Corresponding to $REVISIONS.
-Third attempt to commit." ||
-  sleep 20 && svn commit -m"$message
-Corresponding to $REVISIONS.
-Fourth attempt to commit." ||
-  echo ERROR: $(date): Four commit attempts failed in $(pwd) with message $message. Giving up.
+  echo ERROR: $(date): Two commit attempts failed in $(pwd) with message $message. Giving up.
 }
 
 function DO_ONE_TARGET() {
@@ -159,8 +154,10 @@ DO_ONE_TARGET documentation documentation/defaulthtml documentation/printablehtm
 
 ./create-index.sh > argouml-stats/www/index.html
 (
-  cd argouml-stats/www &&
-  COMMIT "Committing all the rest"
+  cd argouml-stats/www
+  svn status |
+  awk '/^[AM]/ { print $2; }' |
+  xargs -L 10 svn commit -m"Committing all the rest"
 )
 
 echo Any files left:
