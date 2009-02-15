@@ -4,7 +4,6 @@
 PROJECTS="argouml \
               argoeclipse \
               argouml-andromda \
-              argouml-classfile \
               argouml-cpp \
               argouml-csharp \
               argouml-db \
