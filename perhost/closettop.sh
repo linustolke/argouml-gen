@@ -153,11 +153,31 @@ SHORTPRES=documentation
 DO_ONE_TARGET documentation documentation/defaulthtml documentation/printablehtml documentation/pdf
 
 ./create-index.sh > argouml-stats/www/index.html
+
+(
+  cd argouml-stats/www
+  svn commit -m'Committing all the rest"
+)
+
 (
   cd argouml-stats/www
   svn status |
   awk '/^[AM]/ { print $2; }' |
-  xargs -L 10 svn commit -m"Committing all the rest"
+  xargs -L 100 svn commit -m"Committing all the rest (in chunks of 100 files)"
+)
+
+(
+  cd argouml-stats/www
+  svn status |
+  awk '/^[AM]/ { print $2; }' |
+  xargs -L 10 svn commit -m"Committing all the rest (in chunks of ten files)"
+)
+
+(
+  cd argouml-stats/www
+  svn status |
+  awk '/^[AM]/ { print $2; }' |
+  xargs -L 1 svn commit -m"Committing all the rest (files one by one)"
 )
 
 echo Any files left:
