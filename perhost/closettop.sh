@@ -161,6 +161,7 @@ DO_ONE_TARGET documentation documentation/defaulthtml documentation/printablehtm
 
 (
   cd argouml-stats/www
+  svn update
   svn status |
   awk '/^[AM]/ { print $2; }' |
   xargs -L 100 svn commit -m"Committing all the rest (in chunks of 100 files)"
@@ -168,6 +169,7 @@ DO_ONE_TARGET documentation documentation/defaulthtml documentation/printablehtm
 
 (
   cd argouml-stats/www
+  svn update
   svn status |
   awk '/^[AM]/ { print $2; }' |
   xargs -L 10 svn commit -m"Committing all the rest (in chunks of ten files)"
@@ -175,6 +177,7 @@ DO_ONE_TARGET documentation documentation/defaulthtml documentation/printablehtm
 
 (
   cd argouml-stats/www
+  svn update
   svn status |
   awk '/^[AM]/ { print $2; }' |
   xargs -L 1 svn commit -m"Committing all the rest (files one by one)"
