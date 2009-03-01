@@ -156,7 +156,7 @@ DO_ONE_TARGET documentation documentation/defaulthtml documentation/printablehtm
 
 (
   cd argouml-stats/www
-  svn commit -m'Committing all the rest"
+  svn commit -m"Committing all the rest"
 )
 
 (
