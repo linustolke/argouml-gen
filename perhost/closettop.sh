@@ -148,10 +148,6 @@ PRESENTED=argouml-stats/www
 SHORTPRES=daily-userdoc
 DO_ONE_TARGET daily-userdoc daily-userdoc/en daily-userdoc/de daily-userdoc/es
 
-SHORTPRES=documentation
-# Cookbook
-DO_ONE_TARGET documentation documentation/defaulthtml documentation/printablehtml documentation/pdf
-
 ./create-index.sh > argouml-stats/www/index.html
 
 (
