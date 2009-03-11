@@ -28,20 +28,32 @@ REVISIONS=`
 
 (
   cd argouml-stats &&
-  svn update || sleep 10 && svn update
+  if svn update
+  then
+      : ok
+  else
+      : try again
+      sleep 10
+      svn update
+  fi
 ) || exit 1
 
 LOG=argouml-stats/www/closettop.log
 
 function COMMIT() {
   message=$1
-  svn commit -m"$message
-Corresponding to $REVISIONS." ||
-  sleep 30 &&
-  svn commit -m"$message
+  if svn commit -m"$message
+Corresponding to $REVISIONS."
+  then
+    : ok
+  else
+    : try again
+    sleep 30
+    svn commit -m"$message
 Corresponding to $REVISIONS.
 Second attempt to commit." ||
-  echo ERROR: $(date): Two commit attempts failed in $(pwd) with message $message. Giving up.
+      echo ERROR: $(date): Two commit attempts failed in $(pwd) with message $message. Giving up.
+  fi
 }
 
 function DO_ONE_TARGET() {
