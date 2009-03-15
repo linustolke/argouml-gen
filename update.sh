@@ -14,8 +14,6 @@ PROJECTS="argouml \
               argouml-python \
               argouml-sql \
               \
-              argouml-documentation \
-              \
               argouml-de argouml-en-gb argouml-es \
               argouml-fr \
               argouml-i18n-zh argouml-it argouml-nb \

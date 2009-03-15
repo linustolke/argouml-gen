@@ -153,13 +153,6 @@ DO_ONE_TARGET coverage          reports/coverage
 
 ./build.sh clean
 
-
-# Building documentation
-PRESENTED=argouml-stats/www
-
-SHORTPRES=daily-userdoc
-DO_ONE_TARGET daily-userdoc daily-userdoc/en daily-userdoc/de daily-userdoc/es
-
 ./create-index.sh > argouml-stats/www/index.html
 
 (
