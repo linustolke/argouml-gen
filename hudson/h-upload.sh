@@ -5,6 +5,18 @@
 SVNURL=$1
 FILES=$2
 
+REVISIONS=`
+(
+  for proj in *
+  do
+    (
+      cd $proj &&
+        svn info | awk '/^Revision:/ { printf "%s:%s ", proj, $2; }' proj=$proj
+    ) 2>/dev/null
+  done
+)`
+
+
 CHECKEDOUTDIR=`basename $FILES`
 
 svn co --non-interactive --ignore-externals $SVNURL upload/$CHECKEDOUTDIR
@@ -33,24 +45,28 @@ echo Adding new files
 )
 
 echo Commiting
-svn commit --non-interactive -m'Uploaded from continous build' upload/$CHECKEDOUTDIR
+svn commit --non-interactive -m"Uploaded from continous build.
+$REVISIONS" upload/$CHECKEDOUTDIR
 
 # If the commit failed, try again a few times
 (
   cd upload/$CHECKEDOUTDIR
   svn status |
   awk '/^[AM]/ { print $2; }' |
-  xargs -L 100 svn commit -m"Try upload again (in chunks of 100 files)"
+  xargs -L 100 svn commit -m"Try upload again (in chunks of 100 files).
+$REVISIONS"
 
   svn update
   svn status |
   awk '/^[AM]/ { print $2; }' |
-  xargs -L 10 svn commit -m"Try upload again (in chunks of ten files)"
+  xargs -L 10 svn commit -m"Try upload again (in chunks of ten files).
+$REVISIONS"
 
   svn update
   svn status |
   awk '/^[AM]/ { print $2; }' |
-  xargs -L 1 svn commit -m"Try upload again (files one by one)"
+  xargs -L 1 svn commit -m"Try upload again (files one by one).
+$REVISIONS"
 )
 
 echo Any files left:
