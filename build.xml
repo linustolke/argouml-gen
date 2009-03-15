@@ -168,14 +168,14 @@
     <untar src="../jimi1_0.tar"
            dest="${working.dir}/argouml-documentation/tools"/>
     <move file="${working.dir}/argouml-documentation/tools/Jimi/JimiProClasses.zip"
-          tofile="${working.dir}/argouml-documentation/tools/JimiProClasses.zip"/>
+          tofile="${working.dir}/argouml-documentation/tools/lib/JimiProClasses.zip"/>
     <delete dir="${working.dir}/argouml-documentation/tools/Jimi"/>
   </target>
 
   <target name="report:daily-userdoc" depends="init-result"
           description="generate the documentation from the argouml-documentation project">
 
-    <available file="${working.dir}/argouml-documentation/tools/JimiProClasses.zip"
+    <available file="${working.dir}/argouml-documentation/tools/lib/JimiProClasses.zip"
                property="jimi-present"/>
     <ant target="copy-jimi"/>
 
