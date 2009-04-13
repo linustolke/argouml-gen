@@ -2,7 +2,6 @@
 
 # This is a list of all project for which we do nightly things:
 PROJECTS="argouml \
-              argoeclipse \
               argouml-andromda \
               argouml-cpp \
               argouml-csharp \
