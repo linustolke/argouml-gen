@@ -5,11 +5,13 @@
 #
 # You need a commiting role into that project for this to work.
 #
-# The first argument is the target directory (below argouml-stats/www).
+# The first argument is the target directory (including the leading
+# argouml-stats/www).
 #
 # The rest of the arguments to this script is on the form
 # reports/jdepend and the data to commit is taken from tmp/RESULT/$arg
-# that is assumed to be a directory.
+# that is assumed to be a directory and copied to a directory below
+# the target directory with the basename of the argument.
 #
 # It is assumed that you have the argouml-stats project checked out.
 # Check out with
@@ -32,7 +34,7 @@ shift
 
 for arg in $*
 do
-    whereto=argouml-stats/www/$target/`basename $arg`
+    whereto=$target/`basename $arg`
     echo Copying $arg
     cp -r tmp/RESULT/$arg `dirname $whereto`
 
