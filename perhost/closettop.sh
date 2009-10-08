@@ -12,7 +12,7 @@ fi
 # Retrieve the new version of the sources
 #
 
-./update.sh
+./update.sh -m
 
 REVISIONS=`
 (
