@@ -45,7 +45,8 @@ PROJECTS="argouml \
 	      argouml-sv
               \
               argoprint \
-              argopdf"
+              argopdf \
+              argouml-documentation"
 
 
 ROOT=http:/
