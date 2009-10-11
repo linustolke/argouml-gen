@@ -26,34 +26,13 @@ REVISIONS=`
   done
 )`
 
-(
-  cd argouml-stats &&
-  if svn update
-  then
-      : ok
-  else
-      : try again
-      sleep 10
-      svn update
-  fi
-) || exit 1
-
 LOG=argouml-stats/www/closettop.log
 
 function COMMIT() {
   message=$1
-  if svn commit -m"$message
-Corresponding to $REVISIONS."
-  then
-    : ok
-  else
-    : try again
-    sleep 30
-    svn commit -m"$message
-Corresponding to $REVISIONS.
-Second attempt to commit." ||
-      echo ERROR: $(date): Two commit attempts failed in $(pwd) with message $message. Giving up.
-  fi
+  svn commit -m"$message
+Corresponding to $REVISIONS." 2>&1 |
+  sed 's/^/SVN commit $message: /'
 }
 
 function DO_ONE_TARGET() {
@@ -73,7 +52,7 @@ function DO_ONE_TARGET() {
       (
         cd $PRESENTED/`basename $arg` &&
         COMMIT "Committing result for $JAVA_NAME $target from $arg"
-      )
+      ) &
     done
     echo "$(date) $target...........done."
 }
@@ -100,18 +79,36 @@ DO_ONE_TARGET checkstyle	reports/checkstyle
 DO_ONE_TARGET junit		reports/junit
 DO_ONE_TARGET cpp-junit		reports/cpp-junit
 DO_ONE_TARGET coverage          reports/coverage
+echo "$(date) waiting..........."
+wait 
+wait 
+wait 
+wait 
+wait 
+wait 
+wait 
+wait 
+wait 
+wait 
+wait 
+echo "$(date) waiting...........done"
+
 (
   cd $PRESENTED/coverage/coverage &&
   COMMIT "Committing extra split coverage"
-)
+) &
 (
   cd $PRESENTED/coverage/junit &&
   COMMIT "Committing extra split coverage"
 )
+echo "$(date) waiting coverage..........."
+wait
+echo "$(date) waiting coverage...........done"
+
 (
   cd $PRESENTED/coverage &&
   COMMIT "Committing extra coverage"
-)
+) &
 
 ./build.sh clean
 
@@ -132,66 +129,35 @@ DO_ONE_TARGET checkstyle	reports/checkstyle
 DO_ONE_TARGET junit		reports/junit
 DO_ONE_TARGET cpp-junit		reports/cpp-junit
 DO_ONE_TARGET coverage          reports/coverage
+echo "$(date) waiting..........."
+wait 
+wait 
+wait 
+wait 
+wait 
+wait 
+wait 
+echo "$(date) waiting...........done"
+
 (
   cd $PRESENTED/coverage/coverage &&
   COMMIT "Committing extra split coverage"
-)
+) &
 (
   cd $PRESENTED/coverage/junit &&
   COMMIT "Committing extra split coverage"
 )
+echo "$(date) waiting coverage..........."
+wait
+echo "$(date) waiting coverage...........done"
+
 (
   cd $PRESENTED/coverage &&
   COMMIT "Committing extra coverage"
-)
+) &
 
 ./build.sh clean
 
 ./create-index.sh > argouml-stats/www/index.html
 
-(
-  echo $(date): Committing all the rest...
-  cd argouml-stats/www
-  svn commit -m"Committing all the rest"
-  echo $(date): Committing all the rest...done
-)
-
-(
-  echo $(date): Committing all the rest in chunks of 100 files...
-  cd argouml-stats/www
-  svn update
-  svn status |
-  awk '/^[AM]/ { print $2; }' |
-  xargs -L 100 --no-run-if-empty \
-      svn commit -m"Committing all the rest (in chunks of 100 files)"
-  echo $(date): Committing all the rest in chunks of 100 files...done
-)
-
-(
-  echo $(date): Committing all the rest in chunks of 10 files...
-  cd argouml-stats/www
-  svn update
-  svn status |
-  awk '/^[AM]/ { print $2; }' |
-  xargs -L 10 --no-run-if-empty \
-      svn commit -m"Committing all the rest (in chunks of ten files)"
-  echo $(date): Committing all the rest in chunks of 10 files...done
-)
-
-(
-  echo $(date): Committing all the rest files one by one...
-  cd argouml-stats/www
-  svn update
-  svn status |
-  awk '/^[AM]/ { print $2; }' |
-  xargs -L 1 --no-run-if-empty \
-      svn commit -m"Committing all the rest (files one by one)"
-  echo $(date): Committing all the rest files one by one...done
-)
-
-(
-  echo $(date): Any files left...
-  cd argouml-stats/www &&
-  svn status
-  echo $(date): Any files left...done
-)
+wait
