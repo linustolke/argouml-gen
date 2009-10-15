@@ -27,26 +27,39 @@ done
 # This is a list of all project for which we do nightly things:
 PROJECTS="argouml \
               argouml-andromda \
+              argouml-actionscript3 \
+              argouml-ada \
+              argouml-atl \
               argouml-cpp \
               argouml-csharp \
               argouml-db \
+              argouml-delphi \
               argouml-graphviz \
               argouml-idl \
               argouml-java \
+              argouml-javascript \
+              argouml-pattern-wizard \
               argouml-php \
               argouml-python \
+              argouml-ruby \
               argouml-sql \
               \
+              argouml-ca \
               argouml-de argouml-en-gb argouml-es \
               argouml-fr \
-              argouml-i18n-zh argouml-it argouml-nb \
+              argouml-hi \
+              argouml-i18n-zh argouml-it \
+              argouml-ja \
+              argouml-nb \
               argouml-pt argouml-pt-br \
               argouml-ro argouml-ru \
-	      argouml-sv
+	      argouml-sv \
+	      argouml-tr \
               \
               argoprint \
               argopdf \
-              argouml-documentation"
+              argouml-documentation \
+	      argouml-gen"
 
 
 ROOT=http:/
@@ -63,7 +76,7 @@ then
     PROJMIDDLE=$MIDDLE/$proj
     DIR=$HOME/REPOS/$MIDDLE
 
-    if $INITIALIZE
+    if $INITIALIZE && test ! -d $DIR
     then
       echo creating mirror for $proj...
       mkdir -p $DIR
