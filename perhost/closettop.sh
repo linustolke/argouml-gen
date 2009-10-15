@@ -30,9 +30,9 @@ LOG=argouml-stats/www/closettop.log
 
 function COMMIT() {
   message=$1
-  svn commit -m"$message
+  svn commit -m"Committing $message
 Corresponding to $REVISIONS." 2>&1 |
-  sed 's/^/SVN commit $message: /'
+  sed "s/^/SVN commit $message: /"
 }
 
 function DO_ONE_TARGET() {
@@ -51,7 +51,7 @@ function DO_ONE_TARGET() {
     do
       (
         cd $PRESENTED/`basename $arg` &&
-        COMMIT "Committing result for $JAVA_NAME $target from $arg"
+        COMMIT "result for $JAVA_NAME $target from $arg"
       ) &
     done
     echo "$(date) $target...........done."
@@ -95,11 +95,11 @@ echo "$(date) waiting...........done"
 
 (
   cd $PRESENTED/coverage/coverage &&
-  COMMIT "Committing extra split coverage"
+  COMMIT "extra split coverage"
 ) &
 (
   cd $PRESENTED/coverage/junit &&
-  COMMIT "Committing extra split coverage"
+  COMMIT "extra split coverage"
 )
 echo "$(date) waiting coverage..........."
 wait
@@ -107,7 +107,7 @@ echo "$(date) waiting coverage...........done"
 
 (
   cd $PRESENTED/coverage &&
-  COMMIT "Committing extra coverage"
+  COMMIT "extra coverage"
 ) &
 
 ./build.sh clean
@@ -141,11 +141,11 @@ echo "$(date) waiting...........done"
 
 (
   cd $PRESENTED/coverage/coverage &&
-  COMMIT "Committing extra split coverage"
+  COMMIT "extra split coverage"
 ) &
 (
   cd $PRESENTED/coverage/junit &&
-  COMMIT "Committing extra split coverage"
+  COMMIT "extra split coverage"
 )
 echo "$(date) waiting coverage..........."
 wait
@@ -153,7 +153,7 @@ echo "$(date) waiting coverage...........done"
 
 (
   cd $PRESENTED/coverage &&
-  COMMIT "Committing extra coverage"
+  COMMIT "extra coverage"
 ) &
 
 ./build.sh clean
