@@ -95,7 +95,7 @@ then
     if $SYNCHRONIZE
     then
       echo synchronize $proj...
-      svnsync synchronize $ROOT/$PROJMIDDLE
+      svnsync synchronize $ROOT/$PROJMIDDLE --username guest --password ""
       echo synchronize $proj...done
     fi
   done
