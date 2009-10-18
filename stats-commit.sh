@@ -19,7 +19,7 @@ else
   cd argouml-stats/www
   svn status |
   awk '/^[AM]/ { print $2; }' |
-  xargs -L $ARG --no-run-if-empty \
+  xargs --max-args=$ARG --no-run-if-empty \
       svn commit -m"Committing all the rest (in chunks of $ARG files)"
   echo $(date): Committing all the rest in chunks of $ARG files...done
 fi
