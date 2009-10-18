@@ -32,7 +32,7 @@ function COMMIT() {
   message=$1
   svn commit -m"Committing $message
 Corresponding to $REVISIONS." 2>&1 |
-  sed "s/^/SVN commit $message: /"
+  sed "s;^;SVN commit $message: ;"
 }
 
 function DO_ONE_TARGET() {
