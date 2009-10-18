@@ -88,14 +88,14 @@ then
         echo exit 0 >> $PRERPC
         chmod +x $PRERPC
       )
-      svnsync initialize $ROOT/$PROJMIDDLE http://$PROJMIDDLE --username guest --password ""
+      svnsync --non-interactive --no-auth-cache initialize $ROOT/$PROJMIDDLE http://$PROJMIDDLE --username guest --password ""
       echo $(date): creating mirror for $proj...done
     fi
 
     if $SYNCHRONIZE
     then
       echo $(date): synchronize $proj...
-      svnsync synchronize $ROOT/$PROJMIDDLE --username guest --password ""
+      svnsync --non-interactive --no-auth-cache synchronize $ROOT/$PROJMIDDLE --username guest --password ""
       echo $(date): synchronize $proj...done
     fi
   done
