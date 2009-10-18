@@ -78,7 +78,7 @@ then
 
     if $INITIALIZE && test ! -d $DIR
     then
-      echo creating mirror for $proj...
+      echo $(date): creating mirror for $proj...
       mkdir -p $DIR
       (
         cd $DIR
@@ -89,14 +89,14 @@ then
         chmod +x $PRERPC
       )
       svnsync initialize $ROOT/$PROJMIDDLE http://$PROJMIDDLE --username guest --password ""
-      echo creating mirror for $proj...done
+      echo $(date): creating mirror for $proj...done
     fi
 
     if $SYNCHRONIZE
     then
-      echo synchronize $proj...
+      echo $(date): synchronize $proj...
       svnsync synchronize $ROOT/$PROJMIDDLE --username guest --password ""
-      echo synchronize $proj...done
+      echo $(date): synchronize $proj...done
     fi
   done
 
@@ -114,7 +114,8 @@ fi
   cd tmp
   for proj in $PROJECTS
   do
-    echo checking out $proj
+    echo $(date): checking out $proj...
     svn co $ROOT/$proj.tigris.org/svn/$proj/trunk $proj --username=guest --password=''
+    echo $(date): checking out $proj...done
   done
 )
