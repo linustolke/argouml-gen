@@ -14,26 +14,7 @@ fi
 
 ./update.sh -m
 
-REVISIONS=`
-(
-  cd tmp
-  for proj in a*
-  do
-    (
-      cd $proj &&
-        svn info | awk '/^Revision:/ { printf "%s:%s ", proj, $2; }' proj=$proj
-    )
-  done
-)`
-
 LOG=argouml-stats/www/closettop.log
-
-function COMMIT() {
-  message=$1
-  svn commit -m"Committing $message
-Corresponding to $REVISIONS." 2>&1 |
-  sed "s;^;SVN commit $message: ;"
-}
 
 function DO_ONE_TARGET() {
     target=$1
@@ -46,14 +27,6 @@ function DO_ONE_TARGET() {
     else
       echo `date +"%b %d %H:%M"`: $JAVA_NAME $target FAILED >> $LOG
     fi
-
-    for arg in $*
-    do
-      (
-        cd $PRESENTED/`basename $arg` &&
-        COMMIT "result for $JAVA_NAME $target from $arg"
-      ) &
-    done
     echo "$(date) $target...........done."
 }
 
@@ -79,37 +52,6 @@ DO_ONE_TARGET checkstyle	reports/checkstyle
 DO_ONE_TARGET junit		reports/junit
 DO_ONE_TARGET cpp-junit		reports/cpp-junit
 DO_ONE_TARGET coverage          reports/coverage
-echo "$(date) waiting..........."
-wait 
-wait 
-wait 
-wait 
-wait 
-wait 
-wait 
-wait 
-wait 
-wait 
-wait 
-echo "$(date) waiting...........done"
-
-(
-  cd $PRESENTED/coverage/coverage &&
-  COMMIT "extra split coverage"
-) &
-(
-  cd $PRESENTED/coverage/junit &&
-  COMMIT "extra split coverage"
-)
-echo "$(date) waiting coverage..........."
-wait
-echo "$(date) waiting coverage...........done"
-
-(
-  cd $PRESENTED/coverage &&
-  COMMIT "extra coverage"
-) &
-
 ./build.sh clean
 
 
@@ -129,35 +71,6 @@ DO_ONE_TARGET checkstyle	reports/checkstyle
 DO_ONE_TARGET junit		reports/junit
 DO_ONE_TARGET cpp-junit		reports/cpp-junit
 DO_ONE_TARGET coverage          reports/coverage
-echo "$(date) waiting..........."
-wait 
-wait 
-wait 
-wait 
-wait 
-wait 
-wait 
-echo "$(date) waiting...........done"
-
-(
-  cd $PRESENTED/coverage/coverage &&
-  COMMIT "extra split coverage"
-) &
-(
-  cd $PRESENTED/coverage/junit &&
-  COMMIT "extra split coverage"
-)
-echo "$(date) waiting coverage..........."
-wait
-echo "$(date) waiting coverage...........done"
-
-(
-  cd $PRESENTED/coverage &&
-  COMMIT "extra coverage"
-) &
-
 ./build.sh clean
 
 ./create-index.sh > argouml-stats/www/index.html
-
-wait
