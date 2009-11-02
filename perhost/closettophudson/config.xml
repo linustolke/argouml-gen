@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson>
+  <version>1.301</version>
+  <numExecutors>2</numExecutors>
+  <mode>NORMAL</mode>
+  <useSecurity>true</useSecurity>
+  <authorizationStrategy class="hudson.security.FullControlOnceLoggedInAuthorizationStrategy"/>
+  <securityRealm class="hudson.security.HudsonPrivateSecurityRealm">
+    <disableSignup>true</disableSignup>
+  </securityRealm>
+  <systemMessage>&lt;p&gt;The argonightly jobs does the nightly build. The stats-update, stats-commit, and stats-commit-all jobs uploads the result to the argouml web site (the argouml-stats project).&lt;/p&gt;&#xd;
+&#xd;
+&lt;p&gt;The daily-userdoc jobs builds the documentation (after commit).&lt;/p&gt;&#xd;
+&#xd;
+&lt;p&gt;All jobs fetches information from an svn mirror of the tigris svn repositories that is updated regularly by the update-mirror job.&lt;/p&gt;&#xd;
+</systemMessage>
+  <jdks>
+    <jdk>
+      <name>1.6</name>
+      <home>/usr/local/lib/java/jdk1.6.0</home>
+    </jdk>
+    <jdk>
+      <name>1.5</name>
+      <home>/usr/local/lib/java/jdk1.5.0_06</home>
+    </jdk>
+  </jdks>
+  <clouds/>
+  <slaves/>
+  <quietPeriod>20</quietPeriod>
+  <views>
+    <hudson.model.AllView>
+      <owner class="hudson" reference="../../.."/>
+      <name>All</name>
+    </hudson.model.AllView>
+    <listView>
+      <owner class="hudson" reference="../../.."/>
+      <name>Nightly</name>
+      <jobNames class="tree-set">
+        <comparator class="hudson.util.CaseInsensitiveComparator"/>
+        <string>argonightly</string>
+        <string>stats-commit</string>
+        <string>stats-commit-all</string>
+        <string>stats-update</string>
+      </jobNames>
+      <columns>
+        <hudson.views.StatusColumn/>
+        <hudson.views.WeatherColumn/>
+        <hudson.views.JobColumn/>
+        <hudson.views.LastSuccessColumn/>
+        <hudson.views.LastFailureColumn/>
+        <hudson.views.LastDurationColumn/>
+        <hudson.views.BuildButtonColumn/>
+      </columns>
+    </listView>
+  </views>
+  <primaryView>All</primaryView>
+  <slaveAgentPort>0</slaveAgentPort>
+  <label></label>
+  <nodeProperties/>
+  <globalNodeProperties/>
+  <disabledAdministrativeMonitors/>
+</hudson>
