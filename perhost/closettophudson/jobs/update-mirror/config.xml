@@ -24,7 +24,7 @@
   <triggers class="vector">
     <hudson.triggers.TimerTrigger>
       <spec>0,30 * * * *
-10,20,40,50 12-21 * * *
+10,20,40,50 17-21 * * *
 
 </spec>
     </hudson.triggers.TimerTrigger>
