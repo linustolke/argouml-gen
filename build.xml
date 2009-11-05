@@ -50,33 +50,33 @@
     <!-- Call the clean target in the top of each directory. -->
     <!-- parallel is used just to ignore errors. -->
     <parallel threadCount="1">
-      <ant dir="tmp/argoeclipse"          target="clean"/>
-      <ant dir="tmp/argopdf"              target="clean"/>
-      <ant dir="tmp/argoprint"            target="clean"/>
-      <ant dir="tmp/argouml"              target="clean"/>
-      <ant dir="tmp/argouml-andromda"     target="clean"/>
-      <ant dir="tmp/argouml-classfile"    target="clean"/>
-      <ant dir="tmp/argouml-cpp"          target="clean"/>
-      <ant dir="tmp/argouml-csharp"       target="clean"/>
-      <ant dir="tmp/argouml-db"           target="clean"/>
-      <ant dir="tmp/argouml-de"           target="clean"/>
-      <ant dir="tmp/argouml-en-gb"        target="clean"/>
-      <ant dir="tmp/argouml-es"           target="clean"/>
-      <ant dir="tmp/argouml-fr"           target="clean"/>
-      <ant dir="tmp/argouml-graphviz"     target="clean"/>
-      <ant dir="tmp/argouml-i18n-zh"      target="clean"/>
-      <ant dir="tmp/argouml-idl"          target="clean"/>
-      <ant dir="tmp/argouml-it"           target="clean"/>
-      <ant dir="tmp/argouml-java"         target="clean"/>
-      <ant dir="tmp/argouml-nb"           target="clean"/>
-      <ant dir="tmp/argouml-php"          target="clean"/>
-      <ant dir="tmp/argouml-pt"           target="clean"/>
-      <ant dir="tmp/argouml-pt-br"        target="clean"/>
-      <ant dir="tmp/argouml-python"       target="clean"/>
-      <ant dir="tmp/argouml-ro"           target="clean"/>
-      <ant dir="tmp/argouml-ru"           target="clean"/>
-      <ant dir="tmp/argouml-sql"          target="clean"/>
-      <ant dir="tmp/argouml-sv"           target="clean"/>
+      <ant dir="${working.dir}/argoeclipse"          target="clean"/>
+      <ant dir="${working.dir}/argopdf"              target="clean"/>
+      <ant dir="${working.dir}/argoprint"            target="clean"/>
+      <ant dir="${working.dir}/argouml"              target="clean"/>
+      <ant dir="${working.dir}/argouml-andromda"     target="clean"/>
+      <ant dir="${working.dir}/argouml-classfile"    target="clean"/>
+      <ant dir="${working.dir}/argouml-cpp"          target="clean"/>
+      <ant dir="${working.dir}/argouml-csharp"       target="clean"/>
+      <ant dir="${working.dir}/argouml-db"           target="clean"/>
+      <ant dir="${working.dir}/argouml-de"           target="clean"/>
+      <ant dir="${working.dir}/argouml-en-gb"        target="clean"/>
+      <ant dir="${working.dir}/argouml-es"           target="clean"/>
+      <ant dir="${working.dir}/argouml-fr"           target="clean"/>
+      <ant dir="${working.dir}/argouml-graphviz"     target="clean"/>
+      <ant dir="${working.dir}/argouml-i18n-zh"      target="clean"/>
+      <ant dir="${working.dir}/argouml-idl"          target="clean"/>
+      <ant dir="${working.dir}/argouml-it"           target="clean"/>
+      <ant dir="${working.dir}/argouml-java"         target="clean"/>
+      <ant dir="${working.dir}/argouml-nb"           target="clean"/>
+      <ant dir="${working.dir}/argouml-php"          target="clean"/>
+      <ant dir="${working.dir}/argouml-pt"           target="clean"/>
+      <ant dir="${working.dir}/argouml-pt-br"        target="clean"/>
+      <ant dir="${working.dir}/argouml-python"       target="clean"/>
+      <ant dir="${working.dir}/argouml-ro"           target="clean"/>
+      <ant dir="${working.dir}/argouml-ru"           target="clean"/>
+      <ant dir="${working.dir}/argouml-sql"          target="clean"/>
+      <ant dir="${working.dir}/argouml-sv"           target="clean"/>
 
       <delete dir="${result.dir}"/>
     </parallel>
@@ -85,37 +85,37 @@
 
   <target name="report:release"
           description="Prepare a release-like set to be published.">
-    <delete dir="tmp/argouml/build"/>
+    <delete dir="${working.dir}/argouml/build"/>
 
     <!-- This list of projects should preferably look like the list
          of projects distributed using the official.sh script in the
          argoumlinstaller project.
      -->
-    <ant dir="tmp/argouml"              target="install"/>
+    <ant dir="${working.dir}/argouml"              target="install"/>
     <parallel threadCount="3">
-      <ant dir="tmp/argouml-cpp"          target="install"/>
-      <ant dir="tmp/argouml-csharp"       target="install"/>
-      <ant dir="tmp/argouml-de"           target="install"/>
-      <ant dir="tmp/argouml-en-gb"        target="install"/>
-      <ant dir="tmp/argouml-es"           target="install"/>
-      <ant dir="tmp/argouml-fr"           target="install"/>
-      <ant dir="tmp/argouml-i18n-zh"      target="install"/>
-      <ant dir="tmp/argouml-idl"          target="install"/>
-      <ant dir="tmp/argouml-it"           target="install"/>
-      <ant dir="tmp/argouml-nb"           target="install"/>
-      <ant dir="tmp/argouml-php"          target="install"/>
-      <ant dir="tmp/argouml-pt"           target="install"/>
-      <ant dir="tmp/argouml-pt-br"        target="install"/>
-      <ant dir="tmp/argouml-ro"           target="install"/>
-      <ant dir="tmp/argouml-ru"           target="install"/>
-      <ant dir="tmp/argouml-sql"          target="install"/>
+      <ant dir="${working.dir}/argouml-cpp"          target="install"/>
+      <ant dir="${working.dir}/argouml-csharp"       target="install"/>
+      <ant dir="${working.dir}/argouml-de"           target="install"/>
+      <ant dir="${working.dir}/argouml-en-gb"        target="install"/>
+      <ant dir="${working.dir}/argouml-es"           target="install"/>
+      <ant dir="${working.dir}/argouml-fr"           target="install"/>
+      <ant dir="${working.dir}/argouml-i18n-zh"      target="install"/>
+      <ant dir="${working.dir}/argouml-idl"          target="install"/>
+      <ant dir="${working.dir}/argouml-it"           target="install"/>
+      <ant dir="${working.dir}/argouml-nb"           target="install"/>
+      <ant dir="${working.dir}/argouml-php"          target="install"/>
+      <ant dir="${working.dir}/argouml-pt"           target="install"/>
+      <ant dir="${working.dir}/argouml-pt-br"        target="install"/>
+      <ant dir="${working.dir}/argouml-ro"           target="install"/>
+      <ant dir="${working.dir}/argouml-ru"           target="install"/>
+      <ant dir="${working.dir}/argouml-sql"          target="install"/>
     </parallel>
 
-    <ant dir="tmp/argouml"              target="update-argouml.jar-manifest"/>
+    <ant dir="${working.dir}/argouml"              target="update-argouml.jar-manifest"/>
 
     <delete dir="${result.dir}/reports/release"/>
     <move todir="${result.dir}/reports/release">
-      <fileset dir="tmp/argouml/build"/>
+      <fileset dir="${working.dir}/argouml/build"/>
     </move>
   </target>
 

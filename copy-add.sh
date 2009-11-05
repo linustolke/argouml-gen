@@ -29,6 +29,27 @@ then
     exit 1
 fi
 
+WHERE=tmp
+set -- `getopt w: "$@"`
+while true
+do
+  case "$1" in
+  -w)
+    shift
+    WHERE="$1"
+    shift
+    ;;
+  --)
+    shift
+    break
+    ;;
+  *)
+    echo $0: Invalid argument $o 1>&2
+    exit 1
+    ;;
+  esac
+done
+
 target=$1
 shift
 
@@ -36,7 +57,7 @@ for arg in $*
 do
     whereto=$target/`basename $arg`
     echo Copying $arg
-    cp -r tmp/RESULT/$arg `dirname $whereto`
+    cp -r $WHERE/RESULT/$arg `dirname $whereto`
 
     echo Adding new files for $arg
     ( cd $whereto &&

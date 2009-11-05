@@ -1,25 +1,37 @@
 #!/bin/sh
 
-set -- `getopt mis "$@"`
+set -- `getopt misw: "$@"`
 MIRRORED=false
 INITIALIZE=false
 SYNCHRONIZE=false
-for o
+WHERE=tmp
+while true
 do
-  case $o in
+  case "$1" in
   -m)
     MIRRORED=true
+    shift
     ;;
   -i)
     INITIALIZE=true
+    shift
     ;;
   -s)
     SYNCHRONIZE=true
+    shift
+    ;;
+  -w)
+    shift
+    WHERE="$1"
+    shift
     ;;
   --)
+    shift
+    break
     ;;
   *)
     echo $0: Invalid argument $o 1>&2
+    exit 1
     ;;
   esac
 done
@@ -107,11 +119,11 @@ then
 fi
 
 (
-  if [ ! -d tmp ]
+  if [ ! -d $WHERE ]
   then
-    mkdir tmp
+    mkdir $WHERE
   fi
-  cd tmp
+  cd $WHERE
   for proj in $PROJECTS
   do
     echo $(date): checking out $proj...
