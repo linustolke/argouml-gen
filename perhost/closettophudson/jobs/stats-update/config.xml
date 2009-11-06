@@ -24,7 +24,7 @@
   </builders>
   <publishers>
     <hudson.tasks.BuildTrigger>
-      <childProjects>argonightly</childProjects>
+      <childProjects>argonightly, argonightly-java5, argonightly-java6</childProjects>
       <threshold>
         <name>UNSTABLE</name>
         <ordinal>1</ordinal>
@@ -37,14 +37,6 @@
       <unstableIfFound>true</unstableIfFound>
       <alsoCheckConsoleOutput>true</alsoCheckConsoleOutput>
     </hudson.plugins.textfinder.TextFinderPublisher>
-    <hudson.tasks.BuildTrigger>
-      <childProjects>argonightly, argonightly-java5</childProjects>
-      <threshold reference="../../hudson.tasks.BuildTrigger/threshold"/>
-    </hudson.tasks.BuildTrigger>
-    <hudson.tasks.BuildTrigger>
-      <childProjects>argonightly, argonightly-java6</childProjects>
-      <threshold reference="../../hudson.tasks.BuildTrigger/threshold"/>
-    </hudson.tasks.BuildTrigger>
   </publishers>
   <buildWrappers>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper>
