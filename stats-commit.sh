@@ -12,15 +12,16 @@ if test -z "$ARG"
 then
   echo $(date): Committing all the rest...
   cd argouml-stats/www
-  svn commit -m"Committing all the rest"
+  svn commit -m"Committing all the rest" --non-interactive --no-auth-cache
   echo $(date): Committing all the rest...done
 else
   echo $(date): Committing all the rest in chunks of $ARG files...
   cd argouml-stats/www
-  svn status |
+  svn status --non-interactive --no-auth-cache |
   awk '/^[AM]/ { print $2; }' |
   xargs --max-args=$ARG --no-run-if-empty \
-      svn commit -m"Committing all the rest (in chunks of $ARG files)"
+      svn commit -m"Committing all the rest (in chunks of $ARG files)" \
+          --non-interactive --no-auth-cache
   echo $(date): Committing all the rest in chunks of $ARG files...done
 fi
-svn update
+svn update --non-interactive --no-auth-cache --accept=mine-full
