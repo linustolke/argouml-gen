@@ -11,7 +11,7 @@
   <scm class="hudson.scm.NullSCM"/>
   <quietPeriod>200</quietPeriod>
   <canRoam>true</canRoam>
-  <disabled>false</disabled>
+  <disabled>true</disabled>
   <jdk>(Default)</jdk>
   <triggers class="vector">
     <com.redfin.hudson.UrlChangeTrigger>
@@ -21,7 +21,8 @@
   </triggers>
   <builders>
     <hudson.tasks.Shell>
-      <command>cd /home2/argonightly/argouml-gen/argouml-stats &amp;&amp; svn commit -m&apos;Committing files from the nightly build.&apos;</command>
+      <command>cd /home2/argonightly/argouml-gen/argouml-stats &amp;&amp; svn commit -m&apos;Committing files from the nightly build.&apos; --non-interactive --no-auth-cache
+</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
