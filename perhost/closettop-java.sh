@@ -47,15 +47,15 @@ function DO_ONE_TARGET() {
 
 # Starting the reports.
 
-./build.sh clean
+./build.sh -Dworking.dir=$WORKDIR clean
 DO_ONE_TARGET javadocs 	reports/javadocs reports/javadocs-api
 
-./build.sh clean
+./build.sh -Dworking.dir=$WORKDIR clean
 DO_ONE_TARGET release           reports/release
 DO_ONE_TARGET checkstyle	reports/checkstyle
 DO_ONE_TARGET junit		reports/junit
 DO_ONE_TARGET cpp-junit		reports/cpp-junit
 DO_ONE_TARGET coverage          reports/coverage
-./build.sh clean
+./build.sh -Dworking.dir=$WORKDIR clean
 
 ./create-index.sh > argouml-stats/www/index.html
