@@ -39,12 +39,15 @@
     <mkdir dir="${result.dir}"/>
   </target>
 
+  <target name="clean-result">
+    <delete dir="${result.dir}"/>
+  </target>
+
   <target name="clean"
           depends="init-reports"
           description="remove all generated reports">
     <!-- This cleans all projects. -->
     <ant dir="${argouml.argouml-build.dir}" antfile="build-reports.xml" target="clean-reports"/>
-    <ant dir="${argouml-cpp.dir}" antfile="build.xml" target="clean"/>
     <ant dir="${argouml.argouml-build.dir}" antfile="build.xml" target="clean"/>
 
     <!-- Call the clean target in the top of each directory. -->
@@ -78,7 +81,7 @@
       <ant dir="${working.dir}/argouml-sql"          target="clean"/>
       <ant dir="${working.dir}/argouml-sv"           target="clean"/>
 
-      <delete dir="${result.dir}"/>
+      <ant target="clean-result"/>
     </parallel>
   </target>
 
