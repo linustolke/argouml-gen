@@ -11,7 +11,7 @@
   <scm class="hudson.scm.NullSCM"/>
   <quietPeriod>200</quietPeriod>
   <canRoam>true</canRoam>
-  <disabled>true</disabled>
+  <disabled>false</disabled>
   <jdk>(Default)</jdk>
   <triggers class="vector">
     <com.redfin.hudson.UrlChangeTrigger>

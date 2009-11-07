@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description>The nightly job for the java6 jdk.</description>
+  <description>Cleans up the checked out copy.</description>
   <logRotator>
     <daysToKeep>25</daysToKeep>
     <numToKeep>-1</numToKeep>
@@ -9,24 +9,27 @@
   <keepDependencies>false</keepDependencies>
   <properties/>
   <scm class="hudson.scm.NullSCM"/>
+  <quietPeriod>2000</quietPeriod>
   <canRoam>true</canRoam>
   <disabled>false</disabled>
-  <jdk>1.6</jdk>
-  <triggers class="vector"/>
+  <jdk>(Default)</jdk>
+  <triggers class="vector">
+    <hudson.triggers.TimerTrigger>
+      <spec>0 12 * * 3</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
   <builders>
     <hudson.tasks.Shell>
-      <command>cd /home2/argonightly/argouml-gen &amp;&amp; perhost/closettop-java.sh</command>
+      <command>cd /home2/argonightly/argouml-gen/argouml-stats &amp;&amp; svn cleanup --non-interactive --no-auth-cache</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
-    <hudson.tasks.BuildTrigger>
-      <childProjects>stats-commit-all</childProjects>
-      <threshold>
-        <name>UNSTABLE</name>
-        <ordinal>1</ordinal>
-        <color>YELLOW</color>
-      </threshold>
-    </hudson.tasks.BuildTrigger>
+    <hudson.plugins.textfinder.TextFinderPublisher>
+      <regexp>Could not resolve hostname|timed out waiting for server|could not connect to server|commit attempts failed.*Giving up</regexp>
+      <succeedIfFound>false</succeedIfFound>
+      <unstableIfFound>true</unstableIfFound>
+      <alsoCheckConsoleOutput>true</alsoCheckConsoleOutput>
+    </hudson.plugins.textfinder.TextFinderPublisher>
   </publishers>
   <buildWrappers>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper>
@@ -35,7 +38,7 @@
     <hudson.plugins.locksandlatches.LockWrapper>
       <locks>
         <hudson.plugins.locksandlatches.LockWrapper_-LockWaitConfig>
-          <name>build</name>
+          <name>argouml-stats</name>
         </hudson.plugins.locksandlatches.LockWrapper_-LockWaitConfig>
       </locks>
     </hudson.plugins.locksandlatches.LockWrapper>

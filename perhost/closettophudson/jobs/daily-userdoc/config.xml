@@ -42,12 +42,14 @@ test -f $JIMI || cp $HOME/$JIMI .
 </command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>cd argouml-gen
-./build.sh report:daily-userdoc</command>
+      <command>cd argouml-gen &amp;&amp; ./build.sh report:daily-userdoc</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
       <command>argouml-gen/hudson/h-upload.sh http://argouml-stats.tigris.org/svn/argouml-stats/trunk/www/daily-userdoc RESULT/daily-userdoc
 </command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>cd argouml-gen &amp;&amp; ./build.sh clean-result</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
