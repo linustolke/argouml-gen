@@ -1,6 +1,10 @@
 #!/bin/sh
 
 # ./h-upload.sh http://blablabla/where/the... file/path/to/files/to/upload
+#
+# As a special feature, if the current directory contains directories that
+# are checked out, their name and revision are used in the commit message.
+#
 
 SVNURL=$1
 FILES=$2
