@@ -22,6 +22,7 @@
     <useUpdate>true</useUpdate>
     <excludedRegions></excludedRegions>
   </scm>
+  <quietPeriod>300</quietPeriod>
   <canRoam>true</canRoam>
   <disabled>false</disabled>
   <jdk>1.6</jdk>

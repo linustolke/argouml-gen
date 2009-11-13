@@ -9,6 +9,7 @@
   <keepDependencies>false</keepDependencies>
   <properties/>
   <scm class="hudson.scm.NullSCM"/>
+  <quietPeriod>200</quietPeriod>
   <canRoam>true</canRoam>
   <disabled>false</disabled>
   <jdk>1.6</jdk>
@@ -32,12 +33,5 @@
     <hudson.plugins.build__timeout.BuildTimeoutWrapper>
       <timeoutMinutes>2400</timeoutMinutes>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>
-    <hudson.plugins.locksandlatches.LockWrapper>
-      <locks>
-        <hudson.plugins.locksandlatches.LockWrapper_-LockWaitConfig>
-          <name>build</name>
-        </hudson.plugins.locksandlatches.LockWrapper_-LockWaitConfig>
-      </locks>
-    </hudson.plugins.locksandlatches.LockWrapper>
   </buildWrappers>
 </project>
