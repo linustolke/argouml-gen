@@ -12,7 +12,8 @@ if test -z "$ARG"
 then
   echo $(date): Committing all the rest...
   cd argouml-stats/www
-  svn commit -m"Committing all the rest" --non-interactive --no-auth-cache
+  svn commit -m"Committing all the rest" --non-interactive --no-auth-cache ||
+      svn update --non-interactive --no-auth-cache --accept=mine-full
   echo $(date): Committing all the rest...done
 else
   echo $(date): Committing all the rest in chunks of $ARG files...
@@ -21,7 +22,7 @@ else
   awk '/^[AM]/ { print $2; }' |
   xargs --max-args=$ARG --no-run-if-empty \
       svn commit -m"Committing all the rest (in chunks of $ARG files)" \
-          --non-interactive --no-auth-cache
+          --non-interactive --no-auth-cache ||
+      svn update --non-interactive --no-auth-cache --accept=mine-full
   echo $(date): Committing all the rest in chunks of $ARG files...done
 fi
-svn update --non-interactive --no-auth-cache --accept=mine-full
