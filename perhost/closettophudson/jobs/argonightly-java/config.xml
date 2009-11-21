@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<matrix-project>
+  <actions/>
+  <description>The part of the nightly build that is done for each jdk.</description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <scm class="hudson.scm.SubversionSCM">
+    <locations>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///home/argonightly/REPOS/argouml-gen.tigris.org/svn/argouml-gen/trunk</remote>
+        <local>argouml-gen</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///home/argonightly/REPOS/argouml.tigris.org/svn/argouml/trunk</remote>
+        <local>argouml</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///home/argonightly/REPOS/argouml-cpp.tigris.org/svn/argouml-cpp/trunk</remote>
+        <local>argouml-cpp</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///home/argonightly/REPOS/argouml-csharp.tigris.org/svn/argouml-csharp/trunk</remote>
+        <local>argouml-csharp</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///home/argonightly/REPOS/argouml-idl.tigris.org/svn/argouml-idl/trunk</remote>
+        <local>argouml-idl</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///home/argonightly/REPOS/argouml-php.tigris.org/svn/argouml-php/trunk</remote>
+        <local>argouml-php</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///home/argonightly/REPOS/argouml-sql.tigris.org/svn/argouml-sql/trunk</remote>
+        <local>argouml-sql</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///home/argonightly/REPOS/argouml-de.tigris.org/svn/argouml-de/trunk</remote>
+        <local>argouml-de</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///home/argonightly/REPOS/argouml-en-gb.tigris.org/svn/argouml-en-gb/trunk</remote>
+        <local>argouml-en-gb</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///home/argonightly/REPOS/argouml-es.tigris.org/svn/argouml-es/trunk</remote>
+        <local>argouml-es</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///home/argonightly/REPOS/argouml-fr.tigris.org/svn/argouml-fr/trunk</remote>
+        <local>argouml-fr</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///home/argonightly/REPOS/argouml-i18n-zh.tigris.org/svn/argouml-i18n-zh/trunk</remote>
+        <local>argouml-i18n-zh</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///home/argonightly/REPOS/argouml-it.tigris.org/svn/argouml-it/trunk</remote>
+        <local>argouml-it</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///home/argonightly/REPOS/argouml-nb.tigris.org/svn/argouml-nb/trunk</remote>
+        <local>argouml-nb</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///home/argonightly/REPOS/argouml-pt.tigris.org/svn/argouml-pt/trunk</remote>
+        <local>argouml-pt</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///home/argonightly/REPOS/argouml-pt-br.tigris.org/svn/argouml-pt-br/trunk</remote>
+        <local>argouml-pt-br</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///home/argonightly/REPOS/argouml-ro.tigris.org/svn/argouml-ro/trunk</remote>
+        <local>argouml-ro</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///home/argonightly/REPOS/argouml-ru.tigris.org/svn/argouml-ru/trunk</remote>
+        <local>argouml-ru</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+    </locations>
+    <useUpdate>true</useUpdate>
+    <excludedRegions></excludedRegions>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <triggers class="vector"/>
+  <axes>
+    <axis>
+      <name>type</name>
+      <values>
+        <string>javadocs</string>
+        <string>release</string>
+        <string>checkstyle</string>
+        <string>junit</string>
+        <string>cpp-junit</string>
+        <string>coverage</string>
+      </values>
+    </axis>
+    <axis>
+      <name>jdk</name>
+      <values>
+        <string>1.6</string>
+        <string>1.5</string>
+      </values>
+    </axis>
+  </axes>
+  <combinationFilter>type==&quot;release&quot;</combinationFilter>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>cd argouml-gen &amp;&amp; ./build.sh -Dworking.dir=.. report:$type
+</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>case &quot;$JAVA_HOME&quot; in
+*jdk1.5.0*)
+    JAVA_NAME=java5
+    ;;
+*jdk1.6.0*)
+    JAVA_NAME=java6
+    ;;
+*)
+    echo &quot;Unknown jdk!&quot;
+    exit 1
+    ;;
+esac
+
+argouml-gen/hudson/h-upload.sh http://argouml-stats.tigris.org/svn/argouml-stats/trunk/www/reports-$JAVA_NAME/$type RESULT/$type</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.tasks.JavadocArchiver>
+      <javadocDir>to-be-filled-in/</javadocDir>
+      <keepAll>false</keepAll>
+    </hudson.tasks.JavadocArchiver>
+    <hudson.tasks.junit.JUnitResultArchiver>
+      <testResults>to-be-filled-in.xml</testResults>
+    </hudson.tasks.junit.JUnitResultArchiver>
+    <hudson.plugins.warnings.WarningsPublisher>
+      <threshold></threshold>
+      <newThreshold></newThreshold>
+      <failureThreshold></failureThreshold>
+      <newFailureThreshold></newFailureThreshold>
+      <healthy></healthy>
+      <unHealthy></unHealthy>
+      <pluginName>[WARNINGS] </pluginName>
+      <thresholdLimit>low</thresholdLimit>
+      <defaultEncoding></defaultEncoding>
+      <pattern></pattern>
+      <parserNames/>
+      <canRunOnFailed>false</canRunOnFailed>
+      <ignoreConsole>false</ignoreConsole>
+    </hudson.plugins.warnings.WarningsPublisher>
+    <hudson.plugins.textfinder.TextFinderPublisher>
+      <fileSet>timeout...</fileSet>
+      <regexp></regexp>
+      <succeedIfFound>false</succeedIfFound>
+      <unstableIfFound>false</unstableIfFound>
+      <alsoCheckConsoleOutput>true</alsoCheckConsoleOutput>
+    </hudson.plugins.textfinder.TextFinderPublisher>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.build__timeout.BuildTimeoutWrapper>
+      <timeoutMinutes>1200</timeoutMinutes>
+    </hudson.plugins.build__timeout.BuildTimeoutWrapper>
+  </buildWrappers>
+</matrix-project>
