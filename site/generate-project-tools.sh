@@ -5,6 +5,7 @@
 
 for i in argouml-* argoumlinstaller
 do
+    echo $i...
     name=`echo $i | sed 's/^argouml-//'`
     NAME=`echo $name | tr a-z A-Z`
 
@@ -77,6 +78,85 @@ do
         USING_EXTRA='
     <li><a href="/ds/viewForumSummary.do?dsForumId=4472">Liste de diffusion Utilisateurs en fran&ccedil;ais</a></li>'
         ;;
+
+    documentation)
+        EXTRA='
+  </ul>
+
+<dt>Nightly builds of docs</dt>
+<dd>
+  <ul>
+    <li><a href="http://argouml-stats.tigris.org/daily-userdoc/">Index and translations</a></li>
+    <li><a href="http://argouml-stats.tigris.org/documentation/defaulthtml/cookbook/">Cookbook</a>
+    </li>
+    <li><a href="http://argouml-stats.tigris.org/documentation/printablehtml/cookbook/cookbook.html">Cookbook - Single File</a>
+    </li>
+    <li><a href="http://argouml-stats.tigris.org/documentation/pdf/cookbook/cookbook.pdf">Cookbook - PDF</a>
+    </li>
+
+    <li><a href="http://argouml-stats.tigris.org/daily-userdoc/en/defaulthtml/quickguide/">Quick Guide</a>
+    </li>
+    <li><a href="http://argouml-stats.tigris.org/daily-userdoc/en/printablehtml/quickguide/quickguide.html">Quick Guide - Single File</a>
+    </li>
+    <li><a href="http://argouml-stats.tigris.org/daily-userdoc/en/pdf/quickguide/quickguide.pdf">Quick Guide - PDF</a>
+    </li>
+
+    <li><a href="http://argouml-stats.tigris.org/daily-userdoc/en/defaulthtml/manual/">User Manual</a>
+    </li>
+    <li><a href="http://argouml-stats.tigris.org/daily-userdoc/en/printablehtml/manual/argomanual.html">User Manual - Single File</a>
+    </li>
+    <li><a href="http://argouml-stats.tigris.org/daily-userdoc/en/pdf/manual/argomanual.pdf">User Manual - PDF</a>
+    </li>
+    <li><a href="http://argouml-stats.tigris.org/documentation-es/">Old Spanish Index</a></li>
+    <li><a href="http://argouml-stats.tigris.org/documentation-de/">Old German Index</a></li>
+  </ul>'
+        ;;
+
+    downloads)
+        T_MEMBERSHIP="Admin"
+        T_SOURCE="Browse SVN"
+        EXTRA='
+  </ul>
+
+<dt>Recent releases</dt>
+<dd>
+  <ul>
+    <li><a href="/argouml-0.28.1">Release 0.28.1</a></li>
+    <li><a href="/argouml-0.26.2">Release 0.26.2</a></li>
+    <li><a href="/argouml-0.24">Release 0.24</a></li>'
+        ;;
+
+    nb)
+	T_MEMBERSHIP="Medlemsskap"
+	T_NEWS="Kunngj&oslash;ringer"
+	T_MAILING_LISTS="E-postlister"
+	T_FILES="Dokumenter og filer"
+	T_SOURCE="Kildekode"
+	;;
+
+    sv)
+	T_NEWS="Nyheter"
+	T_MEMBERSHIP=Medlemsskap
+	T_MAILING_LISTS="Mailinglistor"
+	T_FILES=Filer
+	T_SOURCE="K&auml;llkod"
+
+	T_ARGOUML_PROJECT="ArgoUMLprojektet"
+	T_ARGOUML_MAILING_LISTS="Mailinglistor"
+
+	T_ARGOUML_USING_ARGOUML="Anv&auml;nda ArgoUML"
+	T_ARGOUML_QUICK_GUIDE="Snabbguide (engelska)"
+	T_ARGOUML_USER_MANUAL="Anv&auml;ndarmanual (engelska)"
+	T_ARGOUML_FAQ="FAQ (engelska)"
+	T_ARGOUML_WIKI="Wiki"
+	T_ARGOUML_FORUM="Forum"
+	T_ARGOUML_USERS_MAILING_LIST="Anv&auml;ndaremailinglista (engelska)"
+	T_ARGOUML_DOCUMENTATION="Dokumentation (engelska)"
+	T_ARGOUML_TOUR="Rundvandring (engelska)"
+	T_ARGOUML_DOWNLOADS="Ladda ner"
+
+	;;
+
     *)
         ;;
     esac
@@ -220,4 +300,5 @@ EOF
 	    ;;
 	esac
     fi
+    echo $i...done
 done
