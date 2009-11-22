@@ -124,15 +124,24 @@
 
 
   <target name="report:coverage" depends="init-reports" description="generate coverage reports">
-    <ant dir="${argouml.argouml-build.dir}" antfile="build-reports.xml" target="report:coverage"/>
+    <ant target="report:coverage"
+         dir="${argouml.argouml-build.dir}" antfile="build-reports.xml">
+      <property name="argouml-gen.tools.dir" location="tools"/>
+    </ant>
   </target>
 
   <target name="report:jdepend" depends="init-reports" description="generate jdepend reports">
-    <ant dir="${argouml.argouml-build.dir}" antfile="build-reports.xml" target="report:jdepend"/>
+    <ant target="report:jdepend"
+         dir="${argouml.argouml-build.dir}" antfile="build-reports.xml">
+      <property name="argouml-gen.tools.dir" location="tools"/>
+    </ant>
   </target>
 
   <target name="report:checkstyle" depends="init-reports" description="generate checkstyle reports">
-    <ant dir="${argouml.argouml-build.dir}" antfile="build-reports.xml" target="report:checkstyle"/>
+    <ant target="report:checkstyle"
+         dir="${argouml.argouml-build.dir}" antfile="build-reports.xml">
+      <property name="argouml-gen.tools.dir" location="tools"/>
+    </ant>
   </target>
 
   <target name="report:junit" depends="init-reports" description="generate junit reports">
@@ -155,7 +164,10 @@
   </target>
 
   <target name="report:findbugs" depends="init-reports" description="generate FindBug reports">
-    <ant dir="${argouml.argouml-build.dir}" antfile="build-reports.xml" target="report:findbugs"/>
+    <ant target="report:findbugs"
+         dir="${argouml.argouml-build.dir}" antfile="build-reports.xml">
+      <property name="argouml-gen.tools.dir" location="tools"/>
+    </ant>
   </target>
 
   <target name="report:i18ncomparison" description="generate comparison between internationalizations." depends="init-result">
