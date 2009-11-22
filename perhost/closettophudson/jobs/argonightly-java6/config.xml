@@ -11,7 +11,7 @@
   <scm class="hudson.scm.NullSCM"/>
   <quietPeriod>200</quietPeriod>
   <canRoam>true</canRoam>
-  <disabled>false</disabled>
+  <disabled>true</disabled>
   <jdk>1.6</jdk>
   <triggers class="vector"/>
   <builders>
