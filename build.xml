@@ -2,14 +2,18 @@
  This build file contains the rules to build
  all the different statistics and snapshots built
  by the argouml-gen project.
+
+ A big part of the rules are deferred to the build-reports.xml file that is
+ copied down within the hierarchy. Whenever that is called we need to provide
+ the argouml-gen.tools.dir property pointing to the tools directory.
  
  Description of the set-up are in http://argouml-gen.tigris.org/techdoc.html
  -->
 
-<project name="argouml-gen" default="report:jdepend" basedir=".">
+<project name="argouml-gen" default="report:junit" basedir=".">
   <description>
-        Build some targets in another project and save results to CVS.
-    </description>
+A collection of prepared static checks targets to run automatically.
+</description>
   <property name="project.to.build" value="argouml"/>
   <property name="working.dir" location="${basedir}/tmp"/>
   <property name="argouml.dir" location="${working.dir}/argouml"/>
@@ -47,7 +51,10 @@
           depends="init-reports"
           description="remove all generated reports">
     <!-- This cleans all projects. -->
-    <ant dir="${argouml.argouml-build.dir}" antfile="build-reports.xml" target="clean-reports"/>
+    <ant target="clean-reports"
+         dir="${argouml.argouml-build.dir}" antfile="build-reports.xml">
+      <property name="argouml-gen.tools.dir" location="tools"/>
+    </ant>
     <ant dir="${argouml.argouml-build.dir}" antfile="build.xml" target="clean"/>
 
     <!-- Call the clean target in the top of each directory. -->
@@ -145,8 +152,10 @@
   </target>
 
   <target name="report:junit" depends="init-reports" description="generate junit reports">
-    <ant dir="${argouml.argouml-build.dir}" antfile="build-reports.xml"
-         target="report:junit"/>
+    <ant target="report:junit"
+         dir="${argouml.argouml-build.dir}" antfile="build-reports.xml">
+      <property name="argouml-gen.tools.dir" location="tools"/>
+    </ant>
   </target>
 
   <target name="report:cpp-junit" depends="init-reports" description="generate junit reports for cpp">
@@ -160,7 +169,10 @@
   </target>
 
   <target name="report:javadocs" depends="init-reports" description="generate javadocs reports">
-    <ant dir="${argouml.argouml-build.dir}" antfile="build-reports.xml" target="report:javadocs"/>
+    <ant target="report:javadocs"
+         dir="${argouml.argouml-build.dir}" antfile="build-reports.xml">
+      <property name="argouml-gen.tools.dir" location="tools"/>
+    </ant>
   </target>
 
   <target name="report:findbugs" depends="init-reports" description="generate FindBug reports">

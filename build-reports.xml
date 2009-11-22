@@ -4,7 +4,8 @@
     Creates all reports.
 
     This file is always copied to tmp/argouml/src/argouml-build directory 
-    before invoked.
+    before invoked. It relies on having the argouml-gen.tools.dir property
+    set when invoked.
 
     Output of all scripts here is the ${result.dir}/reports directory.
   </description>
