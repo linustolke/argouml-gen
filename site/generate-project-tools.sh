@@ -224,7 +224,7 @@ EOF
         fi
 
         cat <<EOF
-    <li><a href="/source/browse/argouml-$name/">$T_SOURCE ($NAME)</a></li>$EXTRA
+    <li><a href="/source/browse/$i/">$T_SOURCE ($NAME)</a></li>$EXTRA
   </ul>
 </dd>
 
