@@ -89,12 +89,15 @@
     <axis>
       <name>type</name>
       <values>
+        <string>junit</string>
+        <string>cpp-junit</string>
         <string>javadocs</string>
         <string>release</string>
         <string>checkstyle</string>
-        <string>junit</string>
-        <string>cpp-junit</string>
+        <string>findbugs</string>
+        <string>jdepend</string>
         <string>coverage</string>
+        <string>i18ncomparison</string>
       </values>
     </axis>
     <axis>
@@ -105,7 +108,7 @@
       </values>
     </axis>
   </axes>
-  <combinationFilter>type==&quot;release&quot;</combinationFilter>
+  <combinationFilter>jdk==&quot;1.5&quot; &amp;&amp; type==&quot;javadocs&quot;</combinationFilter>
   <builders>
     <hudson.tasks.Shell>
       <command>cd argouml-gen &amp;&amp; ./build.sh -Dworking.dir=.. report:$type
@@ -125,17 +128,17 @@
     ;;
 esac
 
-argouml-gen/hudson/h-upload.sh http://argouml-stats.tigris.org/svn/argouml-stats/trunk/www/reports-$JAVA_NAME/$type RESULT/$type</command>
+for dir in RESULT/reports/$type*
+do
+argouml-gen/hudson/h-upload.sh http://argouml-stats.tigris.org/svn/argouml-stats/trunk/www/reports-$JAVA_NAME/`basename $dir` $dir
+done
+</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>cd argouml-gen &amp;&amp; ./build.sh -Dworking.dir=.. clean-result</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
-    <hudson.tasks.JavadocArchiver>
-      <javadocDir>to-be-filled-in/</javadocDir>
-      <keepAll>false</keepAll>
-    </hudson.tasks.JavadocArchiver>
-    <hudson.tasks.junit.JUnitResultArchiver>
-      <testResults>to-be-filled-in.xml</testResults>
-    </hudson.tasks.junit.JUnitResultArchiver>
     <hudson.plugins.warnings.WarningsPublisher>
       <threshold></threshold>
       <newThreshold></newThreshold>
@@ -152,8 +155,7 @@ argouml-gen/hudson/h-upload.sh http://argouml-stats.tigris.org/svn/argouml-stats
       <ignoreConsole>false</ignoreConsole>
     </hudson.plugins.warnings.WarningsPublisher>
     <hudson.plugins.textfinder.TextFinderPublisher>
-      <fileSet>timeout...</fileSet>
-      <regexp></regexp>
+      <regexp>Could not resolve hostname|timed out waiting for server|could not connect to server</regexp>
       <succeedIfFound>false</succeedIfFound>
       <unstableIfFound>false</unstableIfFound>
       <alsoCheckConsoleOutput>true</alsoCheckConsoleOutput>
