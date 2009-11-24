@@ -22,13 +22,12 @@
     <useUpdate>true</useUpdate>
     <excludedRegions></excludedRegions>
   </scm>
-  <quietPeriod>250</quietPeriod>
   <canRoam>true</canRoam>
   <disabled>false</disabled>
   <jdk>1.5</jdk>
   <triggers class="vector">
     <hudson.triggers.SCMTrigger>
-      <spec>*/5 * * * *&#xd;
+      <spec>*/5 * * * *
 </spec>
     </hudson.triggers.SCMTrigger>
   </triggers>
@@ -60,6 +59,7 @@
   <buildWrappers>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper>
       <timeoutMinutes>500</timeoutMinutes>
+      <failBuild>false</failBuild>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>
   </buildWrappers>
 </project>

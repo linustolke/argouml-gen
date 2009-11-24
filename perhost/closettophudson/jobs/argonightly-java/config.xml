@@ -107,6 +107,12 @@
         <string>1.5</string>
       </values>
     </axis>
+    <axis>
+      <name>label</name>
+      <values>
+        <string>bignslow</string>
+      </values>
+    </axis>
   </axes>
   <combinationFilter>jdk==&quot;1.5&quot; &amp;&amp; type==&quot;javadocs&quot;</combinationFilter>
   <builders>
@@ -164,6 +170,7 @@ done
   <buildWrappers>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper>
       <timeoutMinutes>1200</timeoutMinutes>
+      <failBuild>false</failBuild>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>
   </buildWrappers>
 </matrix-project>
