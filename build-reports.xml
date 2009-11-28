@@ -277,8 +277,6 @@ The report is ${build.coverage.dir}/index.html
 
   <target name="report:checkstyle"
           description="create checkstyle reports">
-    <ant dir="../argouml-app" inheritAll="false" target="cleanparser"/>
-
     <ant target="argouml-gen.checkstyle"
          antfile="build-reports.xml"
          output="checkstyle-result.txt" inheritall="false"/>
