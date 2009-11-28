@@ -84,7 +84,11 @@
   </scm>
   <canRoam>true</canRoam>
   <disabled>false</disabled>
-  <triggers class="vector"/>
+  <triggers class="vector">
+    <hudson.triggers.SCMTrigger>
+      <spec>0 0 * * *</spec>
+    </hudson.triggers.SCMTrigger>
+  </triggers>
   <axes>
     <axis>
       <name>type</name>
@@ -114,7 +118,7 @@
       </values>
     </axis>
   </axes>
-  <combinationFilter>jdk==&quot;1.5&quot; &amp;&amp; type==&quot;javadocs&quot;</combinationFilter>
+  <combinationFilter>jdk==&quot;1.5&quot; || (type != &quot;checkstyle&quot; &amp;&amp; type != &quot;findbugs&quot; &amp;&amp; type != &quot;jdepend&quot; &amp;&amp; type != &quot;i18ncomparison&quot;)</combinationFilter>
   <builders>
     <hudson.tasks.Shell>
       <command>cd argouml-gen &amp;&amp; ./build.sh -Dworking.dir=.. report:$type
