@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <hudson>
   <version>1.301</version>
-  <numExecutors>1</numExecutors>
+  <numExecutors>2</numExecutors>
   <mode>NORMAL</mode>
   <useSecurity>true</useSecurity>
   <authorizationStrategy class="hudson.security.FullControlOnceLoggedInAuthorizationStrategy"/>
@@ -33,10 +33,7 @@
       <remoteFS>/home2/argonightly/slowdisk</remoteFS>
       <numExecutors>2</numExecutors>
       <mode>EXCLUSIVE</mode>
-      <retentionStrategy class="hudson.slaves.RetentionStrategy$Demand">
-        <inDemandDelay>1</inDemandDelay>
-        <idleDelay>10</idleDelay>
-      </retentionStrategy>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
       <launcher class="hudson.slaves.CommandLauncher">
         <agentCommand>nice -n 20 /usr/local/lib/java/jdk1.6.0/bin/java -jar /usr/local/lib/java-tools/hudson/slave.jar</agentCommand>
       </launcher>
