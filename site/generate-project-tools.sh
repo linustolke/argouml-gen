@@ -35,48 +35,15 @@ do
     USING_EXTRA=""
 
     case $name in
+    db)
+        EXTRA='
+    <li><a href="/downloads.html">Files (DB)</a></li>'
+        ;;
+
     de)
         T_MEMBERSHIP=Mitglieder
         T_MAILING_LISTS=Mail-Listen
         T_SOURCE=Quelldateien
-        ;;
-    enki)
-        EXTRA='
-    <li><a href="http://www.argouml-users.net/index.php?title=ArgoUML_Enki_Module">Getting Started (Enki)</a></li>'
-        ;;
-    es)
-        T_NEWS="Noticias del proyecto en Espa&ntilde;ol"
-	T_MEMBERSHIP="Membres&iacute;a en el proyecto en Espa&ntilde;ol"
-	T_MAILING_LISTS="Listas de correos del proyecto en Espa&ntilde;ol"
-	T_FILES="Documentos y archivos publicados desde el proyecto en Espa&ntilde;ol"
-	T_SOURCE="C&oacute;digo Fuente de los archivos del proyecto en Espa&ntilde;ol"
-        EXTRA='
-    <li><a href="/glosario.html">Glosario del proyecto en Espa&ntilde;ol</a></li>
-    <li><a href="http://argouml-stats.tigris.org/reports-java5/i18ncomparison/">Estado de la internacionalizaci&oacute;n</a></li>'
-        ;;
-    fr)
-        T_NEWS="Nouvelles du Projet"
-        T_MEMBERSHIP="Membres du projet"
-        T_MAILING_LISTS="Listes de diffusion"
-        T_FILES="Partage de fichiers"
-        T_SOURCE="Code Source"
-
-        T_ARGOUML_PROJECT="Projet ArgoUML"
-        T_ARGOUML_MAILING_LISTS="Listes de diffusion (en anglais)"
-    
-        T_ARGOUML_USING_ARGOUML="Utiliser ArgoUML"
-        T_ARGOUML_QUICK_GUIDE="Guide rapide (en anglais)"
-        T_ARGOUML_USER_MANUAL="Manuel Utilisateur (en anglais)"
-        T_ARGOUML_FAQ="FAQ (en anglais)"
-        T_ARGOUML_WIKI="Wiki (en anglais)"
-        T_ARGOUML_FORUM="Forum (en anglais)"
-        T_ARGOUML_USERS_MAILING_LIST="Liste centrale de diffusion Utilisateurs (en anglais)"
-        T_ARGOUML_DOCUMENTATION="Documentation (en anglais)"
-        T_ARGOUML_TOUR="Tour (en anglais)"
-        T_ARGOUML_DOWNLOADS="T&eacute;l&eacute;chargements"
-
-        USING_EXTRA='
-    <li><a href="/ds/viewForumSummary.do?dsForumId=4472">Liste de diffusion Utilisateurs en fran&ccedil;ais</a></li>'
         ;;
 
     documentation)
@@ -126,6 +93,46 @@ do
     <li><a href="/argouml-0.24">Release 0.24</a></li>'
         ;;
 
+    enki)
+        EXTRA='
+    <li><a href="http://www.argouml-users.net/index.php?title=ArgoUML_Enki_Module">Getting Started (Enki)</a></li>'
+        ;;
+    es)
+        T_NEWS="Noticias del proyecto en Espa&ntilde;ol"
+	T_MEMBERSHIP="Membres&iacute;a en el proyecto en Espa&ntilde;ol"
+	T_MAILING_LISTS="Listas de correos del proyecto en Espa&ntilde;ol"
+	T_FILES="Documentos y archivos publicados desde el proyecto en Espa&ntilde;ol"
+	T_SOURCE="C&oacute;digo Fuente de los archivos del proyecto en Espa&ntilde;ol"
+        EXTRA='
+    <li><a href="/glosario.html">Glosario del proyecto en Espa&ntilde;ol</a></li>
+    <li><a href="http://argouml-stats.tigris.org/reports-java5/i18ncomparison/">Estado de la internacionalizaci&oacute;n</a></li>'
+        ;;
+    fr)
+        T_NEWS="Nouvelles du Projet"
+        T_MEMBERSHIP="Membres du projet"
+        T_MAILING_LISTS="Listes de diffusion"
+        T_FILES="Partage de fichiers"
+        T_SOURCE="Code Source"
+
+        T_ARGOUML_PROJECT="Projet ArgoUML"
+        T_ARGOUML_MAILING_LISTS="Listes de diffusion (en anglais)"
+    
+        T_ARGOUML_USING_ARGOUML="Utiliser ArgoUML"
+        T_ARGOUML_QUICK_GUIDE="Guide rapide (en anglais)"
+        T_ARGOUML_USER_MANUAL="Manuel Utilisateur (en anglais)"
+        T_ARGOUML_FAQ="FAQ (en anglais)"
+        T_ARGOUML_WIKI="Wiki (en anglais)"
+        T_ARGOUML_FORUM="Forum (en anglais)"
+        T_ARGOUML_USERS_MAILING_LIST="Liste centrale de diffusion Utilisateurs (en anglais)"
+        T_ARGOUML_DOCUMENTATION="Documentation (en anglais)"
+        T_ARGOUML_TOUR="Tour (en anglais)"
+        T_ARGOUML_DOWNLOADS="T&eacute;l&eacute;chargements"
+
+        USING_EXTRA='
+    <li><a href="/ds/viewForumSummary.do?dsForumId=4472">Liste de diffusion Utilisateurs en fran&ccedil;ais</a></li>'
+        ;;
+
+
     nb)
 	T_MEMBERSHIP="Medlemsskap"
 	T_NEWS="Kunngj&oslash;ringer"
@@ -133,6 +140,19 @@ do
 	T_FILES="Dokumenter og filer"
 	T_SOURCE="Kildekode"
 	;;
+
+    stats)
+        EXTRA='
+  </ul>
+
+<dt>Nightly builds of docs</dt>
+<dd>
+  <ul>
+    <li><a href="http://argouml-stats.tigris.org/daily-userdoc/">Index</a></li>
+    <li><a href="http://argouml-stats.tigris.org/documentation/">English Index</a></li>
+    <li><a href="http://argouml-stats.tigris.org/documentation-de/">German Index</a></li>
+    <li><a href="http://argouml-stats.tigris.org/documentation-es/">Spanish Index</a></li>'
+        ;;
 
     sv)
 	T_NEWS="Nyheter"
