@@ -186,7 +186,7 @@ A collection of prepared static checks targets to run automatically.
     <property name="output.dir"
               location="${result.dir}/reports/i18ncomparison"/>
     <mkdir dir="${output.dir}"/>
-    <exec executable="tools/bin/compare-i18n.sh"
+    <exec executable="${basedir}/tools/bin/compare-i18n.sh"
           output="${output.dir}/index.html"
           dir="${working.dir}"/>
   </target>
