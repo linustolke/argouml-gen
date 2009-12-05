@@ -78,6 +78,10 @@
         <remote>file:///home/argonightly/REPOS/argouml-ru.tigris.org/svn/argouml-ru/trunk</remote>
         <local>argouml-ru</local>
       </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///home/argonightly/REPOS/argouml-sv.tigris.org/svn/argouml-sv/trunk</remote>
+        <local>argouml-sv</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
     </locations>
     <useUpdate>true</useUpdate>
     <excludedRegions></excludedRegions>
