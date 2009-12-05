@@ -4,18 +4,18 @@
 # great extent they agree to the current argouml.
 
 LANGUAGES="
-    tmp/argouml-de/src/org/argouml/i18n
-    tmp/argouml-en-gb/src/org/argouml/i18n
-    tmp/argouml-es/src/org/argouml/i18n
-    tmp/argouml-fr/src/org/argouml/i18n
-    tmp/argouml-it/src/org/argouml/i18n
-    tmp/argouml-nb/src/org/argouml/i18n
-    tmp/argouml-pt/src/org/argouml/i18n
-    tmp/argouml-pt-br/src/org/argouml/i18n
-    tmp/argouml-ro/src/org/argouml/i18n
-    tmp/argouml-ru/src/org/argouml/i18n
-    tmp/argouml-sv/src/org/argouml/i18n
-    tmp/argouml-i18n-zh/src/org/argouml/i18n
+    argouml-de/src/org/argouml/i18n
+    argouml-en-gb/src/org/argouml/i18n
+    argouml-es/src/org/argouml/i18n
+    argouml-fr/src/org/argouml/i18n
+    argouml-it/src/org/argouml/i18n
+    argouml-nb/src/org/argouml/i18n
+    argouml-pt/src/org/argouml/i18n
+    argouml-pt-br/src/org/argouml/i18n
+    argouml-ro/src/org/argouml/i18n
+    argouml-ru/src/org/argouml/i18n
+    argouml-sv/src/org/argouml/i18n
+    argouml-i18n-zh/src/org/argouml/i18n
 "
 
 
@@ -73,14 +73,14 @@ function tolang() {
 }
 
 # Compare list of files.
-ls tmp/argouml/src/argouml-app/src/org/argouml/i18n/*.properties tmp/argouml-cpp/src/org/argouml/i18n/*.properties | sed 's;^.*/i18n/;;;s;\.properties;;' | sort > $WORKINGDIR/files-correct
+ls argouml/src/argouml-app/src/org/argouml/i18n/*.properties argouml-cpp/src/org/argouml/i18n/*.properties | sed 's;^.*/i18n/;;;s;\.properties;;' | sort > $WORKINGDIR/files-correct
 for lang in $LANGUAGES
 do
     ls $lang/*.properties | sed 's;^.*/i18n/;;;s/_[^.]*\.properties//' | sort > $WORKINGDIR/files-`tolang $lang`
 done
 
 # Compare list of tags
-cat tmp/argouml/src/argouml-app/src/org/argouml/i18n/*.properties tmp/argouml-cpp/src/org/argouml/i18n/*.properties | sed '/^[A-Za-z].*=/!d;/^$/d;s/ *=.*$//' | sort > $WORKINGDIR/tags-correct
+cat argouml/src/argouml-app/src/org/argouml/i18n/*.properties argouml-cpp/src/org/argouml/i18n/*.properties | sed '/^[A-Za-z].*=/!d;/^$/d;s/ *=.*$//' | sort > $WORKINGDIR/tags-correct
 for lang in $LANGUAGES
 do
     cat $lang/*.properties | sed '/^[A-Za-z].*=/!d;/^$/d;s/ *=.*$//' | sort > $WORKINGDIR/tags-`tolang $lang`
