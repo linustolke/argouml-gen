@@ -190,11 +190,6 @@
       <fileset dir="../argouml-core-model-mdr/src"/>
     </cobertura-report>
 
-    <exec executable="sed" input="argouml.log" output="${build.coverage.dir}/argouml.log">
-      <arg value="s/^20[0-9][0-9]-[01][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9]:[0-5][0-9],[0-9][0-9][0-9] //"/>
-    </exec>
-    <delete file="argouml.log"/>
-
     <mkdir dir="${build.coverage.dir}/junit"/>
     <move todir="${build.coverage.dir}/junit">
       <fileset dir="${tests.reports}/html"/>
@@ -380,8 +375,6 @@ Running checkstyle on ${source.dir}.
   
   <target name="report:junit" depends="init-reports,tests"
           description="create junit reports">
-    <antcall target="junit-report-mail"/>
-
     <delete dir="${report.junit.dir}"/>
     <mkdir dir="${report.junit.dir}"/>
 
@@ -587,33 +580,6 @@ Running checkstyle on ${source.dir}.
       <param name="output.dir" expression="${report.findbugs.dir}/argouml"/>
       <param name="messages.xml" expression="${working.dir}/messages.xml"/>
     </style>
-
-  </target>
-
-
-  <!-- ################################################################### 
-       # sending mails
-  -->
-  <target name="junit-report-mail">
-    <description>Mail status from JUnit test run</description>
-
-    <mail from="closettop_nightlybuild@tigris.org"
-          tolist="dev@argouml-stats.tigris.org"
-          mailhost="smtp.vokby.se"
-          subject="JUnit tests completed."
-          message="The JUnit tests using ${java.home} are completed."
-      />
-    <antcall target="junit-report-mail-cond"/>
-  </target>
-
-  <target name="junit-report-mail-cond" if="junit.failure">
-
-    <mail from="closettop_nightlybuild@tigris.org"
-          tolist="users@argouml-stats.tigris.org"
-          mailhost="smtp.vokby.se"
-          subject="JUnit tests failed."
-          message="There was a JUnit test run using ${java.home} failing."
-      />
   </target>
 
 </project>
