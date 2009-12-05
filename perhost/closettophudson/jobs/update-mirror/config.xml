@@ -3,7 +3,7 @@
   <actions/>
   <description>Updates the local mirror on the Hudson build host.</description>
   <logRotator>
-    <daysToKeep>5</daysToKeep>
+    <daysToKeep>2</daysToKeep>
     <numToKeep>-1</numToKeep>
   </logRotator>
   <keepDependencies>false</keepDependencies>
@@ -43,6 +43,7 @@
   <buildWrappers>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper>
       <timeoutMinutes>500</timeoutMinutes>
+      <failBuild>false</failBuild>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>
   </buildWrappers>
 </project>
