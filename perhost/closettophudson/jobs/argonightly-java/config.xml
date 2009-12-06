@@ -98,7 +98,6 @@
       <name>type</name>
       <values>
         <string>junit</string>
-        <string>cpp-junit</string>
         <string>javadocs</string>
         <string>release</string>
         <string>checkstyle</string>
