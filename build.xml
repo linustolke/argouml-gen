@@ -151,22 +151,25 @@ A collection of prepared static checks targets to run automatically.
     </ant>
   </target>
 
-  <target name="report:junit" depends="init-reports" description="generate junit reports">
+
+  <target name="report:junit" depends="init-reports"
+          description="Generate JUnit reports">
+    <!-- Main project (using build-reports.xml) -->
     <ant target="report:junit"
          dir="${argouml.argouml-build.dir}" antfile="build-reports.xml">
       <property name="argouml-gen.tools.dir" location="tools"/>
     </ant>
-  </target>
 
-  <target name="report:cpp-junit" depends="init-reports" description="generate junit reports for cpp">
+    <!-- Generate JUnit reports for the CPP project cpp -->
     <ant dir="${argouml.dir}" antfile="build.xml" target="install"/>
     <ant dir="${argouml-cpp.dir}" antfile="build.xml" target="tests"/>
 
-    <delete dir="${result.dir}/reports/cpp-junit"/>
-    <move todir="${result.dir}/reports/cpp-junit">
+    <delete dir="${result.dir}/reports/junit-cpp"/>
+    <move todir="${result.dir}/reports/junit-cpp">
       <fileset dir="${argouml-cpp.dir}/build/tests/reports/html"/>
     </move>
   </target>
+
 
   <target name="report:javadocs" depends="init-reports" description="generate javadocs reports">
     <ant target="report:javadocs"
