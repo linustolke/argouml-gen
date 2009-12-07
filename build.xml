@@ -92,36 +92,40 @@ A collection of prepared static checks targets to run automatically.
     </parallel>
   </target>
 
+ 
+  <target name="install">
+    <!-- This list of projects should preferably look like the list
+         of projects distributed using the official.sh script in the
+         argoumlinstaller project.
+     -->
+    <ant dir="${working.dir}/argouml"             target="install"/>
+    <parallel threadCount="3">
+      <ant dir="${working.dir}/argouml-cpp"       target="install"/>
+      <ant dir="${working.dir}/argouml-csharp"    target="install"/>
+      <ant dir="${working.dir}/argouml-de"        target="install"/>
+      <ant dir="${working.dir}/argouml-en-gb"     target="install"/>
+      <ant dir="${working.dir}/argouml-es"        target="install"/>
+      <ant dir="${working.dir}/argouml-fr"        target="install"/>
+      <ant dir="${working.dir}/argouml-i18n-zh"   target="install"/>
+      <ant dir="${working.dir}/argouml-idl"       target="install"/>
+      <ant dir="${working.dir}/argouml-it"        target="install"/>
+      <ant dir="${working.dir}/argouml-nb"        target="install"/>
+      <ant dir="${working.dir}/argouml-php"       target="install"/>
+      <ant dir="${working.dir}/argouml-pt"        target="install"/>
+      <ant dir="${working.dir}/argouml-pt-br"     target="install"/>
+      <ant dir="${working.dir}/argouml-ro"        target="install"/>
+      <ant dir="${working.dir}/argouml-ru"        target="install"/>
+      <ant dir="${working.dir}/argouml-sql"       target="install"/>
+    </parallel>
+
+    <ant dir="${working.dir}/argouml"             target="update-argouml.jar-manifest"/>
+  </target>
 
   <target name="report:release"
           description="Prepare a release-like set to be published.">
     <delete dir="${working.dir}/argouml/build"/>
 
-    <!-- This list of projects should preferably look like the list
-         of projects distributed using the official.sh script in the
-         argoumlinstaller project.
-     -->
-    <ant dir="${working.dir}/argouml"              target="install"/>
-    <parallel threadCount="3">
-      <ant dir="${working.dir}/argouml-cpp"          target="install"/>
-      <ant dir="${working.dir}/argouml-csharp"       target="install"/>
-      <ant dir="${working.dir}/argouml-de"           target="install"/>
-      <ant dir="${working.dir}/argouml-en-gb"        target="install"/>
-      <ant dir="${working.dir}/argouml-es"           target="install"/>
-      <ant dir="${working.dir}/argouml-fr"           target="install"/>
-      <ant dir="${working.dir}/argouml-i18n-zh"      target="install"/>
-      <ant dir="${working.dir}/argouml-idl"          target="install"/>
-      <ant dir="${working.dir}/argouml-it"           target="install"/>
-      <ant dir="${working.dir}/argouml-nb"           target="install"/>
-      <ant dir="${working.dir}/argouml-php"          target="install"/>
-      <ant dir="${working.dir}/argouml-pt"           target="install"/>
-      <ant dir="${working.dir}/argouml-pt-br"        target="install"/>
-      <ant dir="${working.dir}/argouml-ro"           target="install"/>
-      <ant dir="${working.dir}/argouml-ru"           target="install"/>
-      <ant dir="${working.dir}/argouml-sql"          target="install"/>
-    </parallel>
-
-    <ant dir="${working.dir}/argouml"              target="update-argouml.jar-manifest"/>
+    <ant target="install"/>
 
     <delete dir="${result.dir}/reports/release"/>
     <move todir="${result.dir}/reports/release">
