@@ -31,11 +31,11 @@
       <name>nightly</name>
       <description></description>
       <remoteFS>/home2/argonightly/slowdisk</remoteFS>
-      <numExecutors>2</numExecutors>
+      <numExecutors>4</numExecutors>
       <mode>EXCLUSIVE</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
       <launcher class="hudson.slaves.CommandLauncher">
-        <agentCommand>nice -n 20 /usr/local/lib/java/jdk1.6.0/bin/java -jar /usr/local/lib/java-tools/hudson/slave.jar</agentCommand>
+        <agentCommand>nice -n 20 /usr/local/lib/java/jdk1.6.0/bin/java -Xms16M -jar /usr/local/lib/java-tools/hudson/slave.jar</agentCommand>
       </launcher>
       <label>bignslow</label>
       <nodeProperties/>

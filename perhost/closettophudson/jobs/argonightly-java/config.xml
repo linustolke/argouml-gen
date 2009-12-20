@@ -170,7 +170,7 @@ done
     <hudson.plugins.textfinder.TextFinderPublisher>
       <regexp>Could not resolve hostname|timed out waiting for server|could not connect to server</regexp>
       <succeedIfFound>false</succeedIfFound>
-      <unstableIfFound>false</unstableIfFound>
+      <unstableIfFound>true</unstableIfFound>
       <alsoCheckConsoleOutput>true</alsoCheckConsoleOutput>
     </hudson.plugins.textfinder.TextFinderPublisher>
   </publishers>
