@@ -33,6 +33,11 @@
       <antName>(Default)</antName>
       <buildFile>src/argouml-build/build.xml</buildFile>
     </hudson.tasks.Ant>
+    <hudson.tasks.Ant>
+      <targets>package</targets>
+      <antName>(Default)</antName>
+      <buildFile>src/argouml-build/build.xml</buildFile>
+    </hudson.tasks.Ant>
   </builders>
   <publishers>
     <hudson.tasks.junit.JUnitResultArchiver>
@@ -47,6 +52,7 @@
   <buildWrappers>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper>
       <timeoutMinutes>1500</timeoutMinutes>
+      <failBuild>false</failBuild>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>
   </buildWrappers>
 </project>

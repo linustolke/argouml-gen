@@ -37,6 +37,11 @@
       <antName>(Default)</antName>
       <buildFile>src/argouml-build/build.xml</buildFile>
     </hudson.tasks.Ant>
+    <hudson.tasks.Ant>
+      <targets>package</targets>
+      <antName>(Default)</antName>
+      <buildFile>src/argouml-build/build.xml</buildFile>
+    </hudson.tasks.Ant>
   </builders>
   <publishers>
     <hudson.tasks.junit.JUnitResultArchiver>
