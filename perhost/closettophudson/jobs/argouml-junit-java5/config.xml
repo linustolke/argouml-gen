@@ -55,6 +55,23 @@
         <color>YELLOW</color>
       </threshold>
     </hudson.tasks.BuildTrigger>
+    <hudson.plugins.warnings.WarningsPublisher>
+      <threshold></threshold>
+      <newThreshold></newThreshold>
+      <failureThreshold></failureThreshold>
+      <newFailureThreshold></newFailureThreshold>
+      <healthy></healthy>
+      <unHealthy></unHealthy>
+      <pluginName>[WARNINGS] </pluginName>
+      <thresholdLimit>low</thresholdLimit>
+      <defaultEncoding></defaultEncoding>
+      <pattern></pattern>
+      <parserNames>
+        <string>Java Compiler</string>
+      </parserNames>
+      <canRunOnFailed>false</canRunOnFailed>
+      <ignoreConsole>false</ignoreConsole>
+    </hudson.plugins.warnings.WarningsPublisher>
     <hudson.tasks.Mailer>
       <recipients>users@argouml-stats.tigris.org</recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>

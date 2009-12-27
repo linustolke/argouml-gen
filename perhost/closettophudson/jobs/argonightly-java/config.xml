@@ -163,7 +163,10 @@ done
       <thresholdLimit>low</thresholdLimit>
       <defaultEncoding></defaultEncoding>
       <pattern></pattern>
-      <parserNames/>
+      <parserNames>
+        <string>Java Compiler</string>
+        <string>JavaDoc</string>
+      </parserNames>
       <canRunOnFailed>false</canRunOnFailed>
       <ignoreConsole>false</ignoreConsole>
     </hudson.plugins.warnings.WarningsPublisher>
