@@ -192,7 +192,7 @@
 
     <mkdir dir="${build.coverage.dir}/junit"/>
     <move todir="${build.coverage.dir}/junit">
-      <fileset dir="${tests.reports}/html"/>
+      <fileset dir="build/tests/reports/html"/>
     </move>
 
     <echo file="${build.coverage.dir}/index.html">
