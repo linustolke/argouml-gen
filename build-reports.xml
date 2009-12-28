@@ -373,18 +373,6 @@ Running checkstyle on ${source.dir}.
   -->
   <property name="report.junit.dir" location="${build.reports.dir}/junit"/>
   
-  <target name="report:junit" depends="init-reports,tests"
-          description="create junit reports">
-    <delete dir="${report.junit.dir}"/>
-    <mkdir dir="${report.junit.dir}"/>
-
-    <!-- Junitreport has already run - put the reports in the right spot. -->
-    <copy todir="${report.junit.dir}">
-      <fileset dir="${tests.reports}/html"/>
-    </copy>
-  </target>
-  
-
   <!-- ################################################################### 
        # javadoc reports
   -->
@@ -489,12 +477,6 @@ Running checkstyle on ${source.dir}.
     <mkdir dir="${report.findbugs.xml.dir}"/>
 
     <!-- Prepare for result processing. -->
-    <unzip src="${findbugs.dir}/plugin/coreplugin.jar"
-       dest="${working.dir}">
-        <patternset>
-            <include name="**/messages.xml"/>
-        </patternset>
-    </unzip>
     <mkdir dir="${report.findbugs.dir}"/>
 
 
@@ -514,14 +496,14 @@ Running checkstyle on ${source.dir}.
            destdir="${report.findbugs.dir}/argouml-model"
            style="${xsl.dir}/findbugs-frames.xsl">
       <param name="output.dir" expression="${report.findbugs.dir}/argouml-model"/>
-      <param name="messages.xml" expression="${working.dir}/messages.xml"/>
+      <param name="messages.xml" expression="${messages.xml}"/>
     </style>
 
 
     <findbugs home="${findbugs.dir}" output="xml"
               outputFile="${report.findbugs.xml.dir}/out-argouml-mdr.xml"
               conserveSpace="true" timeout="18000000"
-              jvmargs="-Xms64M -Xmx256M -verbosegc">
+              jvmargs="-Xms64M -Xmx512M -verbosegc">
       <class location="../argouml-core-model-mdr/build/argouml-mdr.jar" />
       <auxClasspath>
         <fileset dir="../argouml-core-model/build">
@@ -545,13 +527,13 @@ Running checkstyle on ${source.dir}.
            destdir="${report.findbugs.dir}/argouml-mdr"
            style="${xsl.dir}/findbugs-frames.xsl">
       <param name="output.dir" expression="${report.findbugs.dir}/argouml-mdr"/>
-      <param name="messages.xml" expression="${working.dir}/messages.xml"/>
+      <param name="messages.xml" expression="${messages.xml}"/>
     </style>
 
     <findbugs home="${findbugs.dir}" output="xml"
               outputFile="${report.findbugs.xml.dir}/out-argouml.xml"
               conserveSpace="true" timeout="18000000"
-              jvmargs="-Xms64M -Xmx256M -verbosegc">
+              jvmargs="-Xms64M -Xmx512M -verbosegc">
       <class location="../argouml-app/build/argouml.jar" />
       <auxClasspath>
         <fileset dir="../argouml-core-model/build">
@@ -578,7 +560,7 @@ Running checkstyle on ${source.dir}.
            destdir="${report.findbugs.dir}/argouml"
            style="${xsl.dir}/findbugs-frames.xsl">
       <param name="output.dir" expression="${report.findbugs.dir}/argouml"/>
-      <param name="messages.xml" expression="${working.dir}/messages.xml"/>
+      <param name="messages.xml" expression="${messages.xml}"/>
     </style>
   </target>
 
