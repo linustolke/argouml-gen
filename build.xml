@@ -165,24 +165,49 @@ A collection of prepared static checks targets to run automatically.
     <ant dir="${argouml.dir}" antfile="build.xml" target="install"/>
     <ant dir="${argouml-cpp.dir}" antfile="build.xml" target="tests-xml"/>
 
+    <!-- Add more projects HERE as they get JUnit tests. -->
+
+    <!-- Copy xml files. -->
     <property name="output.dir"
               location="${result.dir}/reports/junit-xml"/>
     <mkdir dir="${output.dir}"/>
 
-<!--
-    TODO: This is not completed yet but I don't have time to finish it now.
     <mkdir dir="${output.dir}/argouml-app"/>
-    <copy todir="${output.dir}/argouml-app">
-
-    <mkdir dir="${output.dir}/argouml-core-model-euml"/>
-    <copy todir="${output.dir}/argouml-core-model-euml"/>
+    <copy todir="${output.dir}/argouml-app"
+          overwrite="true">
+      <fileset dir="argouml/src/argouml-app/build/tests/reports">
+        <include name="TEST-*.xml"/>
+      </fileset>
+    </copy>
 
     <mkdir dir="${output.dir}/argouml-core-model-mdr"/>
-    <copy todir="${output.dir}/argouml-core-model-mdr"/>
+    <copy todir="${output.dir}/argouml-core-model-mdr"
+          overwrite="true">
+      <fileset dir="argouml/src/argouml-core-model-mdr/build/tests/reports/junit/output">
+        <include name="TEST-*.xml"/>
+      </fileset>
+    </copy>
+
+    <mkdir dir="${output.dir}/argouml-core-diagrams-sequence2"/>
+    <copy todir="${output.dir}/argouml-core-diagrams-sequence2"
+          overwrite="true">
+      <fileset dir="argouml/src/argouml-core-diagrams-sequence2/build/tests/reports">
+        <include name="TEST-*.xml"/>
+      </fileset>
+    </copy>
+
+    <!-- Add more argouml subprojects HERE as they get JUnit tests. -->
 
     <mkdir dir="${output.dir}/argouml-cpp"/>
-    <copy todir="${output.dir}/argouml-cpp"/>
--->
+    <copy todir="${output.dir}/argouml-cpp"
+          overwrite="true">
+      <fileset dir="argouml-cpp/build/tests/reports">
+        <include name="TEST-*.xml"/>
+      </fileset>
+    </copy>
+
+    <!-- Add more projects HERE as they get JUnit tests. -->
+
   </target>
 
 
