@@ -65,8 +65,5 @@ test -f $JIMI || cp $HOME/$JIMI .
       <timeoutMinutes>400</timeoutMinutes>
       <failBuild>false</failBuild>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>
-    <hudson.plugins.locksandlatches.LockWrapper>
-      <locks/>
-    </hudson.plugins.locksandlatches.LockWrapper>
   </buildWrappers>
 </project>
