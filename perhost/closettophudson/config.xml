@@ -19,10 +19,12 @@
     <jdk>
       <name>1.6</name>
       <home>/usr/local/lib/java/jdk1.6.0</home>
+      <properties/>
     </jdk>
     <jdk>
       <name>1.5</name>
       <home>/usr/local/lib/java/jdk1.5.0_06</home>
+      <properties/>
     </jdk>
   </jdks>
   <clouds/>
@@ -35,17 +37,20 @@
       <mode>EXCLUSIVE</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
       <launcher class="hudson.slaves.CommandLauncher">
-        <agentCommand>nice -n 20 /usr/local/lib/java/jdk1.6.0/bin/java -Xms16M -jar /home/argonightly/tools/slave.jar</agentCommand>
+        <agentCommand>nice -n 20 /usr/local/lib/java/jdk1.6.0/bin/java -Xms16M -jar /home/argonightly/tools/WEB-INF/slave.jar</agentCommand>
       </launcher>
       <label>bignslow</label>
       <nodeProperties/>
     </slave>
   </slaves>
   <quietPeriod>20</quietPeriod>
+  <scmCheckoutRetryCount>0</scmCheckoutRetryCount>
   <views>
     <hudson.model.AllView>
       <owner class="hudson" reference="../../.."/>
       <name>All</name>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
     </hudson.model.AllView>
   </views>
   <primaryView>All</primaryView>
