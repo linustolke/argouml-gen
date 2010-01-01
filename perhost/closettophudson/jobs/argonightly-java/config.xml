@@ -84,15 +84,21 @@
       </hudson.scm.SubversionSCM_-ModuleLocation>
     </locations>
     <useUpdate>true</useUpdate>
+    <doRevert>false</doRevert>
     <excludedRegions></excludedRegions>
+    <excludedUsers></excludedUsers>
+    <excludedRevprop></excludedRevprop>
+    <excludedCommitMessages></excludedCommitMessages>
   </scm>
   <canRoam>true</canRoam>
   <disabled>false</disabled>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers class="vector">
     <hudson.triggers.SCMTrigger>
       <spec>0 0 * * *</spec>
     </hudson.triggers.SCMTrigger>
   </triggers>
+  <concurrentBuild>false</concurrentBuild>
   <axes>
     <axis>
       <name>type</name>
@@ -176,6 +182,16 @@ done
       <unstableIfFound>true</unstableIfFound>
       <alsoCheckConsoleOutput>true</alsoCheckConsoleOutput>
     </hudson.plugins.textfinder.TextFinderPublisher>
+    <hudson.plugins.ircbot.IrcPublisher>
+      <targets class="linked-list"/>
+      <strategy class="hudson.plugins.im.NotificationStrategy">ALL</strategy>
+      <notifyOnBuildStart>true</notifyOnBuildStart>
+      <notifySuspects>false</notifySuspects>
+      <notifyCulprits>false</notifyCulprits>
+      <notifyFixers>false</notifyFixers>
+      <notifyUpstreamCommitters>false</notifyUpstreamCommitters>
+      <channels/>
+    </hudson.plugins.ircbot.IrcPublisher>
   </publishers>
   <buildWrappers>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper>
@@ -183,4 +199,11 @@ done
       <failBuild>false</failBuild>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>
   </buildWrappers>
+  <runSequentially>false</runSequentially>
+  <touchStoneCombinationFilter>type == &quot;release&quot;</touchStoneCombinationFilter>
+  <touchStoneResultCondition>
+    <name>UNSTABLE</name>
+    <ordinal>1</ordinal>
+    <color>YELLOW</color>
+  </touchStoneResultCondition>
 </matrix-project>
