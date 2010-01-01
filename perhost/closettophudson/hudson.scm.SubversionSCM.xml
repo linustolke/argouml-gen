@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <hudson.scm.SubversionSCM_-DescriptorImpl>
-  <repositoryBrowser>hudson.scm.SubversionRepositoryBrowser</repositoryBrowser>
-  <generation>32</generation>
+  <generation>36</generation>
   <credentials class="hashtable">
     <entry>
       <string>&lt;http://argouml-enki.tigris.org:80&gt; CollabNet Subversion Repository</string>
@@ -137,4 +136,5 @@
       </hudson.scm.SubversionSCM_-DescriptorImpl_-PasswordCredential>
     </entry>
   </credentials>
+  <revPropSupport class="hashtable"/>
 </hudson.scm.SubversionSCM_-DescriptorImpl>

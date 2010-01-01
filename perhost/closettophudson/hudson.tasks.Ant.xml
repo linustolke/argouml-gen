@@ -4,6 +4,7 @@
     <hudson.tasks.Ant_-AntInstallation>
       <name>ant from debian</name>
       <home>/usr/share/ant</home>
+      <properties/>
       <antHome>/usr/share/ant</antHome>
     </hudson.tasks.Ant_-AntInstallation>
   </installations>
