@@ -503,7 +503,7 @@ Running checkstyle on ${source.dir}.
     <findbugs home="${findbugs.dir}" output="xml"
               outputFile="${report.findbugs.xml.dir}/out-argouml-mdr.xml"
               conserveSpace="true" timeout="18000000"
-              jvmargs="-Xms64M -Xmx512M -verbosegc">
+              jvmargs="-Xms64M -Xmx400M -verbosegc">
       <class location="../argouml-core-model-mdr/build/argouml-mdr.jar" />
       <auxClasspath>
         <fileset dir="../argouml-core-model/build">
@@ -533,7 +533,7 @@ Running checkstyle on ${source.dir}.
     <findbugs home="${findbugs.dir}" output="xml"
               outputFile="${report.findbugs.xml.dir}/out-argouml.xml"
               conserveSpace="true" timeout="18000000"
-              jvmargs="-Xms64M -Xmx512M -verbosegc">
+              jvmargs="-Xms64M -Xmx400M -verbosegc">
       <class location="../argouml-app/build/argouml.jar" />
       <auxClasspath>
         <fileset dir="../argouml-core-model/build">
