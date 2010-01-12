@@ -1,7 +1,7 @@
 /*
  * $Header: /cvsroot/checkstyle/checkstyle/contrib/examples/checks/com/puppycrawl/tools/checkstyle/checks/xpath/saxpath_LICENSE.txt,v 1.1 2003/07/23 14:22:41 rickgiles Exp $
- * $Revision: 1.1 $
- * $Date: 2003/07/23 14:22:41 $
+ * $Revision$
+ * $Date$
  *
  * ====================================================================
  *
@@ -56,5 +56,5 @@
  * James Strachan <jstrachan@apache.org>.  For more information on the 
  * SAXPath Project, please see <http://www.saxpath.org/>.
  * 
- * $Id: saxpath_LICENSE.txt,v 1.1 2003/07/23 14:22:41 rickgiles Exp $
+ * $Id$
  */
