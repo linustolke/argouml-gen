@@ -2,6 +2,10 @@
 <matrix-project>
   <actions/>
   <description>The part of the nightly build that is done for each jdk.</description>
+  <logRotator>
+    <daysToKeep>25</daysToKeep>
+    <numToKeep>-1</numToKeep>
+  </logRotator>
   <keepDependencies>false</keepDependencies>
   <properties/>
   <scm class="hudson.scm.SubversionSCM">
@@ -182,16 +186,6 @@ done
       <unstableIfFound>true</unstableIfFound>
       <alsoCheckConsoleOutput>true</alsoCheckConsoleOutput>
     </hudson.plugins.textfinder.TextFinderPublisher>
-    <hudson.plugins.ircbot.IrcPublisher>
-      <targets class="linked-list"/>
-      <strategy class="hudson.plugins.im.NotificationStrategy">ALL</strategy>
-      <notifyOnBuildStart>true</notifyOnBuildStart>
-      <notifySuspects>false</notifySuspects>
-      <notifyCulprits>false</notifyCulprits>
-      <notifyFixers>false</notifyFixers>
-      <notifyUpstreamCommitters>false</notifyUpstreamCommitters>
-      <channels/>
-    </hudson.plugins.ircbot.IrcPublisher>
   </publishers>
   <buildWrappers>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper>
