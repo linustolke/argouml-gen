@@ -20,11 +20,16 @@
       </hudson.scm.SubversionSCM_-ModuleLocation>
     </locations>
     <useUpdate>true</useUpdate>
+    <doRevert>false</doRevert>
     <excludedRegions></excludedRegions>
+    <excludedUsers></excludedUsers>
+    <excludedRevprop></excludedRevprop>
+    <excludedCommitMessages></excludedCommitMessages>
   </scm>
   <quietPeriod>300</quietPeriod>
   <canRoam>true</canRoam>
   <disabled>false</disabled>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>1.6</jdk>
   <triggers class="vector">
     <hudson.triggers.SCMTrigger>
@@ -32,6 +37,7 @@
 </spec>
     </hudson.triggers.SCMTrigger>
   </triggers>
+  <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
       <command>cd argouml-gen
@@ -54,11 +60,29 @@ test -f $JIMI || cp $HOME/$JIMI .
     </hudson.tasks.Shell>
   </builders>
   <publishers>
+    <gcal.gcalPublisher>
+      <serviceURL>http://www.google.com/calendar/</serviceURL>
+      <calendarID>guhv5mnvkr0pd05teacgh281gk%40group.calendar.google.com</calendarID>
+      <url>http://www.google.com/calendar/feeds/guhv5mnvkr0pd05teacgh281gk%40group.calendar.google.com/private/full</url>
+      <login>closettop.homelinux.org</login>
+      <password>XXXXXXXXXX</password>
+      <statusToPublish>All</statusToPublish>
+    </gcal.gcalPublisher>
     <hudson.tasks.Mailer>
       <recipients>users@argouml-stats.tigris.org</recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
       <sendToIndividuals>true</sendToIndividuals>
     </hudson.tasks.Mailer>
+    <hudson.plugins.ircbot.IrcPublisher>
+      <targets class="linked-list"/>
+      <strategy class="hudson.plugins.im.NotificationStrategy">ALL</strategy>
+      <notifyOnBuildStart>true</notifyOnBuildStart>
+      <notifySuspects>false</notifySuspects>
+      <notifyCulprits>false</notifyCulprits>
+      <notifyFixers>false</notifyFixers>
+      <notifyUpstreamCommitters>false</notifyUpstreamCommitters>
+      <channels/>
+    </hudson.plugins.ircbot.IrcPublisher>
   </publishers>
   <buildWrappers>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper>

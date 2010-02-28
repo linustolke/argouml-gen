@@ -3,7 +3,7 @@
   <actions/>
   <description>Compiles and runs all JUnit tests using Java6 and a fresh checked out copy.</description>
   <logRotator>
-    <daysToKeep>60</daysToKeep>
+    <daysToKeep>30</daysToKeep>
     <numToKeep>-1</numToKeep>
   </logRotator>
   <keepDependencies>false</keepDependencies>
@@ -20,13 +20,19 @@
       </hudson.scm.SubversionSCM_-ModuleLocation>
     </locations>
     <useUpdate>false</useUpdate>
+    <doRevert>false</doRevert>
     <excludedRegions></excludedRegions>
+    <excludedUsers></excludedUsers>
+    <excludedRevprop></excludedRevprop>
+    <excludedCommitMessages></excludedCommitMessages>
   </scm>
   <quietPeriod>18000</quietPeriod>
   <canRoam>true</canRoam>
   <disabled>false</disabled>
+  <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
   <jdk>1.6</jdk>
   <triggers class="vector"/>
+  <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Ant>
       <targets>tests</targets>
@@ -42,6 +48,7 @@
   <publishers>
     <hudson.tasks.junit.JUnitResultArchiver>
       <testResults>src/*/build/tests/reports/TEST-*.xml</testResults>
+      <testDataPublishers/>
     </hudson.tasks.junit.JUnitResultArchiver>
     <hudson.plugins.warnings.WarningsPublisher>
       <threshold></threshold>
@@ -60,6 +67,14 @@
       <canRunOnFailed>false</canRunOnFailed>
       <ignoreConsole>false</ignoreConsole>
     </hudson.plugins.warnings.WarningsPublisher>
+    <gcal.gcalPublisher>
+      <serviceURL>http://www.google.com/calendar/</serviceURL>
+      <calendarID>guhv5mnvkr0pd05teacgh281gk%40group.calendar.google.com</calendarID>
+      <url>http://www.google.com/calendar/feeds/guhv5mnvkr0pd05teacgh281gk%40group.calendar.google.com/private/full</url>
+      <login>closettop.homelinux.org</login>
+      <password>XXXXXXXXXX</password>
+      <statusToPublish>All</statusToPublish>
+    </gcal.gcalPublisher>
     <hudson.tasks.Mailer>
       <recipients>users@argouml-stats.tigris.org</recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
