@@ -73,16 +73,6 @@ test -f $JIMI || cp $HOME/$JIMI .
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
       <sendToIndividuals>true</sendToIndividuals>
     </hudson.tasks.Mailer>
-    <hudson.plugins.ircbot.IrcPublisher>
-      <targets class="linked-list"/>
-      <strategy class="hudson.plugins.im.NotificationStrategy">ALL</strategy>
-      <notifyOnBuildStart>true</notifyOnBuildStart>
-      <notifySuspects>false</notifySuspects>
-      <notifyCulprits>false</notifyCulprits>
-      <notifyFixers>false</notifyFixers>
-      <notifyUpstreamCommitters>false</notifyUpstreamCommitters>
-      <channels/>
-    </hudson.plugins.ircbot.IrcPublisher>
   </publishers>
   <buildWrappers>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper>
