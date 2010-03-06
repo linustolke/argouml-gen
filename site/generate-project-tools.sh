@@ -88,8 +88,8 @@ do
 <dt>Recent releases</dt>
 <dd>
   <ul>
-    <li><a href="/argouml-0.30">Release 0.30</a></li>'
-    <li><a href="/argouml-0.28.1">Release 0.28.1</a></li>
+    <li><a href="/argouml-0.30">Release 0.30</a></li>
+    <li><a href="/argouml-0.28.1">Release 0.28.1</a></li>'
         ;;
 
     enki)
