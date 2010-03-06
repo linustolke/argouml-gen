@@ -88,9 +88,8 @@ do
 <dt>Recent releases</dt>
 <dd>
   <ul>
+    <li><a href="/argouml-0.30">Release 0.30</a></li>'
     <li><a href="/argouml-0.28.1">Release 0.28.1</a></li>
-    <li><a href="/argouml-0.26.2">Release 0.26.2</a></li>
-    <li><a href="/argouml-0.24">Release 0.24</a></li>'
         ;;
 
     enki)
@@ -280,8 +279,8 @@ EOF
 <dd> 
   <ul> 
     <li><a href="http://argouml.tigris.org/support.html">Support</a></li> 
-    <li><a href="http://argouml-stats.tigris.org/documentation/quick-guide-0.28/">$T_ARGOUML_QUICK_GUIDE 0.28</a></li> 
-    <li><a href="http://argouml-stats.tigris.org/documentation/manual-0.28/">$T_ARGOUML_USER_MANUAL 0.28</a></li> 
+    <li><a href="http://argouml-stats.tigris.org/documentation/quickguide-0.30/">$T_ARGOUML_QUICK_GUIDE 0.30</a></li> 
+    <li><a href="http://argouml-stats.tigris.org/documentation/manual-0.30/">$T_ARGOUML_USER_MANUAL 0.30</a></li> 
     <li><a href="http://argouml.tigris.org/faqs/users.html">$T_ARGOUML_FAQ</a></li> 
     <li><a href="http://www.argouml-users.net/" target="wiki">$T_ARGOUML_WIKI</a></li> 
     <li><a href="http://www.argouml-users.net/forum" target="forum">$T_ARGOUML_FORUM</a></li> 
@@ -301,7 +300,7 @@ EOF
     } |
     cat > $file
 
-    if svn status $file | grep -qs M
+    if svn status $file | egrep -qs '[?AM]'
     then
 	svn diff -x -w $file
 	echo -n "Replace? N/Y/Q "
