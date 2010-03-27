@@ -37,7 +37,7 @@
       <mode>EXCLUSIVE</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
       <launcher class="hudson.slaves.CommandLauncher">
-        <agentCommand>nice -n 20 /usr/local/lib/java/jdk1.6.0/bin/java -Xms16M -jar /home/argonightly/tools/WEB-INF/slave.jar</agentCommand>
+        <agentCommand>nice -n 5 /usr/local/lib/java/jdk1.6.0/bin/java -Xms16M -jar /home/argonightly/tools/WEB-INF/slave.jar</agentCommand>
       </launcher>
       <label>bignslow</label>
       <nodeProperties/>
