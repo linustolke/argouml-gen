@@ -136,5 +136,4 @@
       </hudson.scm.SubversionSCM_-DescriptorImpl_-PasswordCredential>
     </entry>
   </credentials>
-  <revPropSupport class="hashtable"/>
 </hudson.scm.SubversionSCM_-DescriptorImpl>
