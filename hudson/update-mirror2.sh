@@ -1,3 +1,9 @@
 #!/bin/sh
-svnsync --non-interactive --no-auth-cache synchronize file:///home2/argonightly/REPOS/argoeclipse.tigris.org/svn/argoeclipse --username guest --password ""
-svnsync --non-interactive --no-auth-cache synchronize file:///home2/argonightly/REPOS/argouml-stats.tigris.org/svn/argouml-stats --username guest --password ""
+URLS="file:///home2/argonightly/REPOS/argoeclipse.tigris.org/svn/argoeclipse \
+      file:///home2/argonightly/REPOS/argouml-stats.tigris.org/svn/argouml-stats"
+for url in $URLS
+do
+  svnsync --non-interactive --no-auth-cache synchronize $url \
+      --username guest --password ""
+done
+
