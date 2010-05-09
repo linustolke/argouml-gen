@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <hudson>
-  <version>1.339</version>
+  <version>1.353</version>
   <numExecutors>1</numExecutors>
   <mode>NORMAL</mode>
   <useSecurity>true</useSecurity>
@@ -12,8 +12,8 @@
 &#xd;
 &lt;p&gt;The argonightly-java jobs does the nightly build. It starts at midnight (if there is any change in any of the involved projects). Each job uploads the result to the website separately. To limit the impact of these jobs, they are bound to the &quot;nightly&quot;-executor that runs niced.&lt;/p&gt;&#xd;
 &#xd;
-&#xd;
-&lt;p&gt;All jobs fetches information from an svn mirror of the tigris svn repositories that is updated regularly by the update-mirror job.&lt;/p&gt;&#xd;
+&lt;p&gt;All jobs fetches information from an svn mirror of the tigris svn repositories that is updated regularly by the update-mirror jobs.&lt;/p&gt;&#xd;
+&lt;p&gt;show-jobs fetches information from the repository and displays it using the hudson publishing mechanisms.&lt;/p&gt;&#xd;
 </systemMessage>
   <jdks>
     <jdk>
@@ -42,6 +42,19 @@
       <label>bignslow</label>
       <nodeProperties/>
     </slave>
+    <slave>
+      <name>updateshow</name>
+      <description></description>
+      <remoteFS>/home2/argonightly/update</remoteFS>
+      <numExecutors>2</numExecutors>
+      <mode>EXCLUSIVE</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.slaves.CommandLauncher">
+        <agentCommand>nice -n 5 /usr/local/lib/java/jdk1.6.0/bin/java -Xms16M -jar /home/argonightly/tools/WEB-INF/slave.jar</agentCommand>
+      </launcher>
+      <label>update</label>
+      <nodeProperties/>
+    </slave>
   </slaves>
   <quietPeriod>20</quietPeriod>
   <scmCheckoutRetryCount>0</scmCheckoutRetryCount>
@@ -55,7 +68,7 @@
   </views>
   <primaryView>All</primaryView>
   <slaveAgentPort>0</slaveAgentPort>
-  <label></label>
+  <label>update</label>
   <nodeProperties/>
   <globalNodeProperties/>
   <disabledAdministrativeMonitors>
