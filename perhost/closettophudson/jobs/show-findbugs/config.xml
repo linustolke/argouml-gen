@@ -7,21 +7,29 @@
   <scm class="hudson.scm.SubversionSCM">
     <locations>
       <hudson.scm.SubversionSCM_-ModuleLocation>
-        <remote>http://argouml-stats.tigris.org/svn/argouml-stats/trunk/www/reports-java5/findbugs-xml</remote>
+        <remote>file:///home2/argonightly/REPOS/argouml-stats.tigris.org/svn/argouml-stats/trunk/www/reports-java5/findbugs-xml</remote>
         <local>findbugs-xml</local>
       </hudson.scm.SubversionSCM_-ModuleLocation>
     </locations>
-    <useUpdate>true</useUpdate>
+    <useUpdate>false</useUpdate>
+    <doRevert>false</doRevert>
     <excludedRegions></excludedRegions>
+    <includedRegions></includedRegions>
+    <excludedUsers></excludedUsers>
+    <excludedRevprop></excludedRevprop>
+    <excludedCommitMessages></excludedCommitMessages>
   </scm>
-  <canRoam>true</canRoam>
+  <assignedNode>update</assignedNode>
+  <canRoam>false</canRoam>
   <disabled>false</disabled>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>(Default)</jdk>
   <triggers class="vector">
     <hudson.triggers.SCMTrigger>
       <spec>40 * * * *</spec>
     </hudson.triggers.SCMTrigger>
   </triggers>
+  <concurrentBuild>false</concurrentBuild>
   <builders/>
   <publishers>
     <hudson.plugins.findbugs.FindBugsPublisher>
@@ -34,6 +42,8 @@
       <pluginName>[FINDBUGS] </pluginName>
       <thresholdLimit>low</thresholdLimit>
       <defaultEncoding></defaultEncoding>
+      <useDeltaValues>false</useDeltaValues>
+      <canRunOnFailed>false</canRunOnFailed>
       <pattern>findbugs-xml/*.xml</pattern>
     </hudson.plugins.findbugs.FindBugsPublisher>
     <hudson.tasks.Mailer>
@@ -41,10 +51,21 @@
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
       <sendToIndividuals>false</sendToIndividuals>
     </hudson.tasks.Mailer>
+    <hudson.plugins.ircbot.IrcPublisher>
+      <targets class="java.util.Collections$EmptyList"/>
+      <strategy class="hudson.plugins.im.NotificationStrategy">ALL</strategy>
+      <notifyOnBuildStart>false</notifyOnBuildStart>
+      <notifySuspects>false</notifySuspects>
+      <notifyCulprits>false</notifyCulprits>
+      <notifyFixers>false</notifyFixers>
+      <notifyUpstreamCommitters>false</notifyUpstreamCommitters>
+      <channels/>
+    </hudson.plugins.ircbot.IrcPublisher>
   </publishers>
   <buildWrappers>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper>
       <timeoutMinutes>10</timeoutMinutes>
+      <failBuild>false</failBuild>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>
   </buildWrappers>
 </project>
