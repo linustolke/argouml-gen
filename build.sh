@@ -5,7 +5,6 @@ JCOVERAGE_ADDS="-lib tools/jcoverage -lib tools/jcoverage-1.0.5/lib/junit/3.8.1 
 COBERTURA_ADDS="-lib tools/cobertura-1.8 -lib tools/cobertura-1.8/lib"
 
 tools/apache-ant-1.6.5/bin/ant \
-    -lib tools/checkstyle-4.2 \
     -lib tools/findbugs-0.7.4/lib \
     -lib tools/jdepend-2.6/lib \
     $COBERTURA_ADDS \

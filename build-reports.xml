@@ -302,7 +302,7 @@ Running checkstyle on ${source.dir}.
 	<pathelement location="${argouml-gen.checkstyle.jar.path}"/>
       </classpath>
       <arg value="-c"/>
-      <arg value="${argo.tools.dir}/checkstyle/checkstyle_argouml.xml"/>
+      <arg value="${argo.tools.dir}/checkstyle/checkstyle5_argouml.xml"/>
       <arg value="-r"/>
       <arg value="${source.dir}"/>
     </java>
