@@ -207,6 +207,19 @@ A collection of prepared static checks targets to run automatically.
 	  </fileset>
 	</copy>
       </sequential>
+
+      <sequential>
+        <!-- Java project -->
+        <ant dir="${working.dir}/argouml-java" antfile="build.xml" target="tests-xml"/>
+
+	<mkdir dir="${output.dir}/argouml-java"/>
+	<copy todir="${output.dir}/argouml-java"
+	      overwrite="true" failonerror="false">
+	  <fileset dir="${working.dir}/argouml-java/build/tests/reports">
+	    <include name="TEST-*.xml"/>
+	  </fileset>
+	</copy>
+      </sequential>
     </parallel>
   </target>
 
