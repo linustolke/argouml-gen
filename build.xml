@@ -109,6 +109,7 @@ A collection of prepared static checks targets to run automatically.
       <ant dir="${working.dir}/argouml-i18n-zh"   target="install"/>
       <ant dir="${working.dir}/argouml-idl"       target="install"/>
       <ant dir="${working.dir}/argouml-it"        target="install"/>
+      <ant dir="${working.dir}/argouml-java"      target="install"/>
       <ant dir="${working.dir}/argouml-nb"        target="install"/>
       <ant dir="${working.dir}/argouml-php"       target="install"/>
       <ant dir="${working.dir}/argouml-pt"        target="install"/>
