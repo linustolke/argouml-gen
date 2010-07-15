@@ -72,18 +72,35 @@ function tolang() {
     esac
 }
 
+BASE_PROPERTY_FILES=" \
+    argouml/src/argouml-app/src/org/argouml/i18n/*.properties \
+    argouml-cpp/src/org/argouml/i18n/*.properties \
+    argouml-java/src/org/argouml/i18n/*.properties \
+    argouml-sql/src/org/argouml/i18n/*.properties \
+    "
+
+
+
 # Compare list of files.
-ls argouml/src/argouml-app/src/org/argouml/i18n/*.properties argouml-cpp/src/org/argouml/i18n/*.properties | sed 's;^.*/i18n/;;;s;\.properties;;' | sort > $WORKINGDIR/files-correct
+ls $BASE_PROPERTY_FILES | 
+  sed 's;^.*/i18n/;;;s;\.properties;;' | 
+  sort > $WORKINGDIR/files-correct
 for lang in $LANGUAGES
 do
-    ls $lang/*.properties | sed 's;^.*/i18n/;;;s/_[^.]*\.properties//' | sort > $WORKINGDIR/files-`tolang $lang`
+    ls $lang/*.properties | 
+      sed 's;^.*/i18n/;;;s/_[^.]*\.properties//' | 
+      sort > $WORKINGDIR/files-`tolang $lang`
 done
 
 # Compare list of tags
-cat argouml/src/argouml-app/src/org/argouml/i18n/*.properties argouml-cpp/src/org/argouml/i18n/*.properties | sed '/^[A-Za-z].*=/!d;/^$/d;s/ *=.*$//' | sort > $WORKINGDIR/tags-correct
+cat $BASE_PROPERTY_FILES | 
+  sed '/^[A-Za-z].*=/!d;/^$/d;s/ *=.*$//' | 
+  sort > $WORKINGDIR/tags-correct
 for lang in $LANGUAGES
 do
-    cat $lang/*.properties | sed '/^[A-Za-z].*=/!d;/^$/d;s/ *=.*$//' | sort > $WORKINGDIR/tags-`tolang $lang`
+    cat $lang/*.properties | 
+      sed '/^[A-Za-z].*=/!d;/^$/d;s/ *=.*$//' | 
+      sort > $WORKINGDIR/tags-`tolang $lang`
 done
 
 
