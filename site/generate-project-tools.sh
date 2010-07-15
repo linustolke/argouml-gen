@@ -132,6 +132,14 @@ do
         ;;
 
 
+    i18n-zh)
+        T_NEWS="新闻/新聞"
+        T_MEMBERSHIP="项目成员/專案成員"
+        T_MAILING_LISTS="邮件列表/郵件列表"
+        T_SOURCE="源码/源碼"
+	;;
+
+
     nb)
 	T_MEMBERSHIP="Medlemsskap"
 	T_NEWS="Kunngj&oslash;ringer"
