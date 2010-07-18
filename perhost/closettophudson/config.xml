@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <hudson>
-  <version>1.353</version>
+  <version>1.357</version>
   <numExecutors>1</numExecutors>
   <mode>NORMAL</mode>
   <useSecurity>true</useSecurity>
@@ -37,9 +37,9 @@
       <mode>EXCLUSIVE</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
       <launcher class="hudson.slaves.CommandLauncher">
-        <agentCommand>nice -n 5 /usr/local/lib/java/jdk1.6.0/bin/java -Xms16M -jar /home/argonightly/tools/WEB-INF/slave.jar</agentCommand>
+        <agentCommand>nice -n 5 /usr/local/lib/java/jdk1.6.0/bin/java -Xdebug -Xrunjdwp:transport=dt_socket,address=8003,server=y,suspend=n -Xms16M -jar /home/argonightly/tools/WEB-INF/slave.jar</agentCommand>
       </launcher>
-      <label>bignslow</label>
+      <label></label>
       <nodeProperties/>
     </slave>
     <slave>
