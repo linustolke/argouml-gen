@@ -5,6 +5,8 @@
   <logRotator>
     <daysToKeep>25</daysToKeep>
     <numToKeep>-1</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
   </logRotator>
   <keepDependencies>false</keepDependencies>
   <properties/>
@@ -86,10 +88,15 @@
         <remote>file:///home/argonightly/REPOS/argouml-sv.tigris.org/svn/argouml-sv/trunk</remote>
         <local>argouml-sv</local>
       </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///home/argonightly/REPOS/argouml-java.tigris.org/svn/argouml-java/trunk</remote>
+        <local>argouml-java</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
     </locations>
     <useUpdate>true</useUpdate>
     <doRevert>false</doRevert>
     <excludedRegions></excludedRegions>
+    <includedRegions></includedRegions>
     <excludedUsers></excludedUsers>
     <excludedRevprop></excludedRevprop>
     <excludedCommitMessages></excludedCommitMessages>
@@ -99,7 +106,7 @@
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers class="vector">
     <hudson.triggers.SCMTrigger>
-      <spec>0 0 * * *</spec>
+      <spec>0 * * * *</spec>
     </hudson.triggers.SCMTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
@@ -127,7 +134,7 @@
     <axis>
       <name>label</name>
       <values>
-        <string>bignslow</string>
+        <string>nightly</string>
       </values>
     </axis>
   </axes>
@@ -161,32 +168,7 @@ done
       <command>cd argouml-gen &amp;&amp; nice ./build.sh -Dworking.dir=.. clean-result</command>
     </hudson.tasks.Shell>
   </builders>
-  <publishers>
-    <hudson.plugins.warnings.WarningsPublisher>
-      <threshold></threshold>
-      <newThreshold></newThreshold>
-      <failureThreshold></failureThreshold>
-      <newFailureThreshold></newFailureThreshold>
-      <healthy></healthy>
-      <unHealthy></unHealthy>
-      <pluginName>[WARNINGS] </pluginName>
-      <thresholdLimit>low</thresholdLimit>
-      <defaultEncoding></defaultEncoding>
-      <pattern></pattern>
-      <parserNames>
-        <string>Java Compiler</string>
-        <string>JavaDoc</string>
-      </parserNames>
-      <canRunOnFailed>false</canRunOnFailed>
-      <ignoreConsole>false</ignoreConsole>
-    </hudson.plugins.warnings.WarningsPublisher>
-    <hudson.plugins.textfinder.TextFinderPublisher>
-      <regexp>Could not resolve hostname|timed out waiting for server|could not connect to server</regexp>
-      <succeedIfFound>false</succeedIfFound>
-      <unstableIfFound>true</unstableIfFound>
-      <alsoCheckConsoleOutput>true</alsoCheckConsoleOutput>
-    </hudson.plugins.textfinder.TextFinderPublisher>
-  </publishers>
+  <publishers/>
   <buildWrappers>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper>
       <timeoutMinutes>1200</timeoutMinutes>
