@@ -5,6 +5,8 @@
   <logRotator>
     <daysToKeep>30</daysToKeep>
     <numToKeep>30</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
   </logRotator>
   <keepDependencies>false</keepDependencies>
   <properties/>
@@ -22,11 +24,12 @@
     <useUpdate>true</useUpdate>
     <doRevert>false</doRevert>
     <excludedRegions></excludedRegions>
+    <includedRegions></includedRegions>
     <excludedUsers></excludedUsers>
     <excludedRevprop></excludedRevprop>
     <excludedCommitMessages></excludedCommitMessages>
   </scm>
-  <quietPeriod>300</quietPeriod>
+  <quietPeriod>780</quietPeriod>
   <canRoam>true</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
@@ -60,14 +63,6 @@ test -f $JIMI || cp $HOME/$JIMI .
     </hudson.tasks.Shell>
   </builders>
   <publishers>
-    <gcal.gcalPublisher>
-      <serviceURL>http://www.google.com/calendar/</serviceURL>
-      <calendarID>guhv5mnvkr0pd05teacgh281gk%40group.calendar.google.com</calendarID>
-      <url>http://www.google.com/calendar/feeds/guhv5mnvkr0pd05teacgh281gk%40group.calendar.google.com/private/full</url>
-      <login>closettop.homelinux.org</login>
-      <password>XXXXXXXXXX</password>
-      <statusToPublish>All</statusToPublish>
-    </gcal.gcalPublisher>
     <hudson.tasks.Mailer>
       <recipients>users@argouml-stats.tigris.org</recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>

@@ -5,6 +5,8 @@
   <logRotator>
     <daysToKeep>30</daysToKeep>
     <numToKeep>-1</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
   </logRotator>
   <keepDependencies>false</keepDependencies>
   <properties/>
@@ -22,6 +24,7 @@
     <useUpdate>true</useUpdate>
     <doRevert>false</doRevert>
     <excludedRegions></excludedRegions>
+    <includedRegions></includedRegions>
     <excludedUsers></excludedUsers>
     <excludedRevprop></excludedRevprop>
     <excludedCommitMessages></excludedCommitMessages>
@@ -50,18 +53,6 @@
     </hudson.tasks.Ant>
   </builders>
   <publishers>
-    <hudson.tasks.junit.JUnitResultArchiver>
-      <testResults>src/*/build/tests/reports/TEST-*.xml</testResults>
-      <testDataPublishers/>
-    </hudson.tasks.junit.JUnitResultArchiver>
-    <hudson.tasks.BuildTrigger>
-      <childProjects>argouml-junit-java6</childProjects>
-      <threshold>
-        <name>UNSTABLE</name>
-        <ordinal>1</ordinal>
-        <color>YELLOW</color>
-      </threshold>
-    </hudson.tasks.BuildTrigger>
     <hudson.plugins.warnings.WarningsPublisher>
       <threshold></threshold>
       <newThreshold></newThreshold>
@@ -72,21 +63,27 @@
       <pluginName>[WARNINGS] </pluginName>
       <thresholdLimit>low</thresholdLimit>
       <defaultEncoding></defaultEncoding>
+      <useDeltaValues>false</useDeltaValues>
+      <canRunOnFailed>false</canRunOnFailed>
       <pattern></pattern>
       <parserNames>
         <string>Java Compiler</string>
       </parserNames>
-      <canRunOnFailed>false</canRunOnFailed>
       <ignoreConsole>false</ignoreConsole>
     </hudson.plugins.warnings.WarningsPublisher>
-    <gcal.gcalPublisher>
-      <serviceURL>http://www.google.com/calendar/</serviceURL>
-      <calendarID>guhv5mnvkr0pd05teacgh281gk%40group.calendar.google.com</calendarID>
-      <url>http://www.google.com/calendar/feeds/guhv5mnvkr0pd05teacgh281gk%40group.calendar.google.com/private/full</url>
-      <login>closettop.homelinux.org</login>
-      <password>XXXXXXXXXX</password>
-      <statusToPublish>All</statusToPublish>
-    </gcal.gcalPublisher>
+    <hudson.tasks.junit.JUnitResultArchiver>
+      <testResults>src/*/build/tests/reports/TEST-*.xml</testResults>
+      <keepLongStdio>false</keepLongStdio>
+      <testDataPublishers/>
+    </hudson.tasks.junit.JUnitResultArchiver>
+    <hudson.tasks.BuildTrigger>
+      <childProjects>argouml-junit-java6</childProjects>
+      <threshold>
+        <name>UNSTABLE</name>
+        <ordinal>1</ordinal>
+        <color>YELLOW</color>
+      </threshold>
+    </hudson.tasks.BuildTrigger>
     <hudson.tasks.Mailer>
       <recipients>users@argouml-stats.tigris.org</recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
