@@ -32,7 +32,7 @@
   <jdk>1.5</jdk>
   <triggers class="vector">
     <hudson.triggers.TimerTrigger>
-      <spec>10,40 * * * *
+      <spec>15,45 * * * *
 </spec>
     </hudson.triggers.TimerTrigger>
   </triggers>
