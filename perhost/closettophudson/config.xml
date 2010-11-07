@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <hudson>
-  <version>1.357</version>
+  <version>1.375</version>
   <numExecutors>1</numExecutors>
   <mode>NORMAL</mode>
   <useSecurity>true</useSecurity>
@@ -24,6 +24,11 @@
     <jdk>
       <name>1.5</name>
       <home>/usr/local/lib/java/jdk1.5.0_06</home>
+      <properties/>
+    </jdk>
+    <jdk>
+      <name>1.7</name>
+      <home>/usr/local/lib/java/jdk1.7.0</home>
       <properties/>
     </jdk>
   </jdks>
