@@ -1,10 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <matrix-project>
   <actions/>
-  <description>The part of the nightly build that is done for each jdk.</description>
+  <description>Starts nightly if there is any change is any of the argouml projects. Creates the information published for&#xd;
+&lt;a href=&quot;/job/show-junit5/&quot;&gt;Junit java5&lt;/a&gt; (&lt;a href=&quot;/job/show-junit6/&quot;&gt;java6&lt;/a&gt;),&#xd;
+&lt;a href=&quot;http://argouml-stats.tigris.org/nonav/reports-java5/coverage/&quot;&gt;Coverage java5&lt;/a&gt; (&lt;a href=&quot;http://argouml-stats.tigris.org/nonav/reports-java6/coverage/&quot;&gt;java6&lt;/a&gt;),&#xd;
+&lt;a href=&quot;http://argouml-stats.tigris.org/nonav/reports-java5/javadocs/&quot;&gt;Javadocs java5&lt;/a&gt; (&lt;a href=&quot;http://argouml-stats.tigris.org/nonav/reports-java6/javadocs/&quot;&gt;java6&lt;/a&gt;),&#xd;
+&lt;a href=&quot;http://argouml-stats.tigris.org/nonav/reports-java5/javadocs-api/&quot;&gt;Javadocs-api java5&lt;/a&gt; (&lt;a href=&quot;http://argouml-stats.tigris.org/nonav/reports-java6/javadocs-api/&quot;&gt;java6&lt;/a&gt;),&#xd;
+&lt;a href=&quot;http://argouml-stats.tigris.org/nonav/reports-java5/checkstyle/&quot;&gt;Checkstyle&lt;/a&gt;,&#xd;
+&lt;a href=&quot;http://argouml-stats.tigris.org/nonav/reports-java5/findbugs/&quot;&gt;Findbugs&lt;/a&gt; (&lt;a href=&quot;/job/show-findbugs/&quot;&gt;hudson view&lt;/a&gt;), and&#xd;
+&lt;a href=&quot;http://argouml-stats.tigris.org/nonav/reports-java5/i18ncomparison/&quot;&gt;I18n comparison&lt;/a&gt;.&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+</description>
   <logRotator>
-    <daysToKeep>25</daysToKeep>
-    <numToKeep>-1</numToKeep>
+    <daysToKeep>1000</daysToKeep>
+    <numToKeep>1000</numToKeep>
     <artifactDaysToKeep>-1</artifactDaysToKeep>
     <artifactNumToKeep>-1</artifactNumToKeep>
   </logRotator>
@@ -111,7 +123,20 @@
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <axes>
-    <axis>
+    <hudson.matrix.JDKAxis>
+      <name>jdk</name>
+      <values>
+        <string>1.6</string>
+        <string>1.5</string>
+      </values>
+    </hudson.matrix.JDKAxis>
+    <hudson.matrix.LabelAxis>
+      <name>label</name>
+      <values>
+        <string>nightly</string>
+      </values>
+    </hudson.matrix.LabelAxis>
+    <hudson.matrix.TextAxis>
       <name>type</name>
       <values>
         <string>junit</string>
@@ -123,20 +148,7 @@
         <string>coverage</string>
         <string>i18ncomparison</string>
       </values>
-    </axis>
-    <axis>
-      <name>jdk</name>
-      <values>
-        <string>1.6</string>
-        <string>1.5</string>
-      </values>
-    </axis>
-    <axis>
-      <name>label</name>
-      <values>
-        <string>nightly</string>
-      </values>
-    </axis>
+    </hudson.matrix.TextAxis>
   </axes>
   <combinationFilter>jdk==&quot;1.5&quot; || (type != &quot;checkstyle&quot; &amp;&amp; type != &quot;findbugs&quot; &amp;&amp; type != &quot;jdepend&quot; &amp;&amp; type != &quot;i18ncomparison&quot;)</combinationFilter>
   <builders>
