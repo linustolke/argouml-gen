@@ -7,3 +7,4 @@ do
       --username guest --password ""
 done
 
+exit 0;
