@@ -100,14 +100,24 @@ then
         echo exit 0 >> $PRERPC
         chmod +x $PRERPC
       )
-      svnsync --non-interactive --no-auth-cache initialize $ROOT/$PROJMIDDLE http://$PROJMIDDLE --username guest --password ""
+      svnsync --non-interactive --no-auth-cache \
+          initialize $ROOT/$PROJMIDDLE http://$PROJMIDDLE \
+          --username guest --password ""
       echo $(date): creating mirror for $proj...done
     fi
 
     if $SYNCHRONIZE
     then
       echo $(date): synchronize $proj...
-      svnsync --non-interactive --no-auth-cache synchronize $ROOT/$PROJMIDDLE --username guest --password ""
+      svnsync --non-interactive --no-auth-cache \
+          synchronize $ROOT/$PROJMIDDLE \
+          --username guest --password "" 2>/dev/null ||
+      svnsync --non-interactive --no-auth-cache \
+          synchronize $ROOT/$PROJMIDDLE \
+          --username guest --password "" 2>/dev/null ||
+      svnsync --non-interactive --no-auth-cache \
+          synchronize $ROOT/$PROJMIDDLE \
+          --username guest --password ""
       echo $(date): synchronize $proj...done
     fi
   done
@@ -127,7 +137,8 @@ fi
   for proj in $PROJECTS
   do
     echo $(date): checking out $proj...
-    svn co $ROOT/$proj.tigris.org/svn/$proj/trunk $proj --username=guest --password=''
+    svn co $ROOT/$proj.tigris.org/svn/$proj/trunk $proj \
+        --username=guest --password=''
     echo $(date): checking out $proj...done
   done
 )
