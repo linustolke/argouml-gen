@@ -24,6 +24,8 @@ REVISIONS=`
 CHECKEDOUTDIR=`basename $FILES`
 
 svn co --non-interactive --ignore-externals $SVNURL upload/$CHECKEDOUTDIR ||
+svn co --non-interactive --ignore-externals $SVNURL upload/$CHECKEDOUTDIR ||
+svn co --non-interactive --ignore-externals $SVNURL upload/$CHECKEDOUTDIR ||
      exit 1;
 
 echo Copying files from $FILES
@@ -65,6 +67,12 @@ $REVISIONS"
   svn status |
   awk '/^[AM]/ { print $2; }' |
   xargs -L 10 svn commit -m"Try upload again (in chunks of ten files).
+$REVISIONS"
+
+  svn update
+  svn status |
+  awk '/^[AM]/ { print $2; }' |
+  xargs -L 1 svn commit -m"Try upload again (files one by one).
 $REVISIONS"
 
   svn update
