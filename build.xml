@@ -99,7 +99,7 @@ A collection of prepared static checks targets to run automatically.
          argoumlinstaller project.
      -->
     <ant dir="${working.dir}/argouml"             target="install"/>
-    <parallel threadCount="3">
+    <parallel threadCount="1">
       <ant dir="${working.dir}/argouml-cpp"       target="install"/>
       <ant dir="${working.dir}/argouml-csharp"    target="install"/>
       <ant dir="${working.dir}/argouml-de"        target="install"/>
