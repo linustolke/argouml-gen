@@ -44,6 +44,11 @@ do
         T_MEMBERSHIP=Mitglieder
         T_MAILING_LISTS=Mail-Listen
         T_SOURCE=Quelldateien
+
+        EXTRA='
+    <li><a href="http://argouml-stats.tigris.org/documentation-de/quickguide-0.32/">Kurzanleitung 0.32</a></li> 
+    <li><a href="http://argouml-stats.tigris.org/documentation-de/manual-0.32/">Anwenderhandbuch 0.32</a></li> 
+'
         ;;
 
     documentation)
@@ -88,8 +93,8 @@ do
 <dt>Recent releases</dt>
 <dd>
   <ul>
-    <li><a href="/argouml-0.30.2">Release 0.30.2</a></li>
-    <li><a href="/argouml-0.28.1">Release 0.28.1</a></li>'
+    <li><a href="/argouml-0.32">Release 0.32</a></li>
+    <li><a href="/argouml-0.30.2">Release 0.30.2</a></li>'
         ;;
 
     enki)
@@ -287,8 +292,8 @@ EOF
 <dd> 
   <ul> 
     <li><a href="http://argouml.tigris.org/support.html">Support</a></li> 
-    <li><a href="http://argouml-stats.tigris.org/documentation/quickguide-0.30/">$T_ARGOUML_QUICK_GUIDE 0.30</a></li> 
-    <li><a href="http://argouml-stats.tigris.org/documentation/manual-0.30/">$T_ARGOUML_USER_MANUAL 0.30</a></li> 
+    <li><a href="http://argouml-stats.tigris.org/documentation/quickguide-0.32/">$T_ARGOUML_QUICK_GUIDE 0.32</a></li> 
+    <li><a href="http://argouml-stats.tigris.org/documentation/manual-0.32/">$T_ARGOUML_USER_MANUAL 0.32</a></li> 
     <li><a href="http://argouml.tigris.org/faqs/users.html">$T_ARGOUML_FAQ</a></li> 
     <li><a href="http://www.argouml-users.net/" target="wiki">$T_ARGOUML_WIKI</a></li> 
     <li><a href="http://www.argouml-users.net/forum" target="forum">$T_ARGOUML_FORUM</a></li> 
