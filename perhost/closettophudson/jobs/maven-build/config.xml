@@ -7,7 +7,11 @@ Currently this project just contains a small part of argouml, the part that has 
 &#xd;
 The ambition is to eventually let this replace the nightly build.</description>
   <keepDependencies>false</keepDependencies>
-  <properties/>
+  <properties>
+    <hudson.queueSorter.PrioritySorterJobProperty>
+      <priority>110</priority>
+    </hudson.queueSorter.PrioritySorterJobProperty>
+  </properties>
   <scm class="hudson.scm.SubversionSCM">
     <locations>
       <hudson.scm.SubversionSCM_-ModuleLocation>

@@ -21,7 +21,11 @@
     <artifactNumToKeep>-1</artifactNumToKeep>
   </logRotator>
   <keepDependencies>false</keepDependencies>
-  <properties/>
+  <properties>
+    <hudson.queueSorter.PrioritySorterJobProperty>
+      <priority>10</priority>
+    </hudson.queueSorter.PrioritySorterJobProperty>
+  </properties>
   <scm class="hudson.scm.SubversionSCM">
     <locations>
       <hudson.scm.SubversionSCM_-ModuleLocation>
@@ -128,6 +132,7 @@
       <values>
         <string>1.6</string>
         <string>1.5</string>
+        <string>1.7</string>
       </values>
     </hudson.matrix.JDKAxis>
     <hudson.matrix.LabelAxis>
@@ -163,6 +168,9 @@
     ;;
 *jdk1.6.0*)
     JAVA_NAME=java6
+    ;;
+*jdk1.7.0*)
+    JAVA_NAME=java7
     ;;
 *)
     echo &quot;Unknown jdk!&quot;

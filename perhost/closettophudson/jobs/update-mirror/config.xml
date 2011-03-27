@@ -9,7 +9,11 @@
     <artifactNumToKeep>-1</artifactNumToKeep>
   </logRotator>
   <keepDependencies>false</keepDependencies>
-  <properties/>
+  <properties>
+    <hudson.queueSorter.PrioritySorterJobProperty>
+      <priority>100</priority>
+    </hudson.queueSorter.PrioritySorterJobProperty>
+  </properties>
   <scm class="hudson.scm.SubversionSCM">
     <locations>
       <hudson.scm.SubversionSCM_-ModuleLocation>
@@ -25,9 +29,8 @@
     <excludedRevprop></excludedRevprop>
     <excludedCommitMessages></excludedCommitMessages>
   </scm>
-  <assignedNode>update</assignedNode>
-  <canRoam>false</canRoam>
-  <disabled>false</disabled>
+  <canRoam>true</canRoam>
+  <disabled>true</disabled>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>1.5</jdk>
   <triggers class="vector">
