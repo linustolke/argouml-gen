@@ -11,11 +11,7 @@ This is an experiment with a pre-release of java7.</description>
     <artifactNumToKeep>-1</artifactNumToKeep>
   </logRotator>
   <keepDependencies>false</keepDependencies>
-  <properties>
-    <hudson.queueSorter.PrioritySorterJobProperty>
-      <priority>100</priority>
-    </hudson.queueSorter.PrioritySorterJobProperty>
-  </properties>
+  <properties/>
   <scm class="hudson.scm.SubversionSCM">
     <locations>
       <hudson.scm.SubversionSCM_-ModuleLocation>
@@ -36,7 +32,7 @@ This is an experiment with a pre-release of java7.</description>
     <excludedCommitMessages></excludedCommitMessages>
   </scm>
   <quietPeriod>300</quietPeriod>
-  <assignedNode>nightly</assignedNode>
+  <assignedNode>prio3</assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>

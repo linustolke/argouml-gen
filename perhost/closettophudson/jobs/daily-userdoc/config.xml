@@ -30,7 +30,8 @@
     <excludedCommitMessages></excludedCommitMessages>
   </scm>
   <quietPeriod>780</quietPeriod>
-  <canRoam>true</canRoam>
+  <assignedNode>prio2</assignedNode>
+  <canRoam>false</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>1.6</jdk>

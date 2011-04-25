@@ -30,11 +30,16 @@
     <excludedCommitMessages></excludedCommitMessages>
   </scm>
   <quietPeriod>300</quietPeriod>
-  <canRoam>true</canRoam>
+  <assignedNode>prio1</assignedNode>
+  <canRoam>false</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
   <jdk>1.6</jdk>
-  <triggers class="vector"/>
+  <triggers class="vector">
+    <hudson.triggers.SCMTrigger>
+      <spec>*/5 * * * *</spec>
+    </hudson.triggers.SCMTrigger>
+  </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Ant>

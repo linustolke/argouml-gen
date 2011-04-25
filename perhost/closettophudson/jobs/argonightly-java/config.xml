@@ -21,11 +21,7 @@
     <artifactNumToKeep>-1</artifactNumToKeep>
   </logRotator>
   <keepDependencies>false</keepDependencies>
-  <properties>
-    <hudson.queueSorter.PrioritySorterJobProperty>
-      <priority>10</priority>
-    </hudson.queueSorter.PrioritySorterJobProperty>
-  </properties>
+  <properties/>
   <scm class="hudson.scm.SubversionSCM">
     <locations>
       <hudson.scm.SubversionSCM_-ModuleLocation>
@@ -138,7 +134,7 @@
     <hudson.matrix.LabelAxis>
       <name>label</name>
       <values>
-        <string>nightly</string>
+        <string>prio3</string>
       </values>
     </hudson.matrix.LabelAxis>
     <hudson.matrix.TextAxis>

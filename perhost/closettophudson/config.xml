@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <hudson>
-  <version>1.375</version>
+  <version>1.391</version>
   <numExecutors>1</numExecutors>
   <mode>NORMAL</mode>
   <useSecurity>true</useSecurity>
@@ -10,11 +10,12 @@
   </securityRealm>
   <systemMessage>&lt;p&gt;The argouml-junit-javaX and the daily-userdoc job starts after a commit. If an error is found they send mails to the committer (and to the users(at)argouml-stats.tigris.org mailing list)&lt;/p&gt;&#xd;
 &#xd;
-&lt;p&gt;The argonightly-java jobs does the nightly build. It starts at midnight (if there is any change in any of the involved projects). Each job uploads the result to the website separately. To limit the impact of these jobs, they are bound to the &quot;nightly&quot;-executor that runs niced.&lt;/p&gt;&#xd;
+&lt;p&gt;The argonightly-java jobs does the nightly build. It starts at midnight (if there is any change in any of the involved projects). Each job uploads the result to the website separately. To limit the impact of these jobs, they are bound to the low priority-executor that runs niced.&lt;/p&gt;&#xd;
 &#xd;
 &lt;p&gt;All jobs fetches information from an svn mirror of the tigris svn repositories that is updated regularly by the update-mirror jobs.&lt;/p&gt;&#xd;
 &lt;p&gt;show-jobs fetches information from the repository and displays it using the hudson publishing mechanisms.&lt;/p&gt;&#xd;
 </systemMessage>
+  <markupFormatter class="hudson.markup.RawHtmlMarkupFormatter"/>
   <jdks>
     <jdk>
       <name>1.6</name>
@@ -32,32 +33,56 @@
       <properties/>
     </jdk>
   </jdks>
+  <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
+  <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
   <clouds/>
   <slaves>
     <slave>
-      <name>nightly</name>
+      <name>prio1exec</name>
       <description></description>
-      <remoteFS>/home2/argonightly/slowdisk</remoteFS>
-      <numExecutors>2</numExecutors>
+      <remoteFS>/home2/argonightly/prio1exec</remoteFS>
+      <numExecutors>1</numExecutors>
       <mode>EXCLUSIVE</mode>
-      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Demand">
+        <inDemandDelay>1</inDemandDelay>
+        <idleDelay>10</idleDelay>
+      </retentionStrategy>
       <launcher class="hudson.slaves.CommandLauncher">
-        <agentCommand>nice -n 5 /usr/local/lib/java/jdk1.6.0/bin/java -Xdebug -Xrunjdwp:transport=dt_socket,address=8003,server=y,suspend=n -Xms16M -Djava.util.logging.config.file=/home2/argonightly/slowdisk/logging.properties -jar /home2/argonightly/tools/WEB-INF/slave.jar</agentCommand>
+        <agentCommand>nice -n 4 /usr/local/lib/java/jdk1.6.0/bin/java -Xms8M -jar /home2/argonightly/tools/WEB-INF/slave.jar</agentCommand>
       </launcher>
-      <label></label>
+      <label>prio1</label>
       <nodeProperties/>
     </slave>
     <slave>
-      <name>updateshow</name>
+      <name>prio2exec</name>
       <description></description>
-      <remoteFS>/home2/argonightly/update</remoteFS>
-      <numExecutors>2</numExecutors>
+      <remoteFS>/home2/argonightly/prio2exec</remoteFS>
+      <numExecutors>1</numExecutors>
       <mode>EXCLUSIVE</mode>
-      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Demand">
+        <inDemandDelay>2</inDemandDelay>
+        <idleDelay>5</idleDelay>
+      </retentionStrategy>
       <launcher class="hudson.slaves.CommandLauncher">
-        <agentCommand>nice -n 5 /usr/local/lib/java/jdk1.6.0/bin/java -Xms16M -Djava.util.logging.config.file=/home2/argonightly/update/logging.properties -jar /home2/argonightly/tools/WEB-INF/slave.jar</agentCommand>
+        <agentCommand>nice -n 8 /usr/local/lib/java/jdk1.6.0/bin/java -Xms8M -jar /home2/argonightly/tools/WEB-INF/slave.jar</agentCommand>
       </launcher>
-      <label>update</label>
+      <label>prio1 prio2</label>
+      <nodeProperties/>
+    </slave>
+    <slave>
+      <name>prio3exec</name>
+      <description></description>
+      <remoteFS>/home2/argonightly/prio3exec</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>EXCLUSIVE</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Demand">
+        <inDemandDelay>3</inDemandDelay>
+        <idleDelay>3</idleDelay>
+      </retentionStrategy>
+      <launcher class="hudson.slaves.CommandLauncher">
+        <agentCommand>nice -n 12 /usr/local/lib/java/jdk1.6.0/bin/java -Xms8M -jar /home2/argonightly/tools/WEB-INF/slave.jar</agentCommand>
+      </launcher>
+      <label>prio1 prio2 prio3</label>
       <nodeProperties/>
     </slave>
   </slaves>
@@ -73,7 +98,7 @@
   </views>
   <primaryView>All</primaryView>
   <slaveAgentPort>0</slaveAgentPort>
-  <label>update</label>
+  <label></label>
   <nodeProperties/>
   <globalNodeProperties/>
   <disabledAdministrativeMonitors>
