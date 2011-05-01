@@ -5,7 +5,7 @@
 &#xd;
 Currently this project just contains a small part of argouml, the part that has poms created.&#xd;
 &#xd;
-The ambition is to eventually let this replace the nightly build.</description>
+The plan is to eventually let this replace the nightly build.</description>
   <keepDependencies>false</keepDependencies>
   <properties/>
   <scm class="hudson.scm.SubversionSCM">
