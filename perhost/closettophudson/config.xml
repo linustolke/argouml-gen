@@ -10,9 +10,9 @@
   </securityRealm>
   <systemMessage>&lt;p&gt;The argouml-junit-javaX and the daily-userdoc job starts after a commit. If an error is found they send mails to the committer (and to the users(at)argouml-stats.tigris.org mailing list)&lt;/p&gt;&#xd;
 &#xd;
-&lt;p&gt;The argonightly-java jobs does the nightly build. It starts at midnight (if there is any change in any of the involved projects). Each job uploads the result to the website separately. To limit the impact of these jobs, they are bound to the low priority-executor that runs niced.&lt;/p&gt;&#xd;
+&lt;p&gt;The argonightly-java jobs does the nightly build. It starts at midnight (if there is any change in any of the involved projects). Each job uploads the result to the &lt;a href=&quot;http://argouml-stats.tigris.org/&quot;&gt;argouml website&lt;/a&gt; separately. To limit the impact of these jobs, they are bound to the low priority-executor that runs niced.&lt;/p&gt;&#xd;
 &#xd;
-&lt;p&gt;All jobs fetches information from an svn mirror of the tigris svn repositories that is updated regularly by the update-mirror jobs.&lt;/p&gt;&#xd;
+&lt;p&gt;All jobs fetches information from a local svn mirror of the tigris svn repositories that is updated regularly by the update-mirror jobs.&lt;/p&gt;&#xd;
 &lt;p&gt;show-jobs fetches information from the repository and displays it using the hudson publishing mechanisms.&lt;/p&gt;&#xd;
 </systemMessage>
   <markupFormatter class="hudson.markup.RawHtmlMarkupFormatter"/>
@@ -45,7 +45,7 @@
       <mode>EXCLUSIVE</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Demand">
         <inDemandDelay>1</inDemandDelay>
-        <idleDelay>10</idleDelay>
+        <idleDelay>5</idleDelay>
       </retentionStrategy>
       <launcher class="hudson.slaves.CommandLauncher">
         <agentCommand>nice -n 4 /usr/local/lib/java/jdk1.6.0/bin/java -Xms8M -jar /home2/argonightly/tools/WEB-INF/slave.jar</agentCommand>
@@ -60,7 +60,7 @@
       <numExecutors>1</numExecutors>
       <mode>EXCLUSIVE</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Demand">
-        <inDemandDelay>2</inDemandDelay>
+        <inDemandDelay>3</inDemandDelay>
         <idleDelay>5</idleDelay>
       </retentionStrategy>
       <launcher class="hudson.slaves.CommandLauncher">
@@ -76,8 +76,8 @@
       <numExecutors>1</numExecutors>
       <mode>EXCLUSIVE</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Demand">
-        <inDemandDelay>3</inDemandDelay>
-        <idleDelay>3</idleDelay>
+        <inDemandDelay>5</inDemandDelay>
+        <idleDelay>5</idleDelay>
       </retentionStrategy>
       <launcher class="hudson.slaves.CommandLauncher">
         <agentCommand>nice -n 12 /usr/local/lib/java/jdk1.6.0/bin/java -Xms8M -jar /home2/argonightly/tools/WEB-INF/slave.jar</agentCommand>
