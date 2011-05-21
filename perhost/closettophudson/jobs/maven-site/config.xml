@@ -1,9 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <maven2-moduleset>
   <actions/>
-  <description>This project builds argouml, runs tests, and static checks using maven and configured from the poms developed for this purpose.&#xd;
-&#xd;
-Currently this project just contains a small part of argouml, the part that has poms created.&#xd;
+  <description>This project builds runs tests, and static checks using maven. The site is generated that creates all reports.&#xd;
 &#xd;
 The plan is to eventually let this replace the nightly build.</description>
   <keepDependencies>false</keepDependencies>
@@ -43,12 +41,12 @@ The plan is to eventually let this replace the nightly build.</description>
     <artifactId>allArgoUMLProjects</artifactId>
   </rootModule>
   <rootPOM>argouml/tools/maven/toppom.xml</rootPOM>
-  <goals>install site</goals>
+  <goals>site</goals>
   <mavenOpts>-Xmx128M</mavenOpts>
   <aggregatorStyleBuild>true</aggregatorStyleBuild>
   <incrementalBuild>false</incrementalBuild>
   <usePrivateRepository>false</usePrivateRepository>
-  <ignoreUpstremChanges>false</ignoreUpstremChanges>
+  <ignoreUpstremChanges>true</ignoreUpstremChanges>
   <archivingDisabled>false</archivingDisabled>
   <reporters>
     <hudson.plugins.findbugs.FindBugsReporter>

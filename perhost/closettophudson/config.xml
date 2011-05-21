@@ -95,6 +95,41 @@
       <filterExecutors>false</filterExecutors>
       <filterQueue>false</filterQueue>
     </hudson.model.AllView>
+    <listView>
+      <owner class="hudson" reference="../../.."/>
+      <name>Separates</name>
+      <description>A Hudson view where each subproject is a separate job.</description>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
+      <jobNames class="tree-set">
+        <comparator class="hudson.util.CaseInsensitiveComparator"/>
+        <string>argouml-actionscript3</string>
+        <string>argouml-app</string>
+        <string>argouml-core-diagrams-activity2</string>
+        <string>argouml-core-diagrams-class2</string>
+        <string>argouml-core-diagrams-sequence2</string>
+        <string>argouml-core-diagrams-state2</string>
+        <string>argouml-core-diagrams-structure2</string>
+        <string>argouml-core-model</string>
+        <string>argouml-core-model-euml</string>
+        <string>argouml-core-model-mdr</string>
+        <string>argouml-core-notation</string>
+        <string>argouml-core-transformer</string>
+        <string>argouml-core-umlpropertypanels</string>
+        <string>argouml-tools</string>
+        <string>parentpom</string>
+      </jobNames>
+      <jobFilters/>
+      <columns>
+        <hudson.views.StatusColumn/>
+        <hudson.views.WeatherColumn/>
+        <hudson.views.JobColumn/>
+        <hudson.views.LastSuccessColumn/>
+        <hudson.views.LastFailureColumn/>
+        <hudson.views.LastDurationColumn/>
+        <hudson.views.BuildButtonColumn/>
+      </columns>
+    </listView>
   </views>
   <primaryView>All</primaryView>
   <slaveAgentPort>0</slaveAgentPort>

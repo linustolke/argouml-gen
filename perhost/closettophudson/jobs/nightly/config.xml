@@ -127,7 +127,6 @@
       <name>jdk</name>
       <values>
         <string>1.6</string>
-        <string>1.5</string>
         <string>1.7</string>
       </values>
     </hudson.matrix.JDKAxis>
@@ -151,7 +150,7 @@
       </values>
     </hudson.matrix.TextAxis>
   </axes>
-  <combinationFilter>jdk==&quot;1.5&quot; || (type != &quot;checkstyle&quot; &amp;&amp; type != &quot;findbugs&quot; &amp;&amp; type != &quot;jdepend&quot; &amp;&amp; type != &quot;i18ncomparison&quot;)</combinationFilter>
+  <combinationFilter>jdk==&quot;1.6&quot; || (type != &quot;checkstyle&quot; &amp;&amp; type != &quot;findbugs&quot; &amp;&amp; type != &quot;jdepend&quot; &amp;&amp; type != &quot;i18ncomparison&quot;)</combinationFilter>
   <builders>
     <hudson.tasks.Shell>
       <command>cd argouml-gen &amp;&amp; nice ./build.sh -Dworking.dir=.. report:$type
