@@ -19,9 +19,17 @@ do
     EXTRA=""
 
     T_ARGOUML_PROJECT="The ArgoUML Project"
+    T_ARGOUML_HOME="Project home"
+    T_ARGOUML_NEWS="ArgoUML News"
+    T_ARGOUML_DEV_WIKI="Developer Wiki"
+    T_ARGOUML_BUGS="Bugs and Issues"
+    T_ARGOUML_SRC="Source Code"
+    T_ARGOUML_MEMBERSHIP="Project Membership"
     T_ARGOUML_MAILING_LISTS="Mailing lists"
+    T_ARGOUML_FILE_SHARING="File Sharing"
 
     T_ARGOUML_USING_ARGOUML="Using ArgoUML"
+    T_URL_SUPPORT="http://argouml.tigris.org/support.html"
     T_ARGOUML_QUICK_GUIDE="Quick guide"
     T_ARGOUML_USER_MANUAL="User Manual"
     T_ARGOUML_FAQ="FAQ"
@@ -41,6 +49,23 @@ do
         ;;
 
     de)
+        T_ARGOUML_PROJECT="Das ArgoUML-Projekt"
+        T_ARGOUML_HOME="Projekt Startseite"
+        T_ARGOUML_NEWS="Neues von ArgoUML"
+        T_ARGOUML_DEV_WIKI="Entwickler Wiki"
+        T_ARGOUML_BUGS="Fehler- und Problemmeldungen"
+        T_ARGOUML_SRC="Quellcode"
+        T_ARGOUML_MEMBERSHIP="Projektmitglieder"
+        T_ARGOUML_MAILING_LISTS="Mailing-Listen"
+        T_ARGOUML_FILE_SHARING="Gemeinsame Dateien"
+
+        T_ARGOUML_USING_ARGOUML="ArgoUML benutzen"
+        T_URL_SUPPORT="http://argouml-de.tigris.org/support.html"
+        T_ARGOUML_QUICK_GUIDE="Kurzanleitung"
+        T_ARGOUML_USER_MANUAL="Anwenderhandbuch"
+        T_ARGOUML_USERS_MAILING_LIST="Benutzer-Mailinglisten"
+        T_ARGOUML_DOCUMENTATION="Dokumentation"
+
         T_MEMBERSHIP=Mitglieder
         T_MAILING_LISTS=Mail-Listen
         T_SOURCE=Quelldateien
@@ -93,7 +118,7 @@ do
 <dt>Recent releases</dt>
 <dd>
   <ul>
-    <li><a href="/argouml-0.32">Release 0.32</a></li>
+    <li><a href="/argouml-0.32.2">Release 0.32.2</a></li>
     <li><a href="/argouml-0.30.2">Release 0.30.2</a></li>'
         ;;
 
@@ -142,6 +167,12 @@ do
         T_MEMBERSHIP="项目成员/專案成員"
         T_MAILING_LISTS="邮件列表/郵件列表"
         T_SOURCE="源码/源碼"
+	;;
+
+
+    modulegenerator)
+        EXTRA='
+    <li><a href="documentation.html">Documentation (MODULEGENERATOR)</a></li>'
 	;;
 
 
@@ -197,7 +228,6 @@ do
     if test ! -f $file
     then
         echo $file does not exist
-        sleep 1
         continue
     fi
 
@@ -263,38 +293,38 @@ EOF
 <dt>$T_ARGOUML_PROJECT</dt>
 <dd>
   <ul>
-    <li><a href="http://argouml.tigris.org/">Project home</a></li>
+    <li><a href="http://argouml.tigris.org/">$T_ARGOUML_HOME</a></li>
   </ul>
 </dd>
 <dd>
   <ul>
     <li>
-      <a href="http://argouml.tigris.org/servlets/ProjectNewsList">ArgoUML News</a>
+      <a href="http://argouml.tigris.org/servlets/ProjectNewsList">$T_ARGOUML_NEWS</a>
       <a href="http://argouml.tigris.org/servlets/WebFeed?artifact=news&version=rss_2.0">
         <img src="http://argouml.tigris.org/images/feed-icon.gif" alt="RSS Feed" width="10" height="10"/>
       </a>
     </li>
     <li>
-      <a href="http://argouml.tigris.org/wiki">Developer Wiki</a>
+      <a href="http://argouml.tigris.org/wiki">$T_ARGOUML_DEV_WIKI</a>
       <a href="http://argouml.tigris.org/wiki/RecentChanges">RC</a>
     </li>
-    <li><a href="http://argouml.tigris.org/project_bugs.html">Bugs and Issues</a></li>
-    <li><a href="http://argouml.tigris.org/source/browse/argouml/trunk/src/">Source Code</a></li>
-    <li><a href="http://argouml.tigris.org/servlets/ProjectMemberList">Project Membership</a></li>
+    <li><a href="http://argouml.tigris.org/project_bugs.html">$T_ARGOUML_BUGS</a></li>
+    <li><a href="http://argouml.tigris.org/source/browse/argouml/trunk/src/">$T_ARGOUML_SRC</a></li>
+    <li><a href="http://argouml.tigris.org/servlets/ProjectMemberList">$T_ARGOUML_MEMBERSHIP</a></li>
     <li>
       <a href="http://argouml.tigris.org/ds/viewForums.do">$T_ARGOUML_MAILING_LISTS</a>
       <a href="http://argouml.markmail.org">MarkMail</a>
     </li>
-    <li><a href="http://argouml.tigris.org/servlets/ProjectDocumentList">File Sharing</a></li>
+    <li><a href="http://argouml.tigris.org/servlets/ProjectDocumentList">$T_ARGOUML_FILE_SHARING</a></li>
   </ul>
 
 <dt>$T_ARGOUML_USING_ARGOUML</dt> 
 <dd> 
   <ul> 
-    <li><a href="http://argouml.tigris.org/support.html">Support</a></li> 
+    <li><a href="$T_URL_SUPPORT">Support</a></li> 
     <li><a href="http://argouml-stats.tigris.org/documentation/quickguide-0.32/">$T_ARGOUML_QUICK_GUIDE 0.32</a></li> 
     <li><a href="http://argouml-stats.tigris.org/documentation/manual-0.32/">$T_ARGOUML_USER_MANUAL 0.32</a></li> 
-    <li><a href="http://argouml.tigris.org/faqs/users.html">$T_ARGOUML_FAQ</a></li> 
+    <li><a href="http://www.argouml-users.net/index.php?title=FAQ">$T_ARGOUML_FAQ</a></li> 
     <li><a href="http://www.argouml-users.net/" target="wiki">$T_ARGOUML_WIKI</a></li> 
     <li><a href="http://www.argouml-users.net/forum" target="forum">$T_ARGOUML_FORUM</a></li> 
     <li><a href="http://argouml.tigris.org/servlets/SummarizeList?listName=users">$T_ARGOUML_USERS_MAILING_LIST</a></li> 
