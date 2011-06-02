@@ -117,7 +117,6 @@
         <string>argouml-core-transformer</string>
         <string>argouml-core-umlpropertypanels</string>
         <string>argouml-tools</string>
-        <string>parentpom</string>
       </jobNames>
       <jobFilters/>
       <columns>
