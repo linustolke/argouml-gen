@@ -9,25 +9,27 @@
     <artifactNumToKeep>-1</artifactNumToKeep>
   </logRotator>
   <keepDependencies>false</keepDependencies>
-  <properties/>
+  <properties>
+    <hudson.plugins.disk__usage.DiskUsageProperty/>
+  </properties>
   <scm class="hudson.scm.SubversionSCM">
     <locations>
       <hudson.scm.SubversionSCM_-ModuleLocation>
-        <remote>file:///home/argonightly/REPOS/argouml-gen.tigris.org/svn/argouml-gen/trunk</remote>
+        <remote>file:///var/lib/jenkins/REPOS/argouml-gen.tigris.org/svn/argouml-gen/trunk</remote>
         <local>argouml-gen</local>
       </hudson.scm.SubversionSCM_-ModuleLocation>
     </locations>
-    <useUpdate>true</useUpdate>
-    <doRevert>false</doRevert>
     <excludedRegions></excludedRegions>
     <includedRegions></includedRegions>
     <excludedUsers></excludedUsers>
     <excludedRevprop></excludedRevprop>
     <excludedCommitMessages></excludedCommitMessages>
+    <workspaceUpdater class="hudson.scm.subversion.UpdateUpdater"/>
   </scm>
   <assignedNode>prio1</assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>1.5</jdk>
   <triggers class="vector">
@@ -42,14 +44,7 @@
       <command>argouml-gen/update.sh -ms</command>
     </hudson.tasks.Shell>
   </builders>
-  <publishers>
-    <hudson.plugins.textfinder.TextFinderPublisher>
-      <regexp>Could not resolve hostname|timed out waiting for server|could not connect to server|no route to host</regexp>
-      <succeedIfFound>false</succeedIfFound>
-      <unstableIfFound>true</unstableIfFound>
-      <alsoCheckConsoleOutput>true</alsoCheckConsoleOutput>
-    </hudson.plugins.textfinder.TextFinderPublisher>
-  </publishers>
+  <publishers/>
   <buildWrappers>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper>
       <timeoutMinutes>500</timeoutMinutes>

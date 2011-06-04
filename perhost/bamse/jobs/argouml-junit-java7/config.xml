@@ -11,30 +11,32 @@ This is an experiment with a pre-release of java7.</description>
     <artifactNumToKeep>-1</artifactNumToKeep>
   </logRotator>
   <keepDependencies>false</keepDependencies>
-  <properties/>
+  <properties>
+    <hudson.plugins.disk__usage.DiskUsageProperty/>
+  </properties>
   <scm class="hudson.scm.SubversionSCM">
     <locations>
       <hudson.scm.SubversionSCM_-ModuleLocation>
-        <remote>file:///home/argonightly/REPOS/argouml.tigris.org/svn/argouml/trunk/src</remote>
+        <remote>file:///var/lib/jenkins/REPOS/argouml.tigris.org/svn/argouml/trunk/src</remote>
         <local>src</local>
       </hudson.scm.SubversionSCM_-ModuleLocation>
       <hudson.scm.SubversionSCM_-ModuleLocation>
-        <remote>file:///home/argonightly/REPOS/argouml.tigris.org/svn/argouml/trunk/tools</remote>
+        <remote>file:///var/lib/jenkins/REPOS/argouml.tigris.org/svn/argouml/trunk/tools</remote>
         <local>tools</local>
       </hudson.scm.SubversionSCM_-ModuleLocation>
     </locations>
-    <useUpdate>false</useUpdate>
-    <doRevert>false</doRevert>
     <excludedRegions></excludedRegions>
     <includedRegions></includedRegions>
     <excludedUsers></excludedUsers>
     <excludedRevprop></excludedRevprop>
     <excludedCommitMessages></excludedCommitMessages>
+    <workspaceUpdater class="hudson.scm.subversion.CheckoutUpdater"/>
   </scm>
   <quietPeriod>300</quietPeriod>
   <assignedNode>prio3</assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
   <jdk>1.7</jdk>
   <triggers class="vector">
@@ -56,24 +58,6 @@ This is an experiment with a pre-release of java7.</description>
     </hudson.tasks.Ant>
   </builders>
   <publishers>
-    <hudson.plugins.warnings.WarningsPublisher>
-      <threshold></threshold>
-      <newThreshold></newThreshold>
-      <failureThreshold></failureThreshold>
-      <newFailureThreshold></newFailureThreshold>
-      <healthy></healthy>
-      <unHealthy></unHealthy>
-      <pluginName>[WARNINGS] </pluginName>
-      <thresholdLimit>low</thresholdLimit>
-      <defaultEncoding></defaultEncoding>
-      <useDeltaValues>false</useDeltaValues>
-      <canRunOnFailed>false</canRunOnFailed>
-      <pattern></pattern>
-      <parserNames>
-        <string>Java Compiler</string>
-      </parserNames>
-      <ignoreConsole>false</ignoreConsole>
-    </hudson.plugins.warnings.WarningsPublisher>
     <hudson.tasks.junit.JUnitResultArchiver>
       <testResults>src/*/build/tests/reports/TEST-*.xml</testResults>
       <keepLongStdio>false</keepLongStdio>

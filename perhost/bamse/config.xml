@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <hudson>
-  <version>1.391</version>
+  <version>1.413</version>
   <numExecutors>1</numExecutors>
   <mode>NORMAL</mode>
   <useSecurity>true</useSecurity>
@@ -19,17 +19,35 @@
   <jdks>
     <jdk>
       <name>1.6</name>
-      <home>/usr/local/lib/java/jdk1.6.0</home>
-      <properties/>
+      <home></home>
+      <properties>
+        <hudson.tools.InstallSourceProperty>
+          <installers>
+            <hudson.tools.JDKInstaller>
+              <id>jdk-6u24-oth-JPR@CDS-CDS_Developer</id>
+              <acceptLicense>true</acceptLicense>
+            </hudson.tools.JDKInstaller>
+          </installers>
+        </hudson.tools.InstallSourceProperty>
+      </properties>
     </jdk>
     <jdk>
       <name>1.5</name>
-      <home>/usr/local/lib/java/jdk1.5.0_06</home>
-      <properties/>
+      <home></home>
+      <properties>
+        <hudson.tools.InstallSourceProperty>
+          <installers>
+            <hudson.tools.JDKInstaller>
+              <id>jdk-1.5.0_22-oth-JPR@CDS-CDS_Developer</id>
+              <acceptLicense>true</acceptLicense>
+            </hudson.tools.JDKInstaller>
+          </installers>
+        </hudson.tools.InstallSourceProperty>
+      </properties>
     </jdk>
     <jdk>
       <name>1.7</name>
-      <home>/usr/local/lib/java/jdk1.7.0</home>
+      <home>/var/lib/jenkins/TOOLS/jdk1.7.0</home>
       <properties/>
     </jdk>
   </jdks>
@@ -40,7 +58,7 @@
     <slave>
       <name>prio1exec</name>
       <description></description>
-      <remoteFS>/home2/argonightly/prio1exec</remoteFS>
+      <remoteFS>/var/lib/jenkins/SLAVES/prio1exec</remoteFS>
       <numExecutors>1</numExecutors>
       <mode>EXCLUSIVE</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Demand">
@@ -48,7 +66,7 @@
         <idleDelay>5</idleDelay>
       </retentionStrategy>
       <launcher class="hudson.slaves.CommandLauncher">
-        <agentCommand>nice -n 4 /usr/local/lib/java/jdk1.6.0/bin/java -Xms8M -jar /home2/argonightly/tools/WEB-INF/slave.jar</agentCommand>
+        <agentCommand>nice -n 4 /usr/bin/java -Xms8M -jar /usr/share/jenkins/WEB-INF/slave.jar</agentCommand>
       </launcher>
       <label>prio1</label>
       <nodeProperties/>
@@ -56,7 +74,7 @@
     <slave>
       <name>prio2exec</name>
       <description></description>
-      <remoteFS>/home2/argonightly/prio2exec</remoteFS>
+      <remoteFS>/var/lib/jenkins/SLAVES/prio2exec</remoteFS>
       <numExecutors>1</numExecutors>
       <mode>EXCLUSIVE</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Demand">
@@ -64,7 +82,7 @@
         <idleDelay>5</idleDelay>
       </retentionStrategy>
       <launcher class="hudson.slaves.CommandLauncher">
-        <agentCommand>nice -n 8 /usr/local/lib/java/jdk1.6.0/bin/java -Xms8M -jar /home2/argonightly/tools/WEB-INF/slave.jar</agentCommand>
+        <agentCommand>nice -n 8 /usr/bin/java -Xms8M -jar /usr/share/jenkins/WEB-INF/slave.jar</agentCommand>
       </launcher>
       <label>prio1 prio2</label>
       <nodeProperties/>
@@ -72,7 +90,7 @@
     <slave>
       <name>prio3exec</name>
       <description></description>
-      <remoteFS>/home2/argonightly/prio3exec</remoteFS>
+      <remoteFS>/var/lib/jenkins/SLAVES/prio3exec</remoteFS>
       <numExecutors>1</numExecutors>
       <mode>EXCLUSIVE</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Demand">
@@ -80,7 +98,7 @@
         <idleDelay>5</idleDelay>
       </retentionStrategy>
       <launcher class="hudson.slaves.CommandLauncher">
-        <agentCommand>nice -n 12 /usr/local/lib/java/jdk1.6.0/bin/java -Xms8M -jar /home2/argonightly/tools/WEB-INF/slave.jar</agentCommand>
+        <agentCommand>nice -n 12 /usr/bin/java -Xms8M -jar /usr/share/jenkins/WEB-INF/slave.jar</agentCommand>
       </launcher>
       <label>prio1 prio2 prio3</label>
       <nodeProperties/>
@@ -101,12 +119,14 @@
       <description>A Hudson view where each subproject is a separate job.</description>
       <filterExecutors>false</filterExecutors>
       <filterQueue>false</filterQueue>
+      <properties class="hudson.model.View$PropertyList"/>
       <jobNames class="tree-set">
         <comparator class="hudson.util.CaseInsensitiveComparator"/>
         <string>argouml-actionscript3</string>
         <string>argouml-app</string>
         <string>argouml-core-diagrams-activity2</string>
         <string>argouml-core-diagrams-class2</string>
+        <string>argouml-core-diagrams-deployment2</string>
         <string>argouml-core-diagrams-sequence2</string>
         <string>argouml-core-diagrams-state2</string>
         <string>argouml-core-diagrams-structure2</string>

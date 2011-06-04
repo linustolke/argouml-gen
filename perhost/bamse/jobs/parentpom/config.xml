@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <maven2-moduleset>
   <actions/>
-  <description>Maven job to build the model.</description>
+  <description>Maven job to install the parentpom.</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.plugins.disk__usage.DiskUsageProperty/>
@@ -9,7 +9,7 @@
   <scm class="hudson.scm.SubversionSCM">
     <locations>
       <hudson.scm.SubversionSCM_-ModuleLocation>
-        <remote>file:///var/lib/jenkins/REPOS/argouml-actionscript3.tigris.org/svn/argouml-actionscript3/trunk</remote>
+        <remote>file:///var/lib/jenkins/REPOS/argouml.tigris.org/svn/argouml/trunk/tools/maven</remote>
       </hudson.scm.SubversionSCM_-ModuleLocation>
     </locations>
     <excludedRegions></excludedRegions>
@@ -17,8 +17,7 @@
     <excludedUsers></excludedUsers>
     <excludedRevprop></excludedRevprop>
     <excludedCommitMessages></excludedCommitMessages>
-    <useUpdate>true</useUpdate>
-    <doRevert>true</doRevert>
+    <workspaceUpdater class="hudson.scm.subversion.UpdateWithRevertUpdater"/>
   </scm>
   <assignedNode>prio2</assignedNode>
   <canRoam>false</canRoam>
@@ -28,14 +27,15 @@
   <jdk>(Default)</jdk>
   <triggers class="vector">
     <hudson.triggers.SCMTrigger>
-      <spec>*/15 * * * *</spec>
+      <spec>45 * * * *</spec>
     </hudson.triggers.SCMTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <rootModule>
     <groupId>org.argouml</groupId>
-    <artifactId>argouml-actionscript3</artifactId>
+    <artifactId>parentpom</artifactId>
   </rootModule>
+  <rootPOM>parentpom.xml</rootPOM>
   <goals>install</goals>
   <mavenOpts>-verbosegc -Xmx128M</mavenOpts>
   <aggregatorStyleBuild>true</aggregatorStyleBuild>
@@ -48,10 +48,5 @@
   <mavenValidationLevel>0</mavenValidationLevel>
   <reporters/>
   <publishers/>
-  <buildWrappers>
-    <hudson.plugins.build__timeout.BuildTimeoutWrapper>
-      <timeoutMinutes>120</timeoutMinutes>
-      <failBuild>false</failBuild>
-    </hudson.plugins.build__timeout.BuildTimeoutWrapper>
-  </buildWrappers>
+  <buildWrappers/>
 </maven2-moduleset>
