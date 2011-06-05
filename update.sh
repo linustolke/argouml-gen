@@ -76,6 +76,7 @@ PROJECTS="argouml \
 
 ROOT=http:/
 export ROOT
+RET_VAL=0
 
 if $MIRRORED
 then
@@ -100,31 +101,35 @@ then
         echo exit 0 >> $PRERPC
         chmod +x $PRERPC
       )
-      svnsync --non-interactive --no-auth-cache \
+      if svnsync --non-interactive --no-auth-cache \
           initialize $ROOT/$PROJMIDDLE http://$PROJMIDDLE \
           --username guest --password ""
-      echo $(date): creating mirror for $proj...done
+      then
+        echo $(date): creating mirror for $proj...done
+      else
+        RET_VAL=3
+        echo $(date): creating mirror for $proj...failed
+      fi
     fi
 
     if $SYNCHRONIZE
     then
       echo $(date): synchronize $proj...
-      svnsync --non-interactive --no-auth-cache \
-          synchronize $ROOT/$PROJMIDDLE \
-          --username guest --password "" 2>/dev/null ||
-      svnsync --non-interactive --no-auth-cache \
-          synchronize $ROOT/$PROJMIDDLE \
-          --username guest --password "" 2>/dev/null ||
-      svnsync --non-interactive --no-auth-cache \
+      if svnsync --non-interactive --no-auth-cache \
           synchronize $ROOT/$PROJMIDDLE \
           --username guest --password ""
-      echo $(date): synchronize $proj...done
+      then
+        echo $(date): synchronize $proj...done
+      else
+        RET_VAL=2
+        echo $(date): synchronize $proj...failed
+      fi
     fi
   done
 
   if $INITIALIZE || $SYNCHRONIZE
   then
-    exit 0;
+    exit $RET_VAL;
   fi
 fi
 
@@ -137,8 +142,14 @@ fi
   for proj in $PROJECTS
   do
     echo $(date): checking out $proj...
-    svn co $ROOT/$proj.tigris.org/svn/$proj/trunk $proj \
+    if svn co $ROOT/$proj.tigris.org/svn/$proj/trunk $proj \
         --username=guest --password=''
-    echo $(date): checking out $proj...done
+    then
+      echo $(date): checking out $proj...done
+    else
+      RET_VAL=1    
+      echo $(date): checking out $proj...done
+    fi
   done
+  exit $RET_VAL
 )
