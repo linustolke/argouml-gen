@@ -22,7 +22,7 @@ LANGUAGES="
 WORKINGDIR=compare-i18n-workingdir-$$
 mkdir $WORKINGDIR
 
-function tolang() {
+tolang() {
     case $1 in
     # Two level languages.
     # Keep the two level languages first in order not to get an incorrect
