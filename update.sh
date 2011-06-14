@@ -70,6 +70,7 @@ PROJECTS="argouml \
               \
               argoprint \
               argopdf \
+              argoeclipse \
               argouml-documentation \
 	      argouml-gen"
 
