@@ -15,7 +15,7 @@
   <scm class="hudson.scm.SubversionSCM">
     <locations>
       <hudson.scm.SubversionSCM_-ModuleLocation>
-        <remote>file:///home2/argonightly/REPOS/argouml-stats.tigris.org/svn/argouml-stats/trunk/www/reports-java5/findbugs-xml</remote>
+        <remote>http://argouml-stats.tigris.org/svn/argouml-stats/trunk/www/reports-java6/findbugs-xml</remote>
         <local>findbugs-xml</local>
       </hudson.scm.SubversionSCM_-ModuleLocation>
     </locations>
@@ -24,11 +24,11 @@
     <excludedUsers></excludedUsers>
     <excludedRevprop></excludedRevprop>
     <excludedCommitMessages></excludedCommitMessages>
-    <useUpdate>false</useUpdate>
-    <doRevert>false</doRevert>
+    <workspaceUpdater class="hudson.scm.subversion.UpdateUpdater"/>
   </scm>
+  <scmCheckoutRetryCount>10</scmCheckoutRetryCount>
   <canRoam>true</canRoam>
-  <disabled>true</disabled>
+  <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>(Default)</jdk>

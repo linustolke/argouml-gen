@@ -9,7 +9,7 @@
   <scm class="hudson.scm.SubversionSCM">
     <locations>
       <hudson.scm.SubversionSCM_-ModuleLocation>
-        <remote>http://argouml-stats.tigris.org/svn/argouml-stats/trunk/www/reports-java7/junit-xml</remote>
+        <remote>http://argouml-stats.tigris.org/svn/argouml-stats/trunk/www/reports-java6/junit-xml</remote>
         <local>xml</local>
       </hudson.scm.SubversionSCM_-ModuleLocation>
     </locations>
@@ -28,7 +28,7 @@
   <jdk>(Default)</jdk>
   <triggers class="vector">
     <hudson.triggers.SCMTrigger>
-      <spec>25 * * * *</spec>
+      <spec>23 * * * *</spec>
     </hudson.triggers.SCMTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
