@@ -33,6 +33,7 @@ This is an experiment with a pre-release of java7.</description>
     <workspaceUpdater class="hudson.scm.subversion.CheckoutUpdater"/>
   </scm>
   <quietPeriod>300</quietPeriod>
+  <scmCheckoutRetryCount>5</scmCheckoutRetryCount>
   <assignedNode>prio3</assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
