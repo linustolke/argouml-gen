@@ -1,13 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <hudson>
-  <version>1.413</version>
+  <disabledAdministrativeMonitors>
+    <string>hudson.node_monitors.MonitorMarkedNodeOffline</string>
+  </disabledAdministrativeMonitors>
+  <version>1.421</version>
   <numExecutors>1</numExecutors>
   <mode>NORMAL</mode>
   <useSecurity>true</useSecurity>
   <authorizationStrategy class="hudson.security.FullControlOnceLoggedInAuthorizationStrategy"/>
   <securityRealm class="hudson.security.HudsonPrivateSecurityRealm">
     <disableSignup>true</disableSignup>
+    <enableCaptcha>false</enableCaptcha>
   </securityRealm>
+  <workspaceDir>${ITEM_ROOTDIR}/workspace</workspaceDir>
+  <buildsDir>${ITEM_ROOTDIR}/builds</buildsDir>
   <systemMessage>&lt;p&gt;The argouml-junit-javaX and the daily-userdoc job starts after a commit. If an error is found they send mails to the committer (and to the users(at)argouml-stats.tigris.org mailing list)&lt;/p&gt;&#xd;
 &#xd;
 &lt;p&gt;The argonightly-java jobs does the nightly build. It starts at midnight (if there is any change in any of the involved projects). Each job uploads the result to the &lt;a href=&quot;http://argouml-stats.tigris.org/&quot;&gt;argouml website&lt;/a&gt; separately. To limit the impact of these jobs, they are bound to the low priority-executor that runs niced.&lt;/p&gt;&#xd;
@@ -78,7 +84,7 @@
       <numExecutors>1</numExecutors>
       <mode>EXCLUSIVE</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Demand">
-        <inDemandDelay>3</inDemandDelay>
+        <inDemandDelay>2</inDemandDelay>
         <idleDelay>5</idleDelay>
       </retentionStrategy>
       <launcher class="hudson.slaves.CommandLauncher">
@@ -94,7 +100,7 @@
       <numExecutors>1</numExecutors>
       <mode>EXCLUSIVE</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Demand">
-        <inDemandDelay>5</inDemandDelay>
+        <inDemandDelay>3</inDemandDelay>
         <idleDelay>5</idleDelay>
       </retentionStrategy>
       <launcher class="hudson.slaves.CommandLauncher">
@@ -137,6 +143,7 @@
         <string>argouml-core-transformer</string>
         <string>argouml-core-umlpropertypanels</string>
         <string>argouml-tools</string>
+        <string>parentpom</string>
       </jobNames>
       <jobFilters/>
       <columns>
@@ -155,7 +162,4 @@
   <label></label>
   <nodeProperties/>
   <globalNodeProperties/>
-  <disabledAdministrativeMonitors>
-    <string>hudson.node_monitors.MonitorMarkedNodeOffline</string>
-  </disabledAdministrativeMonitors>
 </hudson>

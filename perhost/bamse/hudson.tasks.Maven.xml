@@ -3,7 +3,6 @@
   <installations>
     <hudson.tasks.Maven_-MavenInstallation>
       <name>hudson-installed-2.2.1</name>
-      <home></home>
       <properties>
         <hudson.tools.InstallSourceProperty>
           <installers>
