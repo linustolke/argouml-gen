@@ -172,6 +172,7 @@ do
 
     modulegenerator)
         EXTRA='
+    <li><a href="quickstart/index.html">Getting Started (MODULEGENERATOR)</a></li>
     <li><a href="documentation.html">Documentation (MODULEGENERATOR)</a></li>'
 	;;
 
