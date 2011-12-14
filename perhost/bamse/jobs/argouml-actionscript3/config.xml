@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <maven2-moduleset>
   <actions/>
-  <description>Maven job to build the model.</description>
+  <description>Maven job to build the actionscript3 plugin.</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.plugins.disk__usage.DiskUsageProperty/>
@@ -35,7 +35,7 @@
     <groupId>org.argouml</groupId>
     <artifactId>argouml-actionscript3</artifactId>
   </rootModule>
-  <goals>install</goals>
+  <goals>install deploy</goals>
   <mavenOpts>-verbosegc -Xmx128M</mavenOpts>
   <aggregatorStyleBuild>true</aggregatorStyleBuild>
   <incrementalBuild>false</incrementalBuild>
@@ -46,6 +46,8 @@
   <processPlugins>false</processPlugins>
   <mavenValidationLevel>0</mavenValidationLevel>
   <runHeadless>false</runHeadless>
+  <settingConfigId></settingConfigId>
+  <globalSettingConfigId></globalSettingConfigId>
   <reporters/>
   <publishers/>
   <buildWrappers>

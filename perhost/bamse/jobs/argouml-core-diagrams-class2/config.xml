@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <maven2-moduleset>
   <actions/>
-  <description>Maven job to build the model.</description>
+  <description>Maven job to build the the uml2 class diagrams.&#xd;
+</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.plugins.disk__usage.DiskUsageProperty/>
@@ -17,8 +18,7 @@
     <excludedUsers></excludedUsers>
     <excludedRevprop></excludedRevprop>
     <excludedCommitMessages></excludedCommitMessages>
-    <useUpdate>true</useUpdate>
-    <doRevert>true</doRevert>
+    <workspaceUpdater class="hudson.scm.subversion.UpdateWithRevertUpdater"/>
   </scm>
   <assignedNode>prio2</assignedNode>
   <canRoam>false</canRoam>
@@ -34,9 +34,9 @@
   <concurrentBuild>false</concurrentBuild>
   <rootModule>
     <groupId>org.argouml</groupId>
-    <artifactId>argouml-core-diagrams-class2</artifactId>
+    <artifactId>argouml-diagrams-class</artifactId>
   </rootModule>
-  <goals>install</goals>
+  <goals>install deploy</goals>
   <mavenOpts>-verbosegc -Xmx128M</mavenOpts>
   <aggregatorStyleBuild>true</aggregatorStyleBuild>
   <incrementalBuild>false</incrementalBuild>
@@ -46,6 +46,9 @@
   <resolveDependencies>false</resolveDependencies>
   <processPlugins>false</processPlugins>
   <mavenValidationLevel>0</mavenValidationLevel>
+  <runHeadless>false</runHeadless>
+  <settingConfigId></settingConfigId>
+  <globalSettingConfigId></globalSettingConfigId>
   <reporters/>
   <publishers/>
   <buildWrappers>

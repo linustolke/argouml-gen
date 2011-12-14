@@ -15,8 +15,8 @@
 &#xd;
 </description>
   <logRotator>
-    <daysToKeep>20</daysToKeep>
-    <numToKeep>10</numToKeep>
+    <daysToKeep>400</daysToKeep>
+    <numToKeep>100</numToKeep>
     <artifactDaysToKeep>-1</artifactDaysToKeep>
     <artifactNumToKeep>-1</artifactNumToKeep>
   </logRotator>

@@ -3,8 +3,8 @@
   <actions/>
   <description>Updates secondary mirrors on the Hudson build host.</description>
   <logRotator>
-    <daysToKeep>2</daysToKeep>
-    <numToKeep>-1</numToKeep>
+    <daysToKeep>10</daysToKeep>
+    <numToKeep>1000</numToKeep>
     <artifactDaysToKeep>-1</artifactDaysToKeep>
     <artifactNumToKeep>-1</artifactNumToKeep>
   </logRotator>
@@ -24,8 +24,7 @@
     <excludedUsers></excludedUsers>
     <excludedRevprop></excludedRevprop>
     <excludedCommitMessages></excludedCommitMessages>
-    <useUpdate>true</useUpdate>
-    <doRevert>false</doRevert>
+    <workspaceUpdater class="hudson.scm.subversion.UpdateUpdater"/>
   </scm>
   <assignedNode>prio2</assignedNode>
   <canRoam>false</canRoam>

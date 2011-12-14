@@ -39,6 +39,9 @@ This also updates the anonymous poms (parentpom, root pom for argouml and tools)
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>1.6</jdk>
   <triggers class="vector">
+    <hudson.triggers.TimerTrigger>
+      <spec>@weekly</spec>
+    </hudson.triggers.TimerTrigger>
     <hudson.triggers.SCMTrigger>
       <spec>25 */6 * * *</spec>
     </hudson.triggers.SCMTrigger>
@@ -59,6 +62,9 @@ This also updates the anonymous poms (parentpom, root pom for argouml and tools)
   <resolveDependencies>false</resolveDependencies>
   <processPlugins>false</processPlugins>
   <mavenValidationLevel>0</mavenValidationLevel>
+  <runHeadless>false</runHeadless>
+  <settingConfigId></settingConfigId>
+  <globalSettingConfigId></globalSettingConfigId>
   <reporters>
     <hudson.plugins.checkstyle.CheckStyleReporter>
       <healthy></healthy>
@@ -111,6 +117,7 @@ This also updates the anonymous poms (parentpom, root pom for argouml and tools)
         <failedNewNormal></failedNewNormal>
         <failedNewLow></failedNewLow>
       </thresholds>
+      <isRankActivated>false</isRankActivated>
     </hudson.plugins.findbugs.FindBugsReporter>
     <hudson.plugins.pmd.PmdReporter>
       <healthy></healthy>
@@ -167,6 +174,12 @@ This also updates the anonymous poms (parentpom, root pom for argouml and tools)
         <failedNewLow></failedNewLow>
       </thresholds>
       <shouldDetectModules>false</shouldDetectModules>
+      <isCheckStyleDeactivated>false</isCheckStyleDeactivated>
+      <isDryDeactivated>true</isDryDeactivated>
+      <isFindBugsDeactivated>false</isFindBugsDeactivated>
+      <isPmdDeactivated>false</isPmdDeactivated>
+      <isOpenTasksDeactivated>true</isOpenTasksDeactivated>
+      <isWarningsDeactivated>true</isWarningsDeactivated>
     </hudson.plugins.analysis.collector.AnalysisPublisher>
   </publishers>
   <buildWrappers>

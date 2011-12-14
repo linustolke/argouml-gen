@@ -17,8 +17,7 @@
     <excludedUsers></excludedUsers>
     <excludedRevprop></excludedRevprop>
     <excludedCommitMessages></excludedCommitMessages>
-    <useUpdate>true</useUpdate>
-    <doRevert>true</doRevert>
+    <workspaceUpdater class="hudson.scm.subversion.UpdateWithRevertUpdater"/>
   </scm>
   <assignedNode>prio2</assignedNode>
   <canRoam>false</canRoam>
@@ -34,9 +33,9 @@
   <concurrentBuild>false</concurrentBuild>
   <rootModule>
     <groupId>org.argouml</groupId>
-    <artifactId>argouml-app</artifactId>
+    <artifactId>argouml</artifactId>
   </rootModule>
-  <goals>install</goals>
+  <goals>install deploy</goals>
   <mavenOpts>-verbosegc -Xmx128M</mavenOpts>
   <aggregatorStyleBuild>true</aggregatorStyleBuild>
   <incrementalBuild>false</incrementalBuild>
@@ -46,6 +45,9 @@
   <resolveDependencies>false</resolveDependencies>
   <processPlugins>false</processPlugins>
   <mavenValidationLevel>0</mavenValidationLevel>
+  <runHeadless>false</runHeadless>
+  <settingConfigId></settingConfigId>
+  <globalSettingConfigId></globalSettingConfigId>
   <reporters/>
   <publishers/>
   <buildWrappers/>
