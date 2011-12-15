@@ -71,8 +71,8 @@ do
         T_SOURCE=Quelldateien
 
         EXTRA='
-    <li><a href="http://argouml-stats.tigris.org/documentation-de/quickguide-0.32/">Kurzanleitung 0.32</a></li> 
-    <li><a href="http://argouml-stats.tigris.org/documentation-de/manual-0.32/">Anwenderhandbuch 0.32</a></li> 
+    <li><a href="http://argouml-stats.tigris.org/documentation-de/quickguide-0.34/">Kurzanleitung 0.34</a></li> 
+    <li><a href="http://argouml-stats.tigris.org/documentation-de/manual-0.34/">Anwenderhandbuch 0.34</a></li> 
 '
         ;;
 
@@ -104,8 +104,9 @@ do
     </li>
     <li><a href="http://argouml-stats.tigris.org/daily-userdoc/en/pdf/manual/argomanual.pdf">User Manual - PDF</a>
     </li>
-    <li><a href="http://argouml-stats.tigris.org/documentation-es/">Old Spanish Index</a></li>
-    <li><a href="http://argouml-stats.tigris.org/documentation-de/">Old German Index</a></li>
+    <li><a href="http://argouml-stats.tigris.org/documentation/">English Index</a></li>
+    <li><a href="http://argouml-stats.tigris.org/documentation-es/">Spanish Index</a></li>
+    <li><a href="http://argouml-stats.tigris.org/documentation-de/">German Index</a></li>
   </ul>'
         ;;
 
@@ -118,8 +119,8 @@ do
 <dt>Recent releases</dt>
 <dd>
   <ul>
-    <li><a href="/argouml-0.32.2">Release 0.32.2</a></li>
-    <li><a href="/argouml-0.30.2">Release 0.30.2</a></li>'
+    <li><a href="/argouml-0.34">Release 0.34</a></li>
+    <li><a href="/argouml-0.32.2">Release 0.32.2</a></li>'
         ;;
 
     enki)
@@ -323,8 +324,8 @@ EOF
 <dd> 
   <ul> 
     <li><a href="$T_URL_SUPPORT">Support</a></li> 
-    <li><a href="http://argouml-stats.tigris.org/documentation/quickguide-0.32/">$T_ARGOUML_QUICK_GUIDE 0.32</a></li> 
-    <li><a href="http://argouml-stats.tigris.org/documentation/manual-0.32/">$T_ARGOUML_USER_MANUAL 0.32</a></li> 
+    <li><a href="http://argouml-stats.tigris.org/documentation/quickguide-0.34/">$T_ARGOUML_QUICK_GUIDE 0.34</a></li> 
+    <li><a href="http://argouml-stats.tigris.org/documentation/manual-0.34/">$T_ARGOUML_USER_MANUAL 0.34</a></li> 
     <li><a href="http://www.argouml-users.net/index.php?title=FAQ">$T_ARGOUML_FAQ</a></li> 
     <li><a href="http://www.argouml-users.net/" target="wiki">$T_ARGOUML_WIKI</a></li> 
     <li><a href="http://www.argouml-users.net/forum" target="forum">$T_ARGOUML_FORUM</a></li> 
