@@ -1,9 +1,10 @@
 #!/bin/sh
 
-set -- `getopt misw: "$@"`
+set -- `getopt migsw: "$@"`
 MIRRORED=false
 INITIALIZE=false
 SYNCHRONIZE=false
+GITREPOS=false
 WHERE=tmp
 while true
 do
@@ -14,6 +15,10 @@ do
     ;;
   -i)
     INITIALIZE=true
+    shift
+    ;;
+  -g)
+    GITREPOS=true
     shift
     ;;
   -s)
@@ -84,6 +89,12 @@ then
   ROOT=file://$HOME/REPOS
   export ROOT
 
+  GITDIR=$HOME/GITREPOS
+  if $GITREPOS && test ! -d $GITDIR
+  then
+    mkdir $GITDIR
+  fi
+
   for proj in $PROJECTS
   do
     MIDDLE=$proj.tigris.org/svn
@@ -113,6 +124,16 @@ then
       fi
     fi
 
+    if $INITIALIZE && $GITREPOS && test ! -d $GITDIR/$proj.git
+    then
+      (
+	cd $GITDIR
+        git svn init -s $ROOT/$PROJMIDDLE $proj.git </dev/null
+	touch $proj.git/git-daemon-export-ok
+      )
+      echo $(date): creating git repos for $proj...done
+    fi
+
     if $SYNCHRONIZE
     then
       echo $(date): synchronize $proj...
@@ -120,6 +141,14 @@ then
           synchronize $ROOT/$PROJMIDDLE \
           --username guest --password ""
       then
+        if $GITREPOS
+        then
+          echo $(date): synchronize git repo for $proj...
+	  (
+	    cd $GITDIR/$proj.git
+            git svn fetch </dev/null
+	  )
+        fi
         echo $(date): synchronize $proj...done
       else
         RET_VAL=2
