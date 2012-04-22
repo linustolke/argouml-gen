@@ -129,7 +129,7 @@ then
       (
 	cd $GITDIR
         git svn init -s $ROOT/$PROJMIDDLE $proj.git </dev/null
-	touch $proj.git/git-daemon-export-ok
+	touch $proj.git/.git/git-daemon-export-ok
       )
       echo $(date): creating git repos for $proj...done
     fi
