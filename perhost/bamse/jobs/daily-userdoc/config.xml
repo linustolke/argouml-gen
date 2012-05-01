@@ -66,6 +66,7 @@ test -f $JIMI || cp $HOME/$JIMI .
     </hudson.tasks.Shell>
   </builders>
   <publishers>
+    <hudson.plugins.cigame.GamePublisher/>
     <hudson.tasks.Mailer>
       <recipients>users@argouml-stats.tigris.org</recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>

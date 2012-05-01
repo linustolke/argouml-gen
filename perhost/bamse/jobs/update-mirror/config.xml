@@ -34,14 +34,14 @@
   <jdk>(Default)</jdk>
   <triggers class="vector">
     <hudson.triggers.TimerTrigger>
-      <spec>*/6 * * * *
+      <spec>*/4 * * * *
 </spec>
     </hudson.triggers.TimerTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>argouml-gen/update.sh -mis</command>
+      <command>argouml-gen/update.sh -migs</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

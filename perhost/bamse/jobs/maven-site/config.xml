@@ -24,6 +24,18 @@ This also updates the anonymous poms (parentpom, root pom for argouml and tools)
         <remote>file:///var/lib/jenkins/REPOS/argouml-actionscript3.tigris.org/svn/argouml-actionscript3/trunk</remote>
         <local>argouml-actionscript3</local>
       </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///var/lib/jenkins/REPOS/argouml-java.tigris.org/svn/argouml-java/trunk</remote>
+        <local>argouml-java</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///var/lib/jenkins/REPOS/argouml-cpp.tigris.org/svn/argouml-cpp/trunk</remote>
+        <local>argouml-cpp</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>file:///var/lib/jenkins/REPOS/argouml-csharp.tigris.org/svn/argouml-csharp/trunk</remote>
+        <local>argouml-csharp</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
     </locations>
     <excludedRegions></excludedRegions>
     <includedRegions></includedRegions>
@@ -181,6 +193,7 @@ This also updates the anonymous poms (parentpom, root pom for argouml and tools)
       <isOpenTasksDeactivated>true</isOpenTasksDeactivated>
       <isWarningsDeactivated>true</isWarningsDeactivated>
     </hudson.plugins.analysis.collector.AnalysisPublisher>
+    <hudson.plugins.cigame.GamePublisher/>
   </publishers>
   <buildWrappers>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper>
