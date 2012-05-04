@@ -12,23 +12,9 @@ GERRIT_USER=linus
 # The list of projects to include
 # TODO: This is sofar only some of the "small" projects.
 PROJECTS=" \
-              argouml-andromda \
-              argouml-actionscript3 \
               argouml-ada \
               argouml-atl \
               argouml-cpp \
-              argouml-csharp \
-              argouml-db \
-              argouml-delphi \
-              argouml-graphviz \
-              argouml-idl \
-              argouml-java \
-              argouml-javascript \
-              argouml-pattern-wizard \
-              argouml-php \
-              argouml-python \
-              argouml-ruby \
-              argouml-sql \
          "
 
 set -- `getopt ipc: "$@"`
@@ -115,11 +101,13 @@ for proj in $PROJECTS
 do
   (
     cd $proj
-    git checkout gerrit/master
+    git checkout gerrit/trunk
     git fetch gerrit
     git svn fetch --username=$SVN_USER
     git rebase remotes/trunk
     git svn dcommit --username=$SVN_USER
+    # We must do a *forced* push back to gerrit because svn rewrites the commit history.
+    git push gerrit trunk -f
   )
 done
 
