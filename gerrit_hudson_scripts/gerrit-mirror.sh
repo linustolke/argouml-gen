@@ -7,6 +7,7 @@
 # Submits to subversion are done with the given user id (SVN_USERNAME)
 # 
 SVN_USER=closettop_nightlybuild
+GERRIT_USER=linus
 
 # The list of projects to include
 # TODO: This is sofar only some of the "small" projects.
@@ -28,18 +29,6 @@ PROJECTS=" \
               argouml-python \
               argouml-ruby \
               argouml-sql \
-              \
-              argouml-ca \
-              argouml-de argouml-en-gb argouml-es \
-              argouml-fr \
-              argouml-hi \
-              argouml-i18n-zh argouml-it \
-              argouml-ja \
-              argouml-nb \
-              argouml-pt argouml-pt-br \
-              argouml-ro argouml-ru \
-	      argouml-sv \
-	      argouml-tr \
          "
 
 set -- `getopt ipc: "$@"`
@@ -113,7 +102,7 @@ then
         cd $proj
         touch .git/git-daemon-export-ok
         # Add gerrit as a remote
-        git remote add gerrit ssh://localhost:29418/$proj
+        git remote add gerrit ssh://$GERRIT_USER@localhost:29418/$proj
         git checkout -b trunk gerrit/trunk
       )
     fi
