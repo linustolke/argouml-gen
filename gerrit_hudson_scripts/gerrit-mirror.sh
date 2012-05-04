@@ -42,13 +42,25 @@ PROJECTS=" \
 	      argouml-tr \
          "
 
-set -- `getopt i "$@"`
+set -- `getopt ipc: "$@"`
 INITIALIZE=false
+STORE_PASSWORDS=false
+CLONE_FROM_DIR=false
 while true
 do
   case "$1" in
   -i)
     INITIALIZE=true
+    shift
+    ;;
+  -p)
+    STORE_PASSWORDS=true
+    shift
+    ;;
+  -c)
+    shift
+    CLONE_FROM_DIR=true
+    CLONE_DIR="$1"
     shift
     ;;
   --)
@@ -61,6 +73,25 @@ do
     ;;
   esac
 done
+
+if $STORE_PASSWORDS
+then
+  for proj in $PROJECTS
+  do
+    svn log http://$proj.tigris.org/svn/$proj --limit=1 \
+      --username=$SVN_USER
+  done
+  exit 0
+fi
+
+if $CLONE_FROM_DIR
+then
+  for d in $CLONE_DIR/*
+  do
+    git clone --bare $d `basename $d`
+  done
+  exit 0
+fi
 
 GITGERRITREPOS=$HOME/GITGERRITREPOS
 
@@ -78,11 +109,13 @@ then
       git svn init -s \
 	  http://$proj.tigris.org/svn/$proj $proj \
 	  --username=$SVN_USER
-      cd $proj
-      touch .git/git-daemon-export-ok
-      # Add gerrit as a remote
-      git remote add gerrit ssh://localhost:29418/$proj
-      git checkout -b trunk gerrit/trunk
+      (
+        cd $proj
+        touch .git/git-daemon-export-ok
+        # Add gerrit as a remote
+        git remote add gerrit ssh://localhost:29418/$proj
+        git checkout -b trunk gerrit/trunk
+      )
     fi
   done
 fi
