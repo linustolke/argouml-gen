@@ -26,6 +26,7 @@ PROJECTS=" \
               argouml-ada \
               argouml-atl \
               argouml-cpp \
+              argouml-documentation \
          "
 
 set -- `getopt ip "$@"`
