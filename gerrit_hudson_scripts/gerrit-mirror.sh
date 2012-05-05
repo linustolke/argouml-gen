@@ -12,7 +12,6 @@
 # <enter password for the SVN_USER in each of the projects upon request 
 # and allow them to be stored by subversion>
 # $ <SCRIPT_LOCATION>/gerrit-mirror.sh -i
-# $ <SCRIPT_LOCATION>/gerrit-mirror.sh
 # 
 # As the gerrit user:
 # $ cd <SITE>/git
@@ -91,18 +90,24 @@ then
     if test ! -d $proj
     then
       git svn init \
-	  --stdlayout --branches=releases \
+	  --trunk=trunk \
+          --tags=tags \
+          --branches=branches --branches=releases \
 	  http://$proj.tigris.org/svn/$proj $proj \
 	  --username=$SVN_USER
       (
         cd $proj
+        # Do all the fetching
+        git svn fetch --username=$SVN_USER
+        git branch -m master trunk
         touch .git/git-daemon-export-ok
         # Add gerrit as a remote
         git remote add gerrit ssh://$GERRIT_USER@localhost:29418/$proj
-        git checkout -b trunk gerrit/trunk
       )
     fi
   done
+  echo Initialization done.
+  exit 0;
 fi
 
 if $CLONE_FROM_DIR
@@ -120,12 +125,12 @@ for proj in $PROJECTS
 do
   (
     cd $proj
-    git checkout gerrit/trunk
-    git fetch gerrit
+    git checkout trunk
+    git pull gerrit
     git svn fetch --username=$SVN_USER
     git rebase remotes/trunk
     git svn dcommit --username=$SVN_USER
     # We must do a *forced* push back to gerrit because svn rewrites the commit history.
-    git push gerrit trunk -f
+    git push gerrit -f trunk
   )
 done
