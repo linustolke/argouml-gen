@@ -5,6 +5,24 @@
 # Assumptions:
 # Runs from within Jenkins
 # Submits to subversion are done with the given user id (SVN_USERNAME)
+#
+# * To set up *
+# As the jenkins user:
+# $ <SCRIPT_LOCATION>/gerrit-mirror.sh -p
+# <enter password for the SVN_USER in each of the projects upon request 
+# and allow them to be stored by subversion>
+# $ <SCRIPT_LOCATION>/gerrit-mirror.sh -i
+# $ <SCRIPT_LOCATION>/gerrit-mirror.sh
+# 
+# As the gerrit user:
+# $ cd <SITE>/git
+# $ <SCRIPT_LOCATION>/gerrit-mirror.sh -c /jenkins/home/dir/GITGERRITREPOS
+#
+# * Run regularly *
+# Set up the ssh-keys to allow jenkins to work against the gerrit (as the
+# GERRIT_USER).
+# From within jenkins:
+# $ <SCRIPT_LOCATION>/gerrit-mirror.sh
 # 
 SVN_USER=closettop_nightlybuild
 GERRIT_USER=linus
@@ -59,15 +77,6 @@ then
   exit 0
 fi
 
-if $CLONE_FROM_DIR
-then
-  for d in $CLONE_DIR/*
-  do
-    git clone --bare $d `basename $d`
-  done
-  exit 0
-fi
-
 GITGERRITREPOS=$HOME/GITGERRITREPOS
 
 if $INITIALIZE
@@ -81,7 +90,8 @@ then
   do
     if test ! -d $proj
     then
-      git svn init -s \
+      git svn init \
+	  --stdlayout --branches=releases \
 	  http://$proj.tigris.org/svn/$proj $proj \
 	  --username=$SVN_USER
       (
@@ -93,6 +103,15 @@ then
       )
     fi
   done
+fi
+
+if $CLONE_FROM_DIR
+then
+  for d in $CLONE_DIR/*
+  do
+    git clone --bare $d `basename $d`
+  done
+  exit 0
 fi
 
 # Update and upload
@@ -110,4 +129,3 @@ do
     git push gerrit trunk -f
   )
 done
-
