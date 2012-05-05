@@ -97,7 +97,7 @@ do
       git checkout -f trunk
       git svn rebase --username=$SVN_USER
       git svn dcommit --username=$SVN_USER
-      git branch -D master
+      git branch -D master 2>/dev/null || true
     )
   else
     echo No directory for $proj
