@@ -22,12 +22,30 @@ SVN_USER=closettop_nightlybuild
 
 # The list of projects to include
 # TODO: This is sofar only some of the "small" projects.
-PROJECTS=" \
+# argouml \
+PROJECTS="\
+              argouml-andromda \
+              argouml-actionscript3 \
               argouml-ada \
               argouml-atl \
               argouml-cpp \
+              argouml-csharp \
+              argouml-db \
+              argouml-delphi \
+              argouml-graphviz \
+              argouml-idl \
+              argouml-java \
+              argouml-javascript \
+              argouml-pattern-wizard \
+              argouml-php \
+              argouml-python \
+              argouml-ruby \
+              argouml-sql \
+              \
+              argoprint \
+              argopdf \
               argouml-documentation \
-         "
+	      "
 
 set -- `getopt ip "$@"`
 INITIALIZE=false
