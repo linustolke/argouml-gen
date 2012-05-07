@@ -22,8 +22,9 @@ SVN_USER=closettop_nightlybuild
 
 # The list of projects to include
 # TODO: This is sofar only some of the "small" projects.
-# argouml \
 PROJECTS="\
+              argouml \
+              \
               argouml-andromda \
               argouml-actionscript3 \
               argouml-ada \
