@@ -14,6 +14,14 @@
 # $ cd <.../site>/git
 # $ <SCRIPT_LOCATION>/gerrit-mirror1.sh -i
 #
+# Tell gerrit to reset it's list of projects:
+# $ ssh -p 29418 gerrit-server -l gerrit-user gerrit flush-projects
+#
+# Create a jenkins job name gerrit-<PROJECTNAME> to be used as template
+# As the jenkins user, in the jobs directory
+# $ <SCRIPT_LOCATION>/gerrit-mirror1.sh -c <PROJECTNAME>
+# In Jenkins, Reload Configuration from Disk.
+#
 # * Run regularly *
 # As the gerrit user:
 # $ cd <.../site>/git
@@ -43,14 +51,27 @@ PROJECTS="\
               argouml-ruby \
               argouml-sql \
               \
+              argouml-ca \
+              argouml-de argouml-en-gb argouml-es \
+              argouml-fr \
+              argouml-hi \
+              argouml-i18n-zh argouml-it \
+              argouml-ja \
+              argouml-nb \
+              argouml-pt argouml-pt-br \
+              argouml-ro argouml-ru \
+	      argouml-sv \
+	      argouml-tr \
+              \
               argoprint \
               argopdf \
               argouml-documentation \
 	      "
 
-set -- `getopt ip "$@"`
+set -- `getopt ipc: "$@"`
 INITIALIZE=false
 STORE_PASSWORDS=false
+CREATE_CI_CONFIG=false
 while true
 do
   case "$1" in
@@ -60,6 +81,18 @@ do
     ;;
   -p)
     STORE_PASSWORDS=true
+    shift
+    ;;
+  -c)
+    CREATE_CI_CONFIG=true
+    shift
+    TEMPLATE_PROJECT="$1"
+    TEMPLATE_FILE="gerrit-$1/config.xml"
+    if test ! -f "$TEMPLATE_FILE"
+    then
+      echo The template config file "$TEMPLATE_FILE" does not exist.
+      exit 1;
+    fi
     shift
     ;;
   --)
@@ -102,6 +135,38 @@ then
         git branch -m master trunk
         touch .git/git-daemon-export-ok
       )
+    fi
+  done
+  echo Initialization done.
+  exit 0;
+fi
+
+if $CREATE_CI_CONFIG
+then
+  for proj in $PROJECTS
+  do
+    if test "$TEMPLATE_PROJECT" != "$proj"
+    then
+      PROJECT_FILE="gerrit-$proj/config.xml"
+      test -d `dirname "$PROJECT_FILE"` || mkdir `dirname "$PROJECT_FILE"`
+      sed "s/$TEMPLATE_PROJECT/$proj/g" < "$TEMPLATE_FILE" > "$PROJECT_FILE".new
+      if test -f "$PROJECT_FILE"
+      then
+        diff "$PROJECT_FILE" "$PROJECT_FILE".new
+	echo -n "Replace? N/Y "
+	read ans
+	case "$ans" in
+	Y)
+            rm "$PROJECT_FILE"
+            mv "$PROJECT_FILE".new "$PROJECT_FILE"
+	    ;;
+	*)
+            rm "$PROJECT_FILE".new
+	    ;;
+	esac
+      else
+	mv "$PROJECT_FILE".new "$PROJECT_FILE"
+      fi
     fi
   done
   echo Initialization done.
