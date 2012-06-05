@@ -180,6 +180,8 @@ do
     (
       cd $proj
       git checkout -f trunk
+      git config user.name "Gerrit Git Manager"
+      git config user.email "closettop_nightlybuild@tigris.org"
       git svn rebase --username=$SVN_USER
       git svn dcommit --username=$SVN_USER
       git branch -D master 2>/dev/null || true
