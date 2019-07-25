@@ -1,8 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<hudson.plugins.locksandlatches.LockWrapper_-DescriptorImpl>
-  <locks>
-    <hudson.plugins.locksandlatches.LockWrapper_-LockConfig>
-      <name>argouml-stats</name>
-    </hudson.plugins.locksandlatches.LockWrapper_-LockConfig>
-  </locks>
-</hudson.plugins.locksandlatches.LockWrapper_-DescriptorImpl>
