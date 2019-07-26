@@ -1,0 +1,52 @@
+pipeline {
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '10', daysToKeepStr: '100'))
+  }
+  triggers {
+    pollSCM('@hourly')
+    snapshotDependencies()
+    cron('@monthly')
+  }
+  agent {
+    docker {
+      image 'maven:3-ibmjava-8'
+      args '-v maven-repo:/.m2 -v maven-repo:/root/.m2'
+    }
+  }
+  stages {
+    stage('checkout') {
+      steps {
+        checkout scm
+      }
+    }
+    stage('site') {
+      steps {
+        retry(5) { // site-deploy fails sometimes
+          withMaven(mavenSettingsConfig: 'github',
+                    options: [junitPublisher(disabled: true,
+                                             healthScaleFactor: 0.0)]) {
+            sh '$MVN_CMD -B clean site-deploy'
+	  }
+        }
+      }
+    }
+    stage('deploy') {  		// Also test and install.
+      steps {
+        withMaven(mavenSettingsConfig: 'sonatype') {
+          sh '$MVN_CMD -B test install deploy'
+        }
+      }
+    }
+  }
+  post {
+    always {
+      cleanWs cleanWhenAborted: false,
+      	      cleanWhenFailure: false,
+ 	      cleanWhenNotBuilt: false,
+ 	      cleanWhenUnstable: false,
+	      deleteDirs: true,
+ 	      notFailBuild: true,
+ 	      patterns: [[pattern: 'target/**', type: 'INCLUDE']]
+    }
+  }
+}
