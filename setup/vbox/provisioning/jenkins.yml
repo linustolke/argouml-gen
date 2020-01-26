@@ -1,0 +1,314 @@
+- hosts: all
+  vars:
+    ansible_python_interpreter: /usr/bin/python
+  tasks:
+    - name: Add an apt key from jenkins-ci.org
+      apt_key:
+        url: https://pkg.jenkins.io/debian/jenkins-ci.org.key
+        state: present
+      become: yes
+    - name: Add jenkins repository
+      apt_repository:
+        repo: deb https://pkg.jenkins.io/debian-stable binary/
+        state: present
+      become: yes
+    - name: Update apt cache and install/update packages
+      apt:
+        pkg:
+          - default-jre
+          - default-jdk
+          - docker
+          - docker.io
+          - git
+          - git-ftp
+          - jenkins
+          - python-jenkins
+          - python-lxml
+          - python-pip
+          - python3-jenkins
+          - python3-lxml
+          - python3-pip
+        update_cache: yes
+        state: latest
+      become: yes
+
+    - name: Install docker-py
+      pip:
+        name: docker-py
+        umask: "0022"
+      become: yes
+
+    - name: Add jenkins in the docker group
+      user:
+        name: jenkins
+        groups: docker
+        append: yes
+      become: yes
+
+    - name: Create a volume for the maven repo
+      docker_volume:
+        name: maven-repo
+      become: yes
+
+    - name: Pull maven container
+      docker_image:
+        name: maven:3-ibmjava-8
+      become: yes
+
+    - name: Set rights in volueme to allow jenkins to create directories
+      command: docker run --rm -v maven-repo:/mr maven:3-ibmjava-8 chmod 777 /mr
+      become: yes
+
+    - name: Fetch admin password
+      fetch:
+        src: /var/lib/jenkins/secrets/initialAdminPassword
+        dest: initialAdminPassword
+        flat: yes
+      become: yes
+
+    - set_fact: jenkins_admin_password="{{ lookup('file', 'initialAdminPassword') }}"
+
+    - debug: msg="Jenkins Initial Admin Password is {{ jenkins_admin_password }}"
+
+    - name: Wait for Jenkins to start
+      uri:
+        url: http://localhost:8080
+        follow_redirects: safe
+        force_basic_auth: yes
+        status_code:
+          - 200
+        timeout: 5
+        url_username: admin
+        url_password: "{{ jenkins_admin_password }}"
+      register: jenkins_service_status
+      retries: 60
+      delay: 5
+      until: >
+         'status' in jenkins_service_status and
+         jenkins_service_status['status'] == 200
+
+    - jenkins_plugin:
+        name: "{{ item }}"
+        state: latest
+        url_username: admin
+        url_password: "{{ jenkins_admin_password }}"
+        with_dependencies: yes
+      become_user: jenkins
+      become: yes
+      loop:
+        # dependencies (why doesn't with_dependencies work?)
+        # It is probably because I have specified latest. On the other hand,
+        # not specifying latest also in the dependencies would risk that
+        # dependencies are too old.
+        - ace-editor # required by workflow-cps
+        - apache-httpcomponents-client-4-api # required by maven-plugin, git-client, remote-file
+        - authentication-tokens # required by gerrit-code-review, docker-commons
+        - branch-api # required by workflow-multibranch
+        - cloudbees-bitbucket-branch-source # required by remote-file
+        - cloudbees-folder # required by docker-workflow, workflow-multibranch, remote-file
+        - credentials # required by gerrit-code-review, docker-commons, git, git-client, config-file-provider, github-branch-source
+        - credentials-binding # required by docker-commons
+        - display-url-api # required by mailer, github-branch-source
+        - durable-task # required by workflow-durable-task-step
+        - git-server # required by workflow-cps-global-lib
+        - github # required by github-branch-source
+        - github-api # required by github-branch-source
+        - h2-api # required by maven-plugin
+        - handlebars # required by pipeline-stage-view
+        - handy-uri-templates-2-api # required by cloudbees-bitbucket-branch-source
+        - jackson2-api # required by pipeline-model-api, github-branch-source
+        - jaxb # required by github-branch-source
+        - jquery-detached # required by workflow-cps
+        - jsch # required by maven-plugin, git-client
+        - lockable-resources # required by workflow-aggregator
+        - mailer # required by git, remote-file
+        - mercurial # required by cloudbees-bitbucket-branch-source
+        - momentjs # required by pipeline-stage-view
+        - pipeline-build-step # required by workflow-aggregator
+        - pipeline-graph-analysis # required by pipeline-rest-api
+        - pipeline-input-step # required by workflow-aggregator
+        - pipeline-milestone-step # required by workflow-aggregator
+        - pipeline-model-api # required by pipeline-model-extensions
+        - pipeline-model-declarative-agent # required by pipeline-model-definition
+        - pipeline-model-definition # required by workflow-aggregator
+        - pipeline-model-extensions # required by docker-pipeline
+        - pipeline-rest-api # required by pipeline-stage-view
+        - pipeline-stage-step # required by pipeline-model-extensions
+        - pipeline-stage-tags-metadata # required by pipeline-model-definition
+        - pipeline-stage-view # required by workflow-aggregator
+        - plain-credentials # required by credentials-binding
+        - resource-disposer # required by ws-cleanup
+        - run-condition # required by conditional-buildstep
+        - scm-api # required by git, github-branch-source, remote-file
+        - ssh-credentials # required by config-file-provider, git-client
+        - structs # required by credentials, workflow-cps, github-branch-source, remote-file
+        - token-macro # required by build-timeout, config-file-provider
+        - trilead-api # required by ssh-credentials, github-branch-source, remote-file
+        - workflow-aggregator # required by remote-file
+        - workflow-api # required by timestamper, workflow-job, remote-file
+        - workflow-basic-steps # required by docker-workflow
+        - workflow-cps # required by gerrit-code-review, docker-workflow, remote-file
+        - workflow-cps-global-lib # required by workflow-aggregator, remote-file
+        - workflow-durable-task-step # required by ws-cleanup
+        - workflow-job # required by gerrit-code-review, remote-file
+        - workflow-multibranch # required by gerrit-code-review, remote-file
+        - workflow-scm-step # required by gerrit-code-review, git, github-branch-source, remote-file
+        - workflow-step-api # required by workflow-cps, remote-file
+        - workflow-support # required by workflow-cps, workflow-api, remote-file
+        # Used plugins
+        - build-timeout
+        - built-on-column
+        - conditional-buildstep
+        - config-file-provider
+        - docker-commons
+        - docker-workflow
+        - dtkit-api
+        - envinject
+        - envinject-api
+        - gerrit-code-review
+        - git
+        - git-client
+        - github-branch-source
+        - jacoco
+        - javadoc
+        - jenkins-multijob-plugin
+        - maven-plugin
+        - parameterized-trigger
+        - pipeline-maven
+        - remote-file
+        - script-security
+        - timestamper
+        - ws-cleanup
+      register: my_jenkins_plugin
+      tags:
+        - plugins
+
+    - name: Initiate the fact
+      set_fact:
+        jenkins_restart_required: no
+
+    - name: Check if restart is required by any of the plugins
+      set_fact:
+        jenkins_restart_required: yes
+      when: item.changed
+      with_items: "{{ my_jenkins_plugin.results }}"
+      tags:
+        - plugins
+
+    - name: Turn off Jenkins admin wizard.
+      replace:
+        path: /var/lib/jenkins/config.xml
+        after: '<hudson>'
+        before: '<mode>'
+        regexp: '(<installStateName>)NEW(</installStateName>)'
+        replace: '\1RUNNING\2'
+      register: my_jenkins_skip_wizard
+      become_user: jenkins
+      become: yes
+
+    - name: Copy configuration before
+      synchronize:
+        mode: pull
+        src: /var/lib/jenkins/jobs
+        dest: "{{ playbook_dir + '/jenkins-jobs/before' }}"
+        recursive: yes
+        rsync_opts:
+          - "--include='config.xml'"
+          - "--exclude='*'"
+      ignore_errors: yes
+      become_user: jenkins
+      become: yes
+
+    - include_vars:
+        file=jenkins-jobs/jobs.yml
+        name=jobs
+
+    - name: Create directories
+      file:
+        path: "{{ '/var/lib/jenkins/jobs/' + item.key }}"
+        state: directory
+      become_user: jenkins
+      become: yes
+      with_dict: "{{ jobs.jenkins_jobs }}"
+
+    - name: Copy Jenkins jobs
+      copy:
+        src: "{{ 'jenkins-jobs/' + item.key + '/config.xml' }}"
+        dest: "{{ '/var/lib/jenkins/jobs/' + item.key + '/config.xml' }}"
+      become_user: jenkins
+      become: yes
+      register: my_copied_jobs
+      when: >
+        'template' not in item.value or
+        not item.value['template']
+      with_dict: "{{ jobs.jenkins_jobs }}"
+
+    - name: Check if restart is required by any of the jobs
+      set_fact:
+        jenkins_restart_required: yes
+      when: item.changed
+      with_items: "{{ my_copied_jobs.results }}"
+
+    - name: Copy Jenkins jobs from templates
+      template:
+        src: "{{ 'jenkins-jobs/' + item.key + '/config.xml.j2' }}"
+        dest: "{{ '/var/lib/jenkins/jobs/' + item.key + '/config.xml' }}"
+      become_user: jenkins
+      become: yes
+      register: my_template_jobs
+      when: >
+        'template' in item.value and
+        item.value['template']
+      with_dict: "{{ jobs.jenkins_jobs }}"
+
+    - name: Check if restart is required by any of the jobs from templates
+      set_fact:
+        jenkins_restart_required: yes
+      when: item.changed
+      with_items: "{{ my_template_jobs.results }}"
+
+    - name: Restart Jenkins if required
+      service:
+        name: jenkins
+        state: restarted
+      when: jenkins_restart_required
+      become: yes
+
+    - name: Wait for Jenkins to start up
+      uri:
+        url: http://localhost:8080
+        follow_redirects: safe
+        force_basic_auth: yes
+        status_code:
+          - 200
+        timeout: 5
+        url_username: admin
+        url_password: "{{ jenkins_admin_password }}"
+      register: jenkins_service_status
+      retries: 60
+      delay: 5
+      until: >
+         'status' in jenkins_service_status and
+         jenkins_service_status['status'] == 200
+      when: jenkins_restart_required
+
+    - name: Reset the fact
+      set_fact:
+        jenkins_restart_required: no
+      when: jenkins_restart_required
+
+    - name: Copy configuration after
+      synchronize:
+        mode: pull
+        src: /var/lib/jenkins/jobs
+        dest: "{{ playbook_dir + '/jenkins-jobs/after' }}"
+        recursive: yes
+        rsync_opts:
+          - "--include='config.xml'"
+          - "--exclude='*'"
+      become_user: jenkins
+      become: yes
+
+    - debug: msg="Remember to configure the maven config files and credentials in Jenkins. This is described in https://github.com/argouml-tigris-org/argouml/wiki/Jenkins-configuration"
+
+    - debug: msg="Jenkins Initial Admin Password is {{ jenkins_admin_password }}"

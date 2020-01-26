@@ -1,0 +1,632 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject plugin="workflow-multibranch@2.21">
+  <actions/>
+  <description></description>
+  <properties>
+    <org.jenkinsci.plugins.configfiles.folder.FolderConfigFileProperty plugin="config-file-provider@3.6.3">
+      <configs class="sorted-set">
+        <comparator class="org.jenkinsci.plugins.configfiles.folder.FolderConfigFileProperty$1"/>
+      </configs>
+    </org.jenkinsci.plugins.configfiles.folder.FolderConfigFileProperty>
+    <org.jenkinsci.plugins.docker.workflow.declarative.FolderConfig plugin="docker-workflow@1.22">
+      <dockerLabel></dockerLabel>
+      <registry plugin="docker-commons@1.16"/>
+    </org.jenkinsci.plugins.docker.workflow.declarative.FolderConfig>
+    <org.jenkinsci.plugins.pipeline.maven.MavenConfigFolderOverrideProperty plugin="pipeline-maven@3.8.2">
+      <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+      <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+      <override>false</override>
+    </org.jenkinsci.plugins.pipeline.maven.MavenConfigFolderOverrideProperty>
+  </properties>
+  <folderViews class="jenkins.branch.MultiBranchProjectViewHolder" plugin="branch-api@2.5.5">
+    <owner class="org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject" reference="../.."/>
+  </folderViews>
+  <healthMetrics>
+    <com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric plugin="cloudbees-folder@6.11.1">
+      <nonRecursive>false</nonRecursive>
+    </com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric>
+  </healthMetrics>
+  <icon class="jenkins.branch.MetadataActionFolderIcon" plugin="branch-api@2.5.5">
+    <owner class="org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject" reference="../.."/>
+  </icon>
+  <orphanedItemStrategy class="com.cloudbees.hudson.plugins.folder.computed.DefaultOrphanedItemStrategy" plugin="cloudbees-folder@6.11.1">
+    <pruneDeadBranches>true</pruneDeadBranches>
+    <daysToKeep>-1</daysToKeep>
+    <numToKeep>-1</numToKeep>
+  </orphanedItemStrategy>
+  <triggers>
+    <org.jenkinsci.plugins.pipeline.maven.trigger.WorkflowJobDependencyTrigger plugin="pipeline-maven@3.8.2">
+      <spec></spec>
+    </org.jenkinsci.plugins.pipeline.maven.trigger.WorkflowJobDependencyTrigger>
+    <com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger plugin="cloudbees-folder@6.11.1">
+      <spec>H/30 * * * *</spec>
+      <interval>14400000</interval>
+    </com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger>
+  </triggers>
+  <disabled>false</disabled>
+  <sources class="jenkins.branch.MultiBranchProject$BranchSourceList" plugin="branch-api@2.5.5">
+    <data>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>676cffe7-50b2-4ef4-a349-5ae76f496185</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/manifest</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>cbff6af5-d9d1-4932-9258-c5df46d28501</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/parentpom</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>ea24cf49-2cb0-40b6-b047-54741ab4670d</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/argouml</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>51cd6f57-33d1-45a0-815e-16d7de64fd56</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/argouml-actionscript3</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>44dc0744-c734-4ac2-a9e6-37ba56cec986</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/argouml-cpp</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>3b7761ca-2e23-4c88-9a2a-cc544aa1c598</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/argouml-csharp</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>4df1dafd-5619-4509-9d82-c461b8c6bc42</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/argouml-i18n-de</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>10bb6811-1c92-4013-9b3a-af064076fc69</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/argouml-i18n-en-gb</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>de6a751b-1fc9-4931-bcdd-996dbf8706d2</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/argouml-i18n-es</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>27a9165d-7652-4b2d-a725-1e551398e236</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/argouml-i18n-fr</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>a9eb2939-d131-4a49-8f14-bce261897381</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/argouml-i18n-it</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>549ee26b-9117-42b4-9899-dfa6b2da886f</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/argouml-i18n-nb</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>1250f796-aebb-465d-96b3-2b4351dd900c</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/argouml-i18n-pt</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>610754f3-9541-4848-a996-5adb83803532</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/argouml-i18n-pt-br</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>5b95befb-98e4-4451-ad31-bed041996259</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/argouml-i18n-ro</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>471ac249-77a1-48d8-9190-0455d489fc4c</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/argouml-i18n-ru</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>79197ee8-3f45-42bc-b179-5003eabf00f9</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/argouml-i18n-sv</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>23610d29-ee77-4c9f-9f57-2142022766ff</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/argouml-i18n-zh</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>88485493-48ac-4d88-adff-bed27d009078</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/argouml-idl</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>788f2a6a-3d96-4618-a201-6169f72cf50f</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/argouml-java</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>469ccf80-7446-43fe-8a77-060bda7dd641</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/argouml-php</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>820d83c6-8a32-4488-aae9-e7cd3a0eec46</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/argouml-sql</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>e44f0a36-f3d0-4a03-9a99-eed97aa7bcb6</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/test-i18n-properties</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>e294b680-a4a5-4cb8-947e-e140e05ee3c0</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/testmodels</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+    </data>
+    <owner class="org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject" reference="../.."/>
+  </sources>
+  <factory class="org.jenkinsci.plugins.workflow.multibranch.WorkflowBranchProjectFactory">
+    <owner class="org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject" reference="../.."/>
+    <scriptPath>Jenkinsfile</scriptPath>
+  </factory>
+</org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject>

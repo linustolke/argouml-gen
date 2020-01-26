@@ -1,0 +1,11 @@
+# List of jobs to process.
+# This should fit with the files in this directory.
+jenkins_jobs:
+  github-organization:
+    template: no
+  argouml-for-gerrithub:
+    template: yes
+
+gerrit_projects:
+  argouml-cpp:
+    active: yes
