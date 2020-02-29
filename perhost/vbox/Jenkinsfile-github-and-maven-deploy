@@ -25,7 +25,7 @@ pipeline {
           withMaven(mavenSettingsConfig: 'github',
                     options: [junitPublisher(disabled: true,
                                              healthScaleFactor: 0.0)]) {
-            sh '$MVN_CMD -B clean site-deploy'
+            sh '$MVN_CMD -B clean test site-deploy'
 	  }
         }
       }
