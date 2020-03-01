@@ -24,7 +24,8 @@ pipeline {
         retry(5) { // site-deploy fails sometimes
           withMaven(mavenSettingsConfig: 'github',
                     options: [junitPublisher(disabled: true,
-                                             healthScaleFactor: 0.0)]) {
+                                             healthScaleFactor: 0.0),
+                              jacocoPublisher(disabled: true)]) {
             sh '$MVN_CMD -B clean test site-deploy'
 	  }
         }
