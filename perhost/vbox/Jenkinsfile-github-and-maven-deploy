@@ -27,11 +27,11 @@ pipeline {
                                              healthScaleFactor: 0.0),
                               jacocoPublisher(disabled: true)]) {
             sh '$MVN_CMD -B clean test site-deploy'
-	  }
+          }
         }
       }
     }
-    stage('deploy') {  		// Also test and install.
+    stage('deploy') {           // Also test and install.
       steps {
         withMaven(mavenSettingsConfig: 'sonatype') {
           sh '$MVN_CMD -B test install deploy'
@@ -42,12 +42,12 @@ pipeline {
   post {
     always {
       cleanWs cleanWhenAborted: false,
-      	      cleanWhenFailure: false,
- 	      cleanWhenNotBuilt: false,
- 	      cleanWhenUnstable: false,
-	      deleteDirs: true,
- 	      notFailBuild: true,
- 	      patterns: [[pattern: 'target/**', type: 'INCLUDE']]
+              cleanWhenFailure: false,
+              cleanWhenNotBuilt: false,
+              cleanWhenUnstable: false,
+              deleteDirs: true,
+              notFailBuild: true,
+              patterns: [[pattern: 'target/**', type: 'INCLUDE']]
     }
   }
 }
