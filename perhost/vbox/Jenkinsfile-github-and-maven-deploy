@@ -22,7 +22,7 @@ pipeline {
     }
     stage('site') {
       steps {
-        retry(5) { // site-deploy fails sometimes
+        retry(10) { // site-deploy fails sometimes
           withMaven(mavenSettingsConfig: 'github',
                     options: [junitPublisher(disabled: true,
                                              healthScaleFactor: 0.0),
