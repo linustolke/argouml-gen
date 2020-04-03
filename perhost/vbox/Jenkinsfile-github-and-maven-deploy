@@ -17,25 +17,34 @@ pipeline {
   stages {
     stage('checkout') {
       steps {
-        checkout scm
+        waitForNetwork()
+        timeout(time: 1, unit: 'HOURS') {
+          checkout scm
+        }
       }
     }
     stage('site') {
       steps {
         retry(10) { // site-deploy fails sometimes
-          withMaven(mavenSettingsConfig: 'github',
-                    options: [junitPublisher(disabled: true,
-                                             healthScaleFactor: 0.0),
-                              jacocoPublisher(disabled: true)]) {
-            sh '$MVN_CMD -B clean test site-deploy'
+          waitForNetwork()
+          timeout(time: 3, unit: 'HOURS') {
+            withMaven(mavenSettingsConfig: 'github',
+                      options: [junitPublisher(disabled: true,
+                                               healthScaleFactor: 0.0),
+                                jacocoPublisher(disabled: true)]) {
+              sh '$MVN_CMD -B clean test site-deploy'
+            }
           }
         }
       }
     }
     stage('deploy') {           // Also test and install.
       steps {
-        withMaven(mavenSettingsConfig: 'sonatype') {
-          sh '$MVN_CMD -B test install deploy'
+        waitForNetwork()
+        timeout(time: 3, unit: 'HOURS') {
+          withMaven(mavenSettingsConfig: 'sonatype') {
+            sh '$MVN_CMD -B test install deploy'
+          }
         }
       }
     }
@@ -50,5 +59,12 @@ pipeline {
               notFailBuild: true,
               patterns: [[pattern: 'target/**', type: 'INCLUDE']]
     }
+  }
+}
+
+def waitForNetwork() {
+  waitUntil {
+    sleep 3
+    return sh(returnStatus: true, script: 'curl https://github.com > /dev/null') == 0
   }
 }
