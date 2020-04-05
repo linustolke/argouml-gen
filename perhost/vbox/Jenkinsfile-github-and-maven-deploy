@@ -11,7 +11,7 @@ pipeline {
   agent {
     docker {
       image 'maven:3-ibmjava-8'
-      args '-v maven-repo:/.m2 -v maven-repo:/root/.m2'
+      args '-v maven-repo:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
     }
   }
   stages {
@@ -32,7 +32,7 @@ pipeline {
                       options: [junitPublisher(disabled: true,
                                                healthScaleFactor: 0.0),
                                 jacocoPublisher(disabled: true)]) {
-              sh '$MVN_CMD -B clean test site-deploy'
+              sh '$MVN_CMD -Duser.home=/var/maven -B clean test site-deploy'
             }
           }
         }
@@ -43,7 +43,7 @@ pipeline {
         waitForNetwork()
         timeout(time: 3, unit: 'HOURS') {
           withMaven(mavenSettingsConfig: 'sonatype') {
-            sh '$MVN_CMD -B test install deploy'
+            sh '$MVN_CMD -Duser.home=/var/maven -B test install deploy'
           }
         }
       }
