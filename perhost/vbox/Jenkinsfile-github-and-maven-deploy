@@ -27,7 +27,7 @@ pipeline {
       steps {
         retry(10) { // site-deploy fails sometimes
           waitForNetwork()
-          timeout(time: 3, unit: 'HOURS') {
+          timeout(time: 10, unit: 'HOURS') {
             withMaven(mavenSettingsConfig: 'github',
                       options: [junitPublisher(disabled: true,
                                                healthScaleFactor: 0.0),
