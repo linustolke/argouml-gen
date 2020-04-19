@@ -1,6 +1,6 @@
 pipeline {
   options {
-    buildDiscarder(logRotator(numToKeepStr: '10', daysToKeepStr: '100'))
+    buildDiscarder(logRotator(numToKeepStr: '50', daysToKeepStr: '100'))
     disableConcurrentBuilds()
   }
   triggers {
