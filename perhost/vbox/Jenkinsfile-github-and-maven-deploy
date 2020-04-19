@@ -32,7 +32,9 @@ pipeline {
                       options: [junitPublisher(disabled: true,
                                                healthScaleFactor: 0.0),
                                 jacocoPublisher(disabled: true)]) {
-              sh '$MVN_CMD -Duser.home=/var/maven -B clean test site-deploy'
+              // site must come immediately after test because of jacoco.
+              sh '$MVN_CMD -Duser.home=/var/maven -B clean'
+              sh '$MVN_CMD -Duser.home=/var/maven -B test site-deploy'
             }
           }
         }
