@@ -55,7 +55,7 @@
         name: maven:3-ibmjava-8
       become: yes
 
-    - name: Set rights in volueme to allow jenkins to create directories
+    - name: Set rights in volume to allow jenkins to create directories
       command: docker run --rm -v maven-repo:/mr maven:3-ibmjava-8 chmod 777 /mr
       become: yes
 
@@ -101,15 +101,22 @@
         # not specifying latest also in the dependencies would risk that
         # dependencies are too old.
         - ace-editor # required by workflow-cps
-        - apache-httpcomponents-client-4-api # required by maven-plugin, git-client, remote-file
+        - analysis-model-api # required by warnings-ng
+        - antisamy-markup-formatter # required by warnings-ng
+        - apache-httpcomponents-client-4-api # required by maven-plugin, git-client, remote-file, warnings-ng
         - authentication-tokens # required by gerrit-code-review, docker-commons
+        - bootstrap4-api # required by warnings-ng
         - branch-api # required by workflow-multibranch
         - cloudbees-bitbucket-branch-source # required by remote-file
         - cloudbees-folder # required by docker-workflow, workflow-multibranch, remote-file
-        - credentials # required by gerrit-code-review, docker-commons, git, git-client, config-file-provider, github-branch-source
+        - credentials # required by gerrit-code-review, docker-commons, git, git-client, config-file-provider, github-branch-source, warnings-ng
         - credentials-binding # required by docker-commons
+        - data-tables-api # required by warnings-ng
         - display-url-api # required by mailer, github-branch-source
         - durable-task # required by workflow-durable-task-step
+        - echarts-api # required by warnings-ng
+        - font-awesome-api # required by warnings-ng
+        - forensics-api # required by warnings-ng
         - git-server # required by workflow-cps-global-lib
         - github # required by github-branch-source
         - github-api # required by github-branch-source
@@ -119,6 +126,7 @@
         - jackson2-api # required by pipeline-model-api, github-branch-source
         - jaxb # required by github-branch-source
         - jquery-detached # required by workflow-cps
+        - jquery3-api # required by warnings-ng
         - jsch # required by maven-plugin, git-client
         - lockable-resources # required by workflow-aggregator
         - mailer # required by git, remote-file
@@ -137,23 +145,25 @@
         - pipeline-stage-tags-metadata # required by pipeline-model-definition
         - pipeline-stage-view # required by workflow-aggregator
         - plain-credentials # required by credentials-binding
+        - plugin-util-api # required by warnings-ng
+        - popper-api # required by bootstrap4-api
         - resource-disposer # required by ws-cleanup
         - run-condition # required by conditional-buildstep
         - scm-api # required by git, github-branch-source, remote-file
         - ssh-credentials # required by config-file-provider, git-client
-        - structs # required by credentials, workflow-cps, github-branch-source, remote-file
+        - structs # required by credentials, workflow-cps, github-branch-source, remote-file, warnings-ng
         - token-macro # required by build-timeout, config-file-provider
         - trilead-api # required by ssh-credentials, github-branch-source, remote-file
         - workflow-aggregator # required by remote-file
-        - workflow-api # required by timestamper, workflow-job, remote-file
+        - workflow-api # required by timestamper, workflow-job, remote-file, warnings-ng
         - workflow-basic-steps # required by docker-workflow
-        - workflow-cps # required by gerrit-code-review, docker-workflow, remote-file
+        - workflow-cps # required by gerrit-code-review, docker-workflow, remote-file, warnings-ng
         - workflow-cps-global-lib # required by workflow-aggregator, remote-file
         - workflow-durable-task-step # required by ws-cleanup
-        - workflow-job # required by gerrit-code-review, remote-file
+        - workflow-job # required by gerrit-code-review, remote-file, warnings-ng
         - workflow-multibranch # required by gerrit-code-review, remote-file
         - workflow-scm-step # required by gerrit-code-review, git, github-branch-source, remote-file
-        - workflow-step-api # required by workflow-cps, remote-file
+        - workflow-step-api # required by workflow-cps, remote-file, warnings-ng
         - workflow-support # required by workflow-cps, workflow-api, remote-file
         # Used plugins
         - build-timeout
@@ -178,6 +188,7 @@
         - remote-file
         - script-security
         - timestamper
+        - warnings-ng
         - ws-cleanup
       register: my_jenkins_plugin
       tags:
@@ -210,7 +221,7 @@
       synchronize:
         mode: pull
         src: /var/lib/jenkins/jobs
-        dest: "{{ playbook_dir + '/jenkins-jobs/before' }}"
+        dest: "{{ playbook_dir + '/before' }}"
         recursive: yes
         rsync_opts:
           - "--include='config.xml'"
@@ -301,7 +312,7 @@
       synchronize:
         mode: pull
         src: /var/lib/jenkins/jobs
-        dest: "{{ playbook_dir + '/jenkins-jobs/after' }}"
+        dest: "{{ playbook_dir + '/after' }}"
         recursive: yes
         rsync_opts:
           - "--include='config.xml'"

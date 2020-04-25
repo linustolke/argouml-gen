@@ -3,6 +3,11 @@
   <actions/>
   <description></description>
   <properties>
+    <org.jenkinsci.plugins.configfiles.folder.FolderConfigFileProperty plugin="config-file-provider@3.6.3">
+      <configs class="sorted-set">
+        <comparator class="org.jenkinsci.plugins.configfiles.ConfigByIdComparator"/>
+      </configs>
+    </org.jenkinsci.plugins.configfiles.folder.FolderConfigFileProperty>
     <jenkins.branch.OrganizationChildHealthMetricsProperty>
       <templates>
         <com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric plugin="cloudbees-folder@6.11.1">
@@ -21,7 +26,7 @@
         </com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger>
       </templates>
     </jenkins.branch.OrganizationChildTriggersProperty>
-    <org.jenkinsci.plugins.docker.workflow.declarative.FolderConfig plugin="docker-workflow@1.22">
+    <org.jenkinsci.plugins.docker.workflow.declarative.FolderConfig plugin="docker-workflow@1.23">
       <dockerLabel></dockerLabel>
       <registry plugin="docker-commons@1.16"/>
     </org.jenkinsci.plugins.docker.workflow.declarative.FolderConfig>
@@ -60,6 +65,7 @@
   <navigators>
     <org.jenkinsci.plugins.github__branch__source.GitHubSCMNavigator plugin="github-branch-source@2.6.0">
       <repoOwner>argouml-tigris-org</repoOwner>
+      <credentialsId>github</credentialsId>
       <traits>
         <org.jenkinsci.plugins.github__branch__source.BranchDiscoveryTrait>
           <strategyId>1</strategyId>
@@ -92,6 +98,7 @@
         <extensions/>
       </remoteJenkinsFileSCM>
       <matchBranches>false</matchBranches>
+      <scmSourceBranchName>master</scmSourceBranchName>
       <fallbackBranch>master</fallbackBranch>
     </org.jenkinsci.plugins.workflow.multibranch.extended.RemoteJenkinsFileWorkflowMultiBranchProjectFactory>
   </projectFactories>
