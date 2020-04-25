@@ -8,7 +8,7 @@
         <comparator class="org.jenkinsci.plugins.configfiles.folder.FolderConfigFileProperty$1"/>
       </configs>
     </org.jenkinsci.plugins.configfiles.folder.FolderConfigFileProperty>
-    <org.jenkinsci.plugins.docker.workflow.declarative.FolderConfig plugin="docker-workflow@1.22">
+    <org.jenkinsci.plugins.docker.workflow.declarative.FolderConfig plugin="docker-workflow@1.23">
       <dockerLabel></dockerLabel>
       <registry plugin="docker-commons@1.16"/>
     </org.jenkinsci.plugins.docker.workflow.declarative.FolderConfig>
@@ -22,14 +22,14 @@
     <owner class="org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject" reference="../.."/>
   </folderViews>
   <healthMetrics>
-    <com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric plugin="cloudbees-folder@6.11.1">
+    <com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric plugin="cloudbees-folder@6.12">
       <nonRecursive>false</nonRecursive>
     </com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric>
   </healthMetrics>
   <icon class="jenkins.branch.MetadataActionFolderIcon" plugin="branch-api@2.5.5">
     <owner class="org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject" reference="../.."/>
   </icon>
-  <orphanedItemStrategy class="com.cloudbees.hudson.plugins.folder.computed.DefaultOrphanedItemStrategy" plugin="cloudbees-folder@6.11.1">
+  <orphanedItemStrategy class="com.cloudbees.hudson.plugins.folder.computed.DefaultOrphanedItemStrategy" plugin="cloudbees-folder@6.12">
     <pruneDeadBranches>true</pruneDeadBranches>
     <daysToKeep>-1</daysToKeep>
     <numToKeep>-1</numToKeep>
@@ -38,7 +38,7 @@
     <org.jenkinsci.plugins.pipeline.maven.trigger.WorkflowJobDependencyTrigger plugin="pipeline-maven@3.8.2">
       <spec></spec>
     </org.jenkinsci.plugins.pipeline.maven.trigger.WorkflowJobDependencyTrigger>
-    <com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger plugin="cloudbees-folder@6.11.1">
+    <com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger plugin="cloudbees-folder@6.12">
       <spec>H/30 * * * *</spec>
       <interval>14400000</interval>
     </com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger>
@@ -602,6 +602,30 @@
         <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
           <id>e294b680-a4a5-4cb8-947e-e140e05ee3c0</id>
           <remote>https://review.gerrithub.io/argouml-tigris-org/testmodels</remote>
+          <insecureHttps>false</insecureHttps>
+          <credentialsId></credentialsId>
+          <traits>
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.2.2">
+              <templates>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+                  <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
+                </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
+              </templates>
+            </jenkins.plugins.git.traits.RefSpecsSCMSourceTrait>
+          </traits>
+        </source>
+        <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+          <properties class="empty-list"/>
+        </strategy>
+      </jenkins.branch.BranchSource>
+      <jenkins.branch.BranchSource>
+        <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.1">
+          <id>3a6209b6-b2fe-4408-a136-5016a22e2634</id>
+          <remote>https://review.gerrithub.io/argouml-tigris-org/tools</remote>
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
