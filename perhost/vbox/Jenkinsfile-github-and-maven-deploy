@@ -25,17 +25,15 @@ pipeline {
     }
     stage('site') {
       steps {
-        retry(10) { // site-deploy fails sometimes
-          waitForNetwork()
-          timeout(time: 10, unit: 'HOURS') {
-            withMaven(mavenSettingsConfig: 'github',
-                      options: [junitPublisher(disabled: true,
-                                               healthScaleFactor: 0.0),
-                                jacocoPublisher(disabled: true)]) {
-              // site must come immediately after test because of jacoco.
-              sh '$MVN_CMD -Duser.home=/var/maven -B clean'
-              sh '$MVN_CMD -Duser.home=/var/maven -B test site-deploy'
-            }
+        waitForNetwork()
+        timeout(time: 3, unit: 'HOURS') {
+          withMaven(mavenSettingsConfig: 'github',
+                    options: [junitPublisher(disabled: true,
+                                             healthScaleFactor: 0.0),
+                              jacocoPublisher(disabled: true)]) {
+            // site must come immediately after test because of jacoco.
+            sh '$MVN_CMD -Duser.home=/var/maven -B clean'
+            sh '$MVN_CMD -Duser.home=/var/maven -B test site site:stage site-deploy'
           }
         }
       }
