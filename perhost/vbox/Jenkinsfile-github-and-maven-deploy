@@ -64,7 +64,6 @@ pipeline {
 
 def waitForNetwork() {
   waitUntil {
-    sleep 3
     return sh(returnStatus: true, script: 'curl https://github.com > /dev/null') == 0
   }
 }
