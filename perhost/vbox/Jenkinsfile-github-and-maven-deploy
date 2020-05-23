@@ -27,10 +27,7 @@ pipeline {
       steps {
         waitForNetwork()
         timeout(time: 3, unit: 'HOURS') {
-          withMaven(mavenSettingsConfig: 'github',
-                    options: [junitPublisher(disabled: true,
-                                             healthScaleFactor: 0.0),
-                              jacocoPublisher(disabled: true)]) {
+          withMaven(mavenSettingsConfig: 'github') {
             // site must come immediately after test because of jacoco.
             sh '$MVN_CMD -Duser.home=/var/maven -B clean'
             sh '$MVN_CMD -Duser.home=/var/maven -B test site site:stage site-deploy'
@@ -42,8 +39,11 @@ pipeline {
       steps {
         waitForNetwork()
         timeout(time: 3, unit: 'HOURS') {
-          withMaven(mavenSettingsConfig: 'sonatype') {
-            sh '$MVN_CMD -Duser.home=/var/maven -B test install deploy'
+          withMaven(mavenSettingsConfig: 'sonatype',
+                    options: [junitPublisher(disabled: true,
+                                             healthScaleFactor: 0.0),
+                              jacocoPublisher(disabled: true)]) {
+            sh '$MVN_CMD -Duser.home=/var/maven -B install deploy'
           }
         }
       }
