@@ -72,6 +72,6 @@ pipeline {
 
 def waitForNetwork() {
   waitUntil {
-    return sh(returnStatus: true, script: 'curl https://github.com > /dev/null') == 0
+    return sh(returnStatus: true, script: 'curl https://github.com/robots.txt > /dev/null') == 0
   }
 }
