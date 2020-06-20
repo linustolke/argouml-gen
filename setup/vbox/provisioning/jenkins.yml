@@ -132,6 +132,7 @@
         - mailer # required by git, remote-file
         - mercurial # required by cloudbees-bitbucket-branch-source
         - momentjs # required by pipeline-stage-view
+        - okhttp-api # required by github-api
         - pipeline-build-step # required by workflow-aggregator
         - pipeline-graph-analysis # required by pipeline-rest-api
         - pipeline-input-step # required by workflow-aggregator
@@ -217,16 +218,13 @@
       become_user: jenkins
       become: yes
 
-    - name: Copy configuration before
-      synchronize:
-        mode: pull
-        src: /var/lib/jenkins/jobs
-        dest: "{{ playbook_dir + '/before' }}"
-        recursive: yes
-        rsync_opts:
-          - "--include='config.xml'"
-          - "--exclude='*'"
-      ignore_errors: yes
+    - name: Copy configuration of Jenkins jobs
+      shell: |
+        cd /var/lib/jenkins/jobs
+        for file in */config.xml
+        do
+          cp --backup=numbered --force $file $file
+        done
       become_user: jenkins
       become: yes
 
@@ -307,18 +305,6 @@
       set_fact:
         jenkins_restart_required: no
       when: jenkins_restart_required
-
-    - name: Copy configuration after
-      synchronize:
-        mode: pull
-        src: /var/lib/jenkins/jobs
-        dest: "{{ playbook_dir + '/after' }}"
-        recursive: yes
-        rsync_opts:
-          - "--include='config.xml'"
-          - "--exclude='*'"
-      become_user: jenkins
-      become: yes
 
     - debug: msg="Remember to configure the maven config files and credentials in Jenkins. This is described in https://github.com/argouml-tigris-org/argouml/wiki/Jenkins-configuration"
 
