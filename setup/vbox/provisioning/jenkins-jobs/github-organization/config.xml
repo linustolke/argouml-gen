@@ -1,5 +1,5 @@
 <?xml version='1.1' encoding='UTF-8'?>
-<jenkins.branch.OrganizationFolder plugin="branch-api@2.5.5">
+<jenkins.branch.OrganizationFolder plugin="branch-api@2.5.6">
   <actions/>
   <description></description>
   <properties>
@@ -10,7 +10,7 @@
     </org.jenkinsci.plugins.configfiles.folder.FolderConfigFileProperty>
     <jenkins.branch.OrganizationChildHealthMetricsProperty>
       <templates>
-        <com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric plugin="cloudbees-folder@6.11.1">
+        <com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric plugin="cloudbees-folder@6.14">
           <nonRecursive>false</nonRecursive>
         </com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric>
       </templates>
@@ -20,7 +20,7 @@
     </jenkins.branch.OrganizationChildOrphanedItemsProperty>
     <jenkins.branch.OrganizationChildTriggersProperty>
       <templates>
-        <com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger plugin="cloudbees-folder@6.11.1">
+        <com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger plugin="cloudbees-folder@6.14">
           <spec>H H/4 * * *</spec>
           <interval>86400000</interval>
         </com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger>
@@ -43,27 +43,27 @@
     <owner reference="../.."/>
   </folderViews>
   <healthMetrics>
-    <com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric plugin="cloudbees-folder@6.11.1">
+    <com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric plugin="cloudbees-folder@6.14">
       <nonRecursive>false</nonRecursive>
     </com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric>
   </healthMetrics>
   <icon class="jenkins.branch.MetadataActionFolderIcon">
     <owner class="jenkins.branch.OrganizationFolder" reference="../.."/>
   </icon>
-  <orphanedItemStrategy class="com.cloudbees.hudson.plugins.folder.computed.DefaultOrphanedItemStrategy" plugin="cloudbees-folder@6.11.1">
+  <orphanedItemStrategy class="com.cloudbees.hudson.plugins.folder.computed.DefaultOrphanedItemStrategy" plugin="cloudbees-folder@6.14">
     <pruneDeadBranches>true</pruneDeadBranches>
     <daysToKeep>-1</daysToKeep>
     <numToKeep>-1</numToKeep>
   </orphanedItemStrategy>
   <triggers>
-    <com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger plugin="cloudbees-folder@6.11.1">
+    <com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger plugin="cloudbees-folder@6.14">
       <spec>H H/4 * * *</spec>
       <interval>86400000</interval>
     </com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger>
   </triggers>
   <disabled>false</disabled>
   <navigators>
-    <org.jenkinsci.plugins.github__branch__source.GitHubSCMNavigator plugin="github-branch-source@2.6.0">
+    <org.jenkinsci.plugins.github__branch__source.GitHubSCMNavigator plugin="github-branch-source@2.8.2">
       <repoOwner>argouml-tigris-org</repoOwner>
       <credentialsId>github</credentialsId>
       <traits>
@@ -78,10 +78,10 @@
     </org.jenkinsci.plugins.github__branch__source.GitHubSCMNavigator>
   </navigators>
   <projectFactories>
-    <org.jenkinsci.plugins.workflow.multibranch.extended.RemoteJenkinsFileWorkflowMultiBranchProjectFactory plugin="remote-file@1.8">
-      <localFile>pom.xml</localFile>
+    <org.jenkinsci.plugins.workflow.multibranch.extended.RemoteJenkinsFileWorkflowMultiBranchProjectFactory plugin="remote-file@1.9">
+      <localMarker>pom.xml</localMarker>
       <remoteJenkinsFile>perhost/vbox/Jenkinsfile-github-and-maven-deploy</remoteJenkinsFile>
-      <remoteJenkinsFileSCM class="hudson.plugins.git.GitSCM" plugin="git@4.2.2">
+      <remoteJenkinsFileSCM class="hudson.plugins.git.GitSCM" plugin="git@4.3.0">
         <configVersion>2</configVersion>
         <userRemoteConfigs>
           <hudson.plugins.git.UserRemoteConfig>
@@ -98,7 +98,6 @@
         <extensions/>
       </remoteJenkinsFileSCM>
       <matchBranches>false</matchBranches>
-      <scmSourceBranchName>master</scmSourceBranchName>
       <fallbackBranch>master</fallbackBranch>
     </org.jenkinsci.plugins.workflow.multibranch.extended.RemoteJenkinsFileWorkflowMultiBranchProjectFactory>
   </projectFactories>
