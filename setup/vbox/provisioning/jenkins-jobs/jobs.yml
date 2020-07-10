@@ -4,8 +4,4 @@ jenkins_jobs:
   github-organization:
     template: no
   argouml-for-gerrithub:
-    template: yes
-
-gerrit_projects:
-  argouml-cpp:
-    active: yes
+    template: no
