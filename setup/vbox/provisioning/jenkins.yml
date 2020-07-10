@@ -151,6 +151,7 @@
         - resource-disposer # required by ws-cleanup
         - run-condition # required by conditional-buildstep
         - scm-api # required by git, github-branch-source, remote-file
+        - snakeyaml-api # required by jackson2-api
         - ssh-credentials # required by config-file-provider, git-client
         - structs # required by credentials, workflow-cps, github-branch-source, remote-file, warnings-ng
         - token-macro # required by build-timeout, config-file-provider
