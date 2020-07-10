@@ -248,9 +248,6 @@
       become_user: jenkins
       become: yes
       register: my_copied_jobs
-      when: >
-        'template' not in item.value or
-        not item.value['template']
       with_dict: "{{ jobs.jenkins_jobs }}"
 
     - name: Check if restart is required by any of the jobs
@@ -258,24 +255,6 @@
         jenkins_restart_required: yes
       when: item.changed
       with_items: "{{ my_copied_jobs.results }}"
-
-    - name: Copy Jenkins jobs from templates
-      template:
-        src: "{{ 'jenkins-jobs/' + item.key + '/config.xml.j2' }}"
-        dest: "{{ '/var/lib/jenkins/jobs/' + item.key + '/config.xml' }}"
-      become_user: jenkins
-      become: yes
-      register: my_template_jobs
-      when: >
-        'template' in item.value and
-        item.value['template']
-      with_dict: "{{ jobs.jenkins_jobs }}"
-
-    - name: Check if restart is required by any of the jobs from templates
-      set_fact:
-        jenkins_restart_required: yes
-      when: item.changed
-      with_items: "{{ my_template_jobs.results }}"
 
     - name: Restart Jenkins if required
       service:
