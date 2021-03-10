@@ -2,16 +2,30 @@
   vars:
     ansible_python_interpreter: /usr/bin/python
   tasks:
-    - name: Add an apt key from jenkins-ci.org
+    - name: Add an apt key from jenkins.io
       apt_key:
-        url: https://pkg.jenkins.io/debian/jenkins-ci.org.key
+        url: https://pkg.jenkins.io/debian/jenkins.io.key
         state: present
       become: yes
+
+    - name: Add an apt key from jenkins.io stable
+      apt_key:
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+        state: present
+      become: yes
+
     - name: Add jenkins repository
+      apt_repository:
+        repo: deb https://pkg.jenkins.io/debian binary/
+        state: present
+      become: yes
+
+    - name: Add stable jenkins repository
       apt_repository:
         repo: deb https://pkg.jenkins.io/debian-stable binary/
         state: present
       become: yes
+
     - name: Update apt cache and install/update packages
       apt:
         pkg:
@@ -21,14 +35,20 @@
           - docker.io
           - git
           - git-ftp
-          - jenkins
-          - python-jenkins
           - python-lxml
           - python-pip
-          - python3-jenkins
           - python3-lxml
           - python3-pip
         update_cache: yes
+        state: latest
+      become: yes
+
+    - name: Update apt cache and install/update packages
+      apt:
+        pkg:
+          - jenkins
+          - python-jenkins
+          - python3-jenkins
         state: latest
       become: yes
 
@@ -87,7 +107,8 @@
          'status' in jenkins_service_status and
          jenkins_service_status['status'] == 200
 
-    - jenkins_plugin:
+    - name: Add Jenkins plugins
+      jenkins_plugin:
         name: "{{ item }}"
         state: latest
         url_username: admin
@@ -107,6 +128,7 @@
         - authentication-tokens # required by gerrit-code-review, docker-commons
         - bootstrap4-api # required by warnings-ng
         - branch-api # required by workflow-multibranch
+        - checks-api # required by warnings-ng
         - cloudbees-bitbucket-branch-source # required by remote-file
         - cloudbees-folder # required by docker-workflow, workflow-multibranch, remote-file
         - credentials # required by gerrit-code-review, docker-commons, git, git-client, config-file-provider, github-branch-source, warnings-ng
@@ -128,8 +150,10 @@
         - jquery-detached # required by workflow-cps
         - jquery3-api # required by warnings-ng
         - jsch # required by maven-plugin, git-client
+        - junit # required by maven-plugin
         - lockable-resources # required by workflow-aggregator
         - mailer # required by git, remote-file
+        - matrix-project # required by warnings-ng, conditional-buildstep, jenkins-git-plugin, pipeline-maven
         - mercurial # required by cloudbees-bitbucket-branch-source
         - momentjs # required by pipeline-stage-view
         - okhttp-api # required by github-api
@@ -138,7 +162,6 @@
         - pipeline-input-step # required by workflow-aggregator
         - pipeline-milestone-step # required by workflow-aggregator
         - pipeline-model-api # required by pipeline-model-extensions
-        - pipeline-model-declarative-agent # required by pipeline-model-definition
         - pipeline-model-definition # required by workflow-aggregator
         - pipeline-model-extensions # required by docker-pipeline
         - pipeline-rest-api # required by pipeline-stage-view
@@ -224,7 +247,10 @@
         cd /var/lib/jenkins/jobs
         for file in */config.xml
         do
-          cp --backup=numbered --force $file $file
+          if test -f "$file"
+          then
+            cp --backup=numbered --force $file $file
+          fi
         done
       become_user: jenkins
       become: yes
