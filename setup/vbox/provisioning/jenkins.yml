@@ -26,7 +26,12 @@
         state: present
       become: yes
 
-    - name: Update apt cache and install/update packages
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+      become: yes
+
+    - name: Install/update packages
       apt:
         pkg:
           - default-jre
@@ -39,7 +44,6 @@
           - python-pip
           - python3-lxml
           - python3-pip
-        update_cache: yes
         state: latest
       become: yes
 
@@ -147,6 +151,7 @@
         - handy-uri-templates-2-api # required by cloudbees-bitbucket-branch-source
         - jackson2-api # required by pipeline-model-api, github-branch-source
         - jaxb # required by github-branch-source
+        - jjwt-api # required by github-branch-source
         - jquery-detached # required by workflow-cps
         - jquery3-api # required by warnings-ng
         - jsch # required by maven-plugin, git-client
