@@ -1,50 +1,50 @@
 <?xml version='1.1' encoding='UTF-8'?>
-<org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject plugin="workflow-multibranch@2.21">
+<org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject plugin="workflow-multibranch@2.24">
   <actions/>
   <description></description>
   <properties>
-    <org.jenkinsci.plugins.configfiles.folder.FolderConfigFileProperty plugin="config-file-provider@3.6.3">
+    <org.jenkinsci.plugins.configfiles.folder.FolderConfigFileProperty plugin="config-file-provider@3.8.0">
       <configs class="sorted-set">
         <comparator class="org.jenkinsci.plugins.configfiles.folder.FolderConfigFileProperty$1"/>
       </configs>
     </org.jenkinsci.plugins.configfiles.folder.FolderConfigFileProperty>
-    <org.jenkinsci.plugins.docker.workflow.declarative.FolderConfig plugin="docker-workflow@1.23">
+    <org.jenkinsci.plugins.docker.workflow.declarative.FolderConfig plugin="docker-workflow@1.26">
       <dockerLabel></dockerLabel>
       <registry plugin="docker-commons@1.17"/>
     </org.jenkinsci.plugins.docker.workflow.declarative.FolderConfig>
-    <org.jenkinsci.plugins.pipeline.maven.MavenConfigFolderOverrideProperty plugin="pipeline-maven@3.8.2">
+    <org.jenkinsci.plugins.pipeline.maven.MavenConfigFolderOverrideProperty plugin="pipeline-maven@3.10.0">
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
       <override>false</override>
     </org.jenkinsci.plugins.pipeline.maven.MavenConfigFolderOverrideProperty>
   </properties>
-  <folderViews class="jenkins.branch.MultiBranchProjectViewHolder" plugin="branch-api@2.5.6">
+  <folderViews class="jenkins.branch.MultiBranchProjectViewHolder" plugin="branch-api@2.6.4">
     <owner class="org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject" reference="../.."/>
   </folderViews>
   <healthMetrics>
-    <com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric plugin="cloudbees-folder@6.14">
+    <com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric plugin="cloudbees-folder@6.15">
       <nonRecursive>false</nonRecursive>
     </com.cloudbees.hudson.plugins.folder.health.WorstChildHealthMetric>
   </healthMetrics>
-  <icon class="jenkins.branch.MetadataActionFolderIcon" plugin="branch-api@2.5.6">
+  <icon class="jenkins.branch.MetadataActionFolderIcon" plugin="branch-api@2.6.4">
     <owner class="org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject" reference="../.."/>
   </icon>
-  <orphanedItemStrategy class="com.cloudbees.hudson.plugins.folder.computed.DefaultOrphanedItemStrategy" plugin="cloudbees-folder@6.14">
+  <orphanedItemStrategy class="com.cloudbees.hudson.plugins.folder.computed.DefaultOrphanedItemStrategy" plugin="cloudbees-folder@6.15">
     <pruneDeadBranches>true</pruneDeadBranches>
     <daysToKeep>-1</daysToKeep>
     <numToKeep>-1</numToKeep>
   </orphanedItemStrategy>
   <triggers>
-    <org.jenkinsci.plugins.pipeline.maven.trigger.WorkflowJobDependencyTrigger plugin="pipeline-maven@3.8.2">
+    <org.jenkinsci.plugins.pipeline.maven.trigger.WorkflowJobDependencyTrigger plugin="pipeline-maven@3.10.0">
       <spec></spec>
     </org.jenkinsci.plugins.pipeline.maven.trigger.WorkflowJobDependencyTrigger>
-    <com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger plugin="cloudbees-folder@6.14">
+    <com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger plugin="cloudbees-folder@6.15">
       <spec>H/30 * * * *</spec>
       <interval>14400000</interval>
     </com.cloudbees.hudson.plugins.folder.computed.PeriodicFolderTrigger>
   </triggers>
   <disabled>false</disabled>
-  <sources class="jenkins.branch.MultiBranchProject$BranchSourceList" plugin="branch-api@2.5.6">
+  <sources class="jenkins.branch.MultiBranchProject$BranchSourceList" plugin="branch-api@2.6.4">
     <data>
       <jenkins.branch.BranchSource>
         <source class="jenkins.plugins.gerrit.GerritSCMSource" plugin="gerrit-code-review@0.4.4">
@@ -53,8 +53,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
@@ -77,8 +79,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -101,8 +105,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -125,8 +131,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -149,8 +157,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -173,8 +183,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -197,8 +209,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -221,8 +235,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -245,8 +261,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -269,8 +287,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -293,8 +313,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -317,8 +339,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -341,8 +365,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -365,8 +391,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -389,8 +417,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -413,8 +443,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -437,8 +469,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -461,8 +495,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -485,8 +521,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -509,8 +547,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -533,8 +573,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -557,8 +599,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/changes/*:refs/remotes/@{remote}/*</value>
@@ -581,8 +625,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
@@ -605,8 +651,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
@@ -629,8 +677,10 @@
           <insecureHttps>false</insecureHttps>
           <credentialsId></credentialsId>
           <traits>
-            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait/>
-            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.3.0">
+            <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+              <queryString></queryString>
+            </jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
+            <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait plugin="git@4.7.1">
               <templates>
                 <jenkins.plugins.git.traits.RefSpecsSCMSourceTrait_-RefSpecTemplate>
                   <value>+refs/heads/*:refs/remotes/@{remote}/*</value>
