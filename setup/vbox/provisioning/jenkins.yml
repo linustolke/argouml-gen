@@ -132,6 +132,7 @@
         - authentication-tokens # required by gerrit-code-review, docker-commons
         - bootstrap4-api # required by warnings-ng
         - branch-api # required by workflow-multibranch
+        - caffeine-api # required by script-security
         - checks-api # required by warnings-ng
         - cloudbees-bitbucket-branch-source # required by remote-file
         - cloudbees-folder # required by docker-workflow, workflow-multibranch, remote-file
