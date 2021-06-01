@@ -1,0 +1,89 @@
+pipeline {
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '50', daysToKeepStr: '100'))
+    disableConcurrentBuilds()
+  }
+  triggers {
+    pollSCM('@hourly')
+    snapshotDependencies()
+    cron('@monthly')
+  }
+  agent none
+  stages {
+    stage('Build') {
+      matrix {
+        agent {
+          docker {
+            image 'maven:3-${JDK}'
+            args '-v maven-repo-matrix:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
+          }
+        }
+        axes {
+          axis {
+            name 'JDK'
+            values 'openjdk-8'
+          }
+        }
+        stages {
+          stage('checkout') {
+            steps {
+              waitForNetwork()
+              timeout(time: 1, unit: 'HOURS') {
+                checkout scm
+
+                // Patch to get another set of artifacts.
+                // This relies on the order of the lines with groupId and artifactId.
+                sh "find . -name target -type d -prune -o -name pom.xml -type f -print | while read pom; do sed '\$!N;s,<groupId>\\(org.argouml</groupId>.*\\n.*<artifactId>[^j]\\),<groupId>${JDK}.\\1,;P;D' -i \$pom; done"
+              }
+            }
+          }
+          stage('site') {
+            steps {
+              waitForNetwork()
+              timeout(time: 3, unit: 'HOURS') {
+                withMaven(mavenSettingsConfig: 'github') {
+                  sh '$MVN_CMD -Duser.home=/var/maven -B clean'
+                  sh '$MVN_CMD -Duser.home=/var/maven -B test -Dmaven.test.failure.ignore=true site site:stage -DstagingDirectory=$(pwd)/target/staging1/$(basename $(dirname $JOB_NAME))'
+                }
+              }
+            }
+          }
+          stage('install') {
+            steps {
+              waitForNetwork()
+              timeout(time: 3, unit: 'HOURS') {
+                withMaven(options: [junitPublisher(disabled: true,
+                                                   healthScaleFactor: 0.0),
+                                    jacocoPublisher(disabled: true)]) {
+                  sh '$MVN_CMD -Duser.home=/var/maven -B install'
+                }
+              }
+            }
+          }
+          stage('revert') {
+            steps {
+              sh 'git checkout .'
+            }
+          }
+        }
+        post {
+          always {
+            cleanWs cleanWhenAborted: false,
+                    cleanWhenFailure: false,
+                    cleanWhenNotBuilt: false,
+                    cleanWhenUnstable: false,
+                    deleteDirs: true,
+                    notFailBuild: true,
+                    patterns: [[pattern: 'target/**', type: 'INCLUDE']]
+          }
+        }
+      }
+    }
+  }
+}
+
+def waitForNetwork() {
+  waitUntil {
+    return sh(returnStatus: true, script: 'curl https://github.com/robots.txt > /dev/null') == 0
+  }
+}
