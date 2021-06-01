@@ -21,7 +21,7 @@ pipeline {
         axes {
           axis {
             name 'JAVAVERSION'
-            values 'openjdk-8', 'jdk-11-openj9', 'openjdk-11'
+            values 'openjdk-8', 'openjdk-11'
           }
         }
         stages {
