@@ -36,7 +36,7 @@ pipeline {
             }
             axis {
               name 'COMPILESOURCE'
-              valus '6'
+              values '6'
             }
           }
         }
