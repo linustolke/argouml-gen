@@ -23,6 +23,22 @@ pipeline {
             name 'JAVAVERSION'
             values 'openjdk-8', 'openjdk-11', 'openjdk-15', 'openjdk-16', 'openjdk-17'
           }
+          axis {
+            name 'COMPILESOURCE'
+            values '6', '7'   // , '8'
+          }
+        }
+        excludes {
+          exclude {
+            axis {
+              name 'JAVAVERSION'
+              values 'openjdk-15', 'openjdk-16', 'openjdk-17'
+            }
+            axis {
+              name 'COMPILESOURCE'
+              valus '6'
+            }
+          }
         }
         stages {
           stage('checkout') {
@@ -33,29 +49,18 @@ pipeline {
 
                 // Patch to get another set of artifacts.
                 // This relies on the order of the lines with groupId and artifactId.
-                sh "find . -name target -type d -prune -o -name pom.xml -type f -print | while read pom; do sed '\$!N;s,<groupId>\\(org.argouml</groupId>.*\\n.*<artifactId>[^j]\\),<groupId>${JAVAVERSION}.\\1,;P;D' -i \$pom; done"
+                sh "find . -name target -type d -prune -o -name pom.xml -type f -print | while read pom; do sed '\$!N;s,<groupId>\\(org.argouml</groupId>.*\\n.*<artifactId>[^j]\\),<groupId>${JAVAVERSION}-${COMPILESOURCE}.\\1,;P;D' -i \$pom; done"
+                
+                sh "find . -name target -type d -prune -o -name pom.xml -type f -print | while read pom; do sed 's,\\(<compileSource>1.\\)6\\(</compileSource>\\),\\1${COMPILESOURCE}\\2,' -i \$pom; done"
               }
             }
           }
-          stage('site') {
+          stage('maven') {
             steps {
               waitForNetwork()
               timeout(time: 3, unit: 'HOURS') {
                 withMaven(mavenSettingsConfig: 'github') {
-                  sh '$MVN_CMD -Duser.home=/var/maven -B clean'
-                  sh '$MVN_CMD -Duser.home=/var/maven -B test -Dmaven.test.failure.ignore=true site site:stage -DstagingDirectory=$(pwd)/target/staging1/$(basename $(dirname $JOB_NAME))'
-                }
-              }
-            }
-          }
-          stage('install') {
-            steps {
-              waitForNetwork()
-              timeout(time: 3, unit: 'HOURS') {
-                withMaven(options: [junitPublisher(disabled: true,
-                                                   healthScaleFactor: 0.0),
-                                    jacocoPublisher(disabled: true)]) {
-                  sh '$MVN_CMD -Duser.home=/var/maven -B install'
+                  sh '$MVN_CMD -Duser.home=/var/maven -B test -Dmaven.test.failure.ignore=true site site:stage -DstagingDirectory=$(pwd)/target/staging1/$(basename $(dirname $JOB_NAME)) install'
                 }
               }
             }
