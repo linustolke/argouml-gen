@@ -1,10 +1,10 @@
 pipeline {
   options {
-    buildDiscarder(logRotator(numToKeepStr: '50', daysToKeepStr: '100'))
+    buildDiscarder(logRotator(numToKeepStr: '5', daysToKeepStr: '10'))
     disableConcurrentBuilds()
   }
   triggers {
-    pollSCM('@hourly')
+    pollSCM('@nightly')
     snapshotDependencies()
     cron('@monthly')
   }
