@@ -4,9 +4,9 @@ pipeline {
     disableConcurrentBuilds()
   }
   triggers {
-    pollSCM('@nightly')
+    pollSCM('H H/4 * * *')
     snapshotDependencies()
-    cron('@monthly')
+    cron('H H H H/2 *')
   }
   agent none
   stages {
