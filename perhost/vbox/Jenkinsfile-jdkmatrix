@@ -60,7 +60,7 @@ pipeline {
               waitForNetwork()
               timeout(time: 3, unit: 'HOURS') {
                 withMaven(mavenSettingsConfig: 'github') {
-                  sh '$MVN_CMD -Duser.home=/var/maven -B test -Dmaven.test.failure.ignore=true site site:stage -DstagingDirectory=$(pwd)/target/staging1/$(basename $(dirname $JOB_NAME)) install'
+                  sh '$MVN_CMD -Duser.home=/var/maven -B clean test -Dmaven.test.failure.ignore=true site site:stage -DstagingDirectory=$(pwd)/target/staging1/$(basename $(dirname $JOB_NAME)) install'
                 }
               }
             }
