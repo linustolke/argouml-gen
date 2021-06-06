@@ -57,8 +57,7 @@ pipeline {
               waitForNetwork()
               timeout(time: 1, unit: 'HOURS') {
                 withMaven(mavenSettingsConfig: 'github') {
-                  def c = '$MVN_CMD -Duser.home=/var/maven -B clean test site site:stage -DstagingDirectory=$(pwd)/target/staging1/$(basename $(dirname $JOB_NAME)) install -Dsurefire.timeout=1000' 
-                  sh c + ' || ' + c + ' || ' + c
+                  sh mavenCommand + ' || ' + mavenCommand + ' || ' + mavenCommand
                 }
               }
               sh 'git checkout .'
@@ -86,3 +85,5 @@ def waitForNetwork() {
     return sh(returnStatus: true, script: 'curl https://github.com/robots.txt > /dev/null') == 0
   }
 }
+
+def mavenCommand = '$MVN_CMD -Duser.home=/var/maven -B clean test site site:stage -DstagingDirectory=$(pwd)/target/staging1/$(basename $(dirname $JOB_NAME)) install -Dsurefire.timeout=1000' 
