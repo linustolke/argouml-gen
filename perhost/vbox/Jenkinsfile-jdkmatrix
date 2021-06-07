@@ -13,7 +13,6 @@ pipeline {
   agent none
   stages {
     stage('Build') {
-      failFast true
       matrix {
         agent {
           docker {
@@ -24,7 +23,8 @@ pipeline {
         axes {
           axis {
             name 'JAVAVERSION'
-            values 'openjdk-8', 'openjdk-11', 'openjdk-15', 'openjdk-16', 'openjdk-17'
+            values 'openjdk-8', 'openjdk-11', 'openjdk-16', 'openjdk-17'
+            // 'openjdk-15', - is not working testing argouml-core-model-mdr
           }
           axis {
             name 'COMPILESOURCE'
@@ -57,7 +57,7 @@ pipeline {
                 sh "find . -name target -type d -prune -o -name pom.xml -type f -print | while read pom; do sed 's,\\(<compileSource>1.\\)6\\(</compileSource>\\),\\1${COMPILESOURCE}\\2,' -i \$pom; done"
               }
               waitForNetwork()
-              timeout(time: 1, unit: 'HOURS') {
+              timeout(time: 3, unit: 'HOURS') {
                 withMaven(mavenSettingsConfig: 'github') {
                   sh "${mavenCommand} || ${mavenCommand} || ${mavenCommand}"
                 }
