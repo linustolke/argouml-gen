@@ -27,11 +27,23 @@ pipeline {
           }
           axis {
             name 'COMPILESOURCE'
-            values '6', '7'   // , '8'
+            values '6', '7', '8', '9'
           }
         }
         excludes {
           exclude {
+            // Older jdk versions doesn't support new compilesource.
+            axis { 
+              name 'JAVAVERSION'
+              values 'openjdk-8', 'openjdk-11'
+            }
+            axis {
+              name 'COMPILESOURCE'
+              values '8', '9'
+            }
+          }
+          exclude {
+            // Newer jdk version doesn't support old compilesource
             axis {
               name 'JAVAVERSION'
               values 'openjdk-15', 'openjdk-16', 'openjdk-17'
@@ -49,7 +61,7 @@ pipeline {
             }
             axis {
               name 'COMPILESOURCE'
-              values '7'
+              values '7', '8', '9'
             }
           }
         }
