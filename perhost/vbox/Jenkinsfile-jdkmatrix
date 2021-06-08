@@ -51,6 +51,7 @@ pipeline {
               name 'COMPILESOURCE'
               values '7'
             }
+          }
         }
         stages {
           stage('doit') {
