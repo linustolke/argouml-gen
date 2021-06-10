@@ -64,6 +64,13 @@ pipeline {
               values '7', '8', '9'
             }
           }
+          exclude {
+            // pmd mvn plugin is not working with targetJdk 1.8 or 1.9
+            axis {
+              name 'COMPILESOURCE'
+              values '8', '9'
+            }
+          }
         }
         stages {
           stage('doit') {
