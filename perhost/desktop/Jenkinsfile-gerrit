@@ -1,0 +1,64 @@
+#!groovy
+
+// The file contains some assumptions on how the build machine is set up.
+// See https://github.com/argouml-tigris-org/argouml/wiki/Jenkins-configuration
+
+pipeline {
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '50', daysToKeepStr: '100'))
+  }
+  agent {
+    docker {
+      image 'maven:3-ibmjava-8'
+      args '-v maven-repo:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
+    }
+  }
+
+  stages {
+    stage('checkout') {
+      steps {
+        deleteDir()
+
+        def repoURL = "$GERRIT_SCHEME://$GERRIT_HOST:$GERRIT_PORT/$GERRIT_PROJECT"
+
+        // Fetch the changeset to a local branch using the build
+        // parameters provided to the build by the Gerrit plugin...
+        sh "git clone --single-branch -b ${GERRIT_REFSPEC} ${repoURL} dir"
+      }
+    }
+    stage('compile') {
+      steps {
+        dir('dir') {
+          timeout(time:1, unit: 'HOURS') {
+            withMaven() {
+              sh '$MVN_CMD -Duser.home=/var/maven -B compile'
+            }
+          }
+        }
+      }
+    }
+    stage('test') {
+      steps {
+        dir('dir') {
+          timeout(time:1, unit: 'HOURS') {
+            withMaven() {
+              sh '$MVN_CMD -Duser.home=/var/maven -B test'
+            }
+          }
+        }
+      }
+    }
+    stage('site') {
+      steps {
+        dir('dir') {
+          timeout(time:1, unit: 'HOURS') {
+            withMaven(options: [junitPublisher(disabled: true,
+                                               healthScaleFactor: 0.0)]) {
+              sh '$MVN_CMD -Duser.home=/var/maven -B site'
+            }
+          }
+        }
+      }
+    }
+  }
+}
