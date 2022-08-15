@@ -73,7 +73,7 @@ pipeline {
           }
         }
         stages {
-          stage('doit') {
+          stage("build and install ${JAVAVERSION} ${COMPILEVERSION}") {
             steps {
               waitForNetwork()
               timeout(time: 1, unit: 'HOURS') {
