@@ -32,6 +32,13 @@ pipeline {
         }
         excludes {
           exclude {
+            // ibmjava-8 doesn't contain git
+            axis {
+              name 'JAVAVERSION'
+              values 'ibmjava-8'
+            }
+          }
+          exclude {
             // Older jdk versions doesn't support new compilesource.
             axis { 
               name 'JAVAVERSION'
