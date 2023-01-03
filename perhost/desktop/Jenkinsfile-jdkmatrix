@@ -80,7 +80,7 @@ pipeline {
           }
         }
         stages {
-          stage("build and install ${JAVAVERSION} ${COMPILESOURCE}") {
+          stage('build and install') {
             steps {
               waitForNetwork()
               timeout(time: 1, unit: 'HOURS') {
