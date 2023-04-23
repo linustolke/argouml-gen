@@ -1,6 +1,6 @@
 node {
   dir("dockerfiles") {
-    files_list = sh (script: "ls */Dockerfile, returnStdout: true).trim()
+    files_list = sh (script: "ls */Dockerfile", returnStdout: true).trim()
 
     files_list.split("\\r?\\n").each { dockerfilename ->
       dir = dockerfilename.split("/")[0]
