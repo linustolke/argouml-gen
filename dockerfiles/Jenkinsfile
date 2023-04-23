@@ -1,4 +1,5 @@
 node {
+  deleteDir()
   checkout scm
   dir("dockerfiles") {
     files_list = sh (script: "ls */Dockerfile", returnStdout: true).trim()
@@ -9,7 +10,8 @@ node {
       stage("$dir") {
         // Creating and running the first one
         dir ("$dir") {
-          sh "pwd"
+          sh "test -f Dockerfile || echo FROM maven:$dir > Dockerfile"
+          sh "pwd" // docker build -t my_fixed_maven:$dir
         }
       }
     }
