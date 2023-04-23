@@ -6,9 +6,9 @@ pipeline {
     disableConcurrentBuilds()
   }
   triggers {
-    pollSCM('H H/4 * * *')
+    pollSCM('H H/4 * * *') // Poll for changes every four hours
     snapshotDependencies()
-    cron('H H H H/2 *')
+    cron('H H H H/2 *') // Run unconditionally every other month
   }
   agent none
   stages {
