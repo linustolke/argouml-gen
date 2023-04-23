@@ -2,9 +2,9 @@ node {
   deleteDir()
   checkout scm
   dir("dockerfiles") {
-    files_list = sh (script: "ls */Dockerfile", returnStdout: true).trim()
+    dirs = sh (script: "echo */", returnStdout: true).trim()
 
-    files_list.split("\\r?\\n").each { dockerfilename ->
+    dirs.split(" ").each { dockerfilename ->
       dir = dockerfilename.split("/")[0]
 
       stage("$dir") {
