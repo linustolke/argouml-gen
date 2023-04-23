@@ -1,4 +1,5 @@
 node {
+  checkout scm
   dir("dockerfiles") {
     files_list = sh (script: "ls */Dockerfile", returnStdout: true).trim()
 
