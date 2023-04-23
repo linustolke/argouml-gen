@@ -11,7 +11,7 @@ node {
         // Creating and running the first one
         dir ("$dir") {
           sh "test -f Dockerfile || echo FROM maven:$dir > Dockerfile"
-          sh "pwd" // docker build -t my_fixed_maven:$dir
+          sh "docker build -t my_fixed_maven:$dir"
         }
       }
     }
