@@ -10,6 +10,7 @@ node {
       stage("$dir") {
         // Creating and running the first one
         dir ("$dir") {
+          sh echo changed
           sh "test -f Dockerfile || echo FROM maven:$dir > Dockerfile"
           docker.build("my_fixed_maven:$dir")
         }
