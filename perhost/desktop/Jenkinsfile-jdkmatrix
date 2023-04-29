@@ -58,6 +58,17 @@ pipeline {
             // Newer jdk version doesn't support old compilesource
             axis {
               name 'JAVAVERSION'
+              values 'amazoncorretto-20'
+            }
+            axis {
+              name 'COMPILESOURCE'
+              values '7'
+            }
+          }
+          exclude {
+            // Newer jdk version doesn't support old compilesource
+            axis {
+              name 'JAVAVERSION'
               values 'openjdk-15', 'openjdk-16', 'openjdk-17',
                      'amazoncorretto-17', 'amazoncorretto-19',
                      'amazoncorretto-20'
