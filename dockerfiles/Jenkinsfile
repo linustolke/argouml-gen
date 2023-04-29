@@ -10,7 +10,7 @@ node ('docker_image_creator') {
       stage("$dir") {
         dir ("$dir") {
           sh "test -f Dockerfile || echo FROM maven:$dir > Dockerfile"
-          docker.build("my_fixed_maven:$dir", "--pull .1")
+          docker.build("my_fixed_maven:$dir", "--pull .")
         }
       }
     }
