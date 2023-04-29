@@ -1,4 +1,4 @@
 FROM maven:3-ibmjava-8
 
-RUN apt install git
+RUN apt-get --assume-yes install git
 
