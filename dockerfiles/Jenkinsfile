@@ -11,7 +11,7 @@ node ('docker_image_creator') {
         // Creating and running the first one
         dir ("$dir") {
           sh "test -f Dockerfile || echo FROM maven:$dir > Dockerfile"
-          docker.build("my_fixed_maven:$dir", "--pull")
+          docker.build("my_fixed_maven:$dir", "--pull .")
         }
       }
     }
