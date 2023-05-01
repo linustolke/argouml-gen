@@ -35,6 +35,13 @@ pipeline {
           }
         }
         excludes {
+          // Newer versions of openjdk hangs
+          exclude {
+            axis { 
+              name 'JAVAVERSION'
+              values 'amazoncorretto-19', 'amazoncorretto-20'
+            }
+          }
           exclude {
             // Older jdk versions doesn't support new compilesource.
             axis { 
