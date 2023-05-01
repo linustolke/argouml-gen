@@ -42,6 +42,17 @@ pipeline {
               values 'amazoncorretto-19', 'amazoncorretto-20'
             }
           }
+          
+          // This simply takes too much time to compile,
+          // I will do this in steps:
+          // 6 -> 7
+          // 7 -> ?
+          exclude {
+            axis {
+              name 'COMPILESOURCE'
+              values '8', '9'
+            }
+          }
           exclude {
             // Older jdk versions doesn't support new compilesource.
             axis { 
