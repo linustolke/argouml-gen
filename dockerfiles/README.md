@@ -10,3 +10,5 @@ not all.
 This directory is a job that creates new docker images that provide
 all the tools needed to run the jobs defined by the Jenkinsfiles in
 perhost/desktop.
+
+The maven directory is based on images that comes with maven.

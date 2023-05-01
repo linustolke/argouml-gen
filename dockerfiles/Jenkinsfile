@@ -1,7 +1,7 @@
 node ('docker_image_creator') {
   deleteDir()
   checkout scm
-  dir("dockerfiles") {
+  dir("dockerfiles/maven") {
     dirs = sh (script: "echo */", returnStdout: true).trim()
 
     dirs.split(" ").each { dockerfilename ->
