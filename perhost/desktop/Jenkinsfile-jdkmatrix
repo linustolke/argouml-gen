@@ -16,7 +16,7 @@ pipeline {
       matrix {
         agent {
           docker {
-            image "my_fixed_maven:3-${JAVAVERSION}"
+            image "maven:3-${JAVAVERSION}"
             args '-v maven-repo-matrix:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
           }
         }
@@ -109,7 +109,6 @@ pipeline {
                   sh "${mavenCommand}"
                 }
               }
-              sh 'git checkout .'
             }
           }
         }
