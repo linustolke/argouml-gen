@@ -1,0 +1,7 @@
+pipeline {
+  agent {
+    dockerfile {
+      additionalBuildArgs '--tag myjenkinsagent:latest'
+    }
+  }
+}
