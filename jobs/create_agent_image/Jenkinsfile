@@ -1,14 +1,13 @@
 pipeline {
   agent {
-    dockerfile {
-      filename 'jobs/create_agent_image/Dockerfile'
-      additionalBuildArgs '--tag myjenkinsagent:latest'
-    }
+    label 'master'
   }
   stages {
-    stage('Noop') {
+    stage('Create') {
       steps {
-        sh 'java -version'
+        dir('jobs/create_agent_image') {
+          sh 'docker build . --tag myjenkinsagent:latest'
+        }
       }
     }
   }
