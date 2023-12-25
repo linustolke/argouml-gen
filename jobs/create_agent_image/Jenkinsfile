@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Noop') {
       steps {
-        sh 'docker --version'
+        sh 'java -version'
       }
     }
   }
