@@ -1,6 +1,7 @@
 pipeline {
   agent {
     dockerfile {
+      filename 'jobs/create_agent_image/Dockerfile'
       additionalBuildArgs '--tag myjenkinsagent:latest'
     }
   }
