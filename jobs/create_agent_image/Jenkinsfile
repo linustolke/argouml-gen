@@ -4,4 +4,6 @@ pipeline {
       additionalBuildArgs '--tag myjenkinsagent:latest'
     }
   }
+  stages {
+  }
 }
