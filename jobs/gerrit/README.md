@@ -9,7 +9,7 @@ The gerrit instance used is gerrithub.io.
 
 The following modules are needed in Jenkins:
 - Docker Pipeline `docker-workflow`
-- Docker Commons `docker-commons`
+- Docker Commons Plugin `docker-commons`
 - Gerrit Code Review `gerrit-code-review`
 - Pipeline Maven Integration `pipeline-maven`
 - Remote Jenkinsfile Plugin `remote-file`
