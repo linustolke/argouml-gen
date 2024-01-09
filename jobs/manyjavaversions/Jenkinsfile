@@ -2,7 +2,7 @@ def mavenCommand = '$MVN_CMD -Duser.home=/var/maven -B clean test site site:stag
 
 pipeline {
   options {
-    buildDiscarder(logRotator(numToKeepStr: '5', daysToKeepStr: '10'))
+    buildDiscarder(logRotator(numToKeepStr: '5', daysToKeepStr: '130'))
     disableConcurrentBuilds()
   }
   triggers {
