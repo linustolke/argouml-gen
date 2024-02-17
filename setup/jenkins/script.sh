@@ -28,6 +28,7 @@ case "$1" in
                --publish 2376:2376 \
                docker:dind \
                --storage-driver overlay2
+        sleep 5
         docker run \
                --name jenkins \
                --restart=on-failure \
@@ -42,6 +43,10 @@ case "$1" in
                --volume jenkins-data:/var/jenkins_home \
                --volume jenkins-docker-certs:/certs/client:ro \
                myjenkins:lts-jdk17
+        docker exec jenkins-docker \
+               docker run $extraargsrun --rm \
+               -v maven-repo-matrix:/m \
+               maven:3-ibmjava-8 chown 1000:1000 /m
         ;;
     stop)
         docker stop jenkins
