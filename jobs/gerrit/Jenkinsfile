@@ -1,5 +1,18 @@
 #!groovy
 
+// This is a Pipeline job configured with the following settings:
+// Log rotation
+// * Days to keep build: 100
+// * Max # of builds to keep 50
+// Build Trigger
+// Gerrit event
+// * Server: GerritHub
+// * TriggerOn:
+// ** Patchset Created
+// * Gerrit Project
+// ** Type: Path argouml-tigris-org/*
+// ** Branch: Plain master
+
 // The file contains some assumptions on how the build machine is set up.
 // See https://github.com/argouml-tigris-org/argouml/wiki/Jenkins-configuration
 
