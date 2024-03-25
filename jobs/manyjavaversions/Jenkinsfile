@@ -38,7 +38,9 @@ pipeline {
           exclude {
             axis { 
               name 'JAVAVERSION'
-              values 'amazoncorretto-19', 'amazoncorretto-20'
+              values 'amazoncorretto-19',
+                     'amazoncorretto-20',
+                     'amazoncorretto-21'
             }
           }
           
