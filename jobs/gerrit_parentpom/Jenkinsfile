@@ -1,0 +1,95 @@
+#!groovy
+
+// This is a Pipeline job configured with the following settings:
+// Log rotation
+// * Days to keep build: 100
+// * Max # of builds to keep 5
+// Build Trigger
+// Gerrit event
+// * Server: GerritHub
+// * TriggerOn:
+// ** Patchset Created
+// * Gerrit Project
+// ** Type: Path argouml-tigris-org/parentpom
+// ** Branch: Plain master
+
+// The file contains some assumptions on how the build machine is set up.
+// See https://github.com/argouml-tigris-org/argouml/wiki/Jenkins-configuration
+
+node {
+  
+  // This is the same as for the gerrit project
+  stage('checkout') {
+    checkout([
+      $class: 'GitSCM',
+      branches: [[name: '*/master']],
+      extensions: [
+        [$class: 'BuildSingleRevisionOnly'],
+        [$class: 'CleanBeforeCheckout', deleteUntrackedNestedRepositories: true]
+      ],
+      userRemoteConfigs: [[
+        name: '${GERRIT_PROJECT}',
+        url: 'https://github.com/${GERRIT_PROJECT}'
+      ]],
+      changelog: false,
+      poll: false
+    ])
+
+    // Fetch the changeset to a local branch using the build parameters provided to the
+    // build by the Gerrit plugin...
+    def changeBranch = "change-${GERRIT_CHANGE_NUMBER}-${GERRIT_PATCHSET_NUMBER}"
+    sh "git fetch ${GERRIT_PROJECT} ${GERRIT_REFSPEC}:${changeBranch}"
+    sh "git checkout ${changeBranch}"
+  }
+
+  // This will install stuff in the maven repo, to avoid polluting it with
+  // not approved stuff, lets make a local copy, reusing whatever was in the
+  // maven-repo from other builds.
+
+  def env = docker.image('maven:3-ibmjava-8')
+  def local_volume = "maven-repo-${changeBranch}"
+  def inside_params = "-v maven-repo:/var/maven/maven-repo -v ${local_volume}:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2"
+
+  stage('prepare') {
+    env.inside(inside_params)  {
+      sh 'cp -r /var/maven/maven-repo/* /var/maven/.m2'
+    }
+  }
+
+  stage('parentpom') {
+    timeout(time:1, unit: 'HOURS') {
+      env.inside(inside_params)  {
+        withMaven() {
+          sh '$MVN_CMD -Duser.home=/var/maven -B compile test site install'
+        }
+        // Clean everything
+        deleteDir()
+      }
+    }
+  }
+
+  // For the rest of the projects used, checkout master
+  stage('manifest') {
+    timeout(time:1, unit: 'HOURS') {
+      env.inside(inside_params)  {
+        withMaven() {
+          sh 'git clone https://github.com/argouml-tigris-org/manifest.git'
+        }
+      }
+    }
+  }
+  
+  stage('layer 4') {
+    def proj = 'argouml'
+    timeout(time:1, unit: 'HOURS') {
+      env.inside(inside_params) {
+        withMaven() {
+          sh "git clone https://github.com/argouml-tigris-org/${proj}.git"
+          dir (proj) {
+            sh '$MVN_CMD -Duser.home=/var/maven -B compile test site install'
+          }
+        }
+      }
+    }
+  }
+}
