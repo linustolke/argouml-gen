@@ -53,7 +53,9 @@ node {
 
   def env = docker.image('maven:3-ibmjava-8')
   def inside_params = '-v maven-repo:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
-  env.inside(inside_params).run('chown 1000:1000 /var/maven/.m2')
+  env.inside(inside_params) {
+    sh 'chown 1000:1000 /var/maven/.m2'
+  }
 
   stage('compile') {
     timeout(time:1, unit: 'HOURS') {
