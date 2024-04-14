@@ -64,6 +64,7 @@ node {
 
   stage('prepare') {
     env.inside(inside_params)  {
+      sh 'ls -ld /var/maven/.m2'
       sh 'cp -r /var/maven/maven-repo/repository /var/maven/maven-repo/settings-docker.xml /var/maven/.m2'
     }
   }
