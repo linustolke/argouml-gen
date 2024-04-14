@@ -17,6 +17,7 @@
 // See https://github.com/argouml-tigris-org/argouml/wiki/Jenkins-configuration
 
 node {
+  def changeBranch = "change-${GERRIT_CHANGE_NUMBER}-${GERRIT_PATCHSET_NUMBER}"
   
   // This is the same as for the gerrit project
   stage('checkout') {
@@ -37,7 +38,6 @@ node {
 
     // Fetch the changeset to a local branch using the build parameters provided to the
     // build by the Gerrit plugin...
-    def changeBranch = "change-${GERRIT_CHANGE_NUMBER}-${GERRIT_PATCHSET_NUMBER}"
     sh "git fetch ${GERRIT_PROJECT} ${GERRIT_REFSPEC}:${changeBranch}"
     sh "git checkout ${changeBranch}"
   }
@@ -52,6 +52,7 @@ node {
 
   stage('prepare') {
     env.inside(inside_params)  {
+      sh 'chown 1000:1000 /var/maven/.m2')
       sh 'cp -r /var/maven/maven-repo/* /var/maven/.m2'
     }
   }
