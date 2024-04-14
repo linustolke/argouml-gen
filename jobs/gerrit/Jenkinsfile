@@ -52,10 +52,12 @@ node {
   }
 
   def env = docker.image('maven:3-ibmjava-8')
+  def inside_params = '-v maven-repo:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
+  env.inside(inside_params).run('chown 1000:1000 /var/maven/.m2')
 
   stage('compile') {
     timeout(time:1, unit: 'HOURS') {
-      env.inside('-v maven-repo:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2')  {
+      env.inside(inside_params)  {
         withMaven() {
           sh '$MVN_CMD -Duser.home=/var/maven -B compile'
         }
@@ -65,7 +67,7 @@ node {
 
   stage('test') {
     timeout(time:1, unit: 'HOURS') {
-      env.inside('-v maven-repo:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2') {
+      env.inside(inside_params) {
         withMaven() {
           sh '$MVN_CMD -Duser.home=/var/maven -B test'
         }
@@ -75,7 +77,7 @@ node {
 
   stage('site') {
     timeout(time:1, unit: 'HOURS') {
-      env.inside('-v maven-repo:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2') {
+      env.inside(inside_params) {
         withMaven(options: [junitPublisher(disabled: true,
                                            healthScaleFactor: 0.0)]) {
           sh '$MVN_CMD -Duser.home=/var/maven -B site'
