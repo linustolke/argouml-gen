@@ -16,9 +16,6 @@
 // The file contains some assumptions on how the build machine is set up.
 // See https://github.com/argouml-tigris-org/argouml/wiki/Jenkins-configuration
 
-import javax.xml.transform.TransformerFactory
-import groovy.xml.XmlSlurper
-
 def getItem(String name) {
   for (int i in manifest.project) {
     if (manifest.project[i].@name == 'name') {
