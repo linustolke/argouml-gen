@@ -16,6 +16,17 @@
 // The file contains some assumptions on how the build machine is set up.
 // See https://github.com/argouml-tigris-org/argouml/wiki/Jenkins-configuration
 
+import groovy.xml.XmlSlurper
+
+def getItem(String name) {
+  for (int i in manifest.project) {
+    if (manifest.project[i].@name == 'name') {
+      return manifest.project[i]
+    }
+  }
+  return null
+}
+
 node {
   def changeBranch = "change-${GERRIT_CHANGE_NUMBER}-${GERRIT_PATCHSET_NUMBER}"
   
@@ -47,10 +58,10 @@ node {
   // maven-repo from other builds.
 
   def image = 'maven:3-ibmjava-8'
-  def env = docker.image(image)
   def local_volume = "maven-repo-${changeBranch}"
   def inside_params = "-v maven-repo:/var/maven/maven-repo -v ${local_volume}:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2"
   sh "docker run --rm ${inside_params} ${image} chown 1000:1000 /var/maven/.m2"
+  def env = docker.image(image)
 
   stage('prepare') {
     env.inside(inside_params)  {
@@ -79,10 +90,12 @@ node {
         }
       }
     }
+    manifest = new XmlSlurper().parse("manifest/default.xml")
   }
   
   stage('layer 4') {
     def proj = 'argouml'
+    println(getItem(proj).annotation[0].@name)
     timeout(time:1, unit: 'HOURS') {
       env.inside(inside_params) {
         withMaven() {
