@@ -80,7 +80,7 @@ node {
     sh 'git clone https://github.com/argouml-tigris-org/manifest.git'
     timeout(time:1, unit: 'HOURS') {
       env.inside(inside_params)  {
-        manifest = new XmlSlurper().parse("manifest/default.xml")
+        manifest = new XmlSlurper().parseText(new File("manifest/default.xml").text)
       }
     }
   }
