@@ -60,13 +60,13 @@ node {
   def inside_params = "-v maven-repo:/var/maven/maven-repo -v ${local_volume}:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2"
   sh "docker run --rm ${inside_params} ${image} chown 1000:1000 /var/maven/.m2"
   sh "docker run --rm ${inside_params} ${image} ls -ld /var/maven/.m2"
+  sh 'docker run --rm -u 1000:1000 ${inside_params} ${image} cp -rp /var/maven/maven-repo/repository /var/maven/maven-repo/settings-docker.xml /var/maven/.m2'
   def env = docker.image(image)
 
   stage('prepare') {
     env.inside(inside_params)  {
       sh 'ls -ld /var/maven/.m2'
       sh 'ls -l /var/maven/.m2'
-      sh 'cp -r /var/maven/maven-repo/repository /var/maven/maven-repo/settings-docker.xml /var/maven/.m2'
     }
   }
 
