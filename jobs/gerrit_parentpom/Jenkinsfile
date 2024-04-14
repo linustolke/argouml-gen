@@ -52,7 +52,7 @@ node {
 
   stage('prepare') {
     env.inside(inside_params)  {
-      sh 'chown 1000:1000 /var/maven/.m2')
+      sh 'chown 1000:1000 /var/maven/.m2'
       sh 'cp -r /var/maven/maven-repo/* /var/maven/.m2'
     }
   }
