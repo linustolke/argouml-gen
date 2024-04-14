@@ -6,7 +6,10 @@ pipeline {
     disableConcurrentBuilds()
   }
   triggers {
-    pollSCM('H H/3 * * *') // Poll for changes every three (3) hours
+    // Temporarily make this very seldom to avoid these from blocking
+    // the build
+    pollSCM('H H/3 H H *')
+    //    pollSCM('H H/3 * * *') // Poll for changes every three (3) hours
     snapshotDependencies()
     cron('H H H H/2 *') // Run unconditionally every other month
   }
