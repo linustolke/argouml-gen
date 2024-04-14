@@ -51,11 +51,10 @@ node {
     sh "git checkout ${changeBranch}"
   }
 
-  def env = docker.image('maven:3-ibmjava-8')
+  def image = 'maven:3-ibmjava-8'
+  def env = docker.image(image)
   def inside_params = '-v maven-repo:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
-  env.inside(inside_params) {
-    sh 'chown 1000:1000 /var/maven/.m2'
-  }
+  sh "docker run --rm ${inside_params} ${image} chown 1000:1000 /var/maven/.m2"
 
   stage('compile') {
     timeout(time:1, unit: 'HOURS') {

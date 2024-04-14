@@ -46,13 +46,14 @@ node {
   // not approved stuff, lets make a local copy, reusing whatever was in the
   // maven-repo from other builds.
 
-  def env = docker.image('maven:3-ibmjava-8')
+  def image = 'maven:3-ibmjava-8'
+  def env = docker.image(image)
   def local_volume = "maven-repo-${changeBranch}"
   def inside_params = "-v maven-repo:/var/maven/maven-repo -v ${local_volume}:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2"
+  sh "docker run --rm ${inside_params} ${image} chown 1000:1000 /var/maven/.m2"
 
   stage('prepare') {
     env.inside(inside_params)  {
-      sh 'chown 1000:1000 /var/maven/.m2'
       sh 'cp -r /var/maven/maven-repo/* /var/maven/.m2'
     }
   }
