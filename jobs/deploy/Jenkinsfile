@@ -10,7 +10,7 @@ pipeline {
   }
   agent {
     docker {
-      image 'maven:3-ibmjava-8'
+      image 'maven:3-amazoncorretto-17'
       args '-v maven-repo:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
     }
   }
