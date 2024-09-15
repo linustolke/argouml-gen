@@ -26,8 +26,7 @@ pipeline {
         axes {
           axis {
             name 'JAVAVERSION'
-            values 'ibmjava-8',
-                   'amazoncorretto-8', 'amazoncorretto-11', 'amazoncorretto-17',
+            values 'amazoncorretto-8', 'amazoncorretto-11', 'amazoncorretto-17',
                    'amazoncorretto-19', 'amazoncorretto-20', 'amazoncorretto-21'
           }
           axis {
