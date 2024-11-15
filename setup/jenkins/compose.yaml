@@ -36,3 +36,5 @@ volumes:
     external: true
   jenkins-docker-certs:
     external: true
+  maven-repo:
+  maven-repo-matrix:
