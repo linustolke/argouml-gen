@@ -5,12 +5,14 @@ services:
         volumes:
           - jenkins-docker-certs:/certs/client
           - jenkins-data:/var/jenkins_home
+          - maven-repo:/var/maven-repo
+          - maven-repo-matrix:/var/maven-repo-matrix
         environment:
           - 'DOCKER_TLS_CERTDIR=/certs'
         ports:
           - '2376:2376'
         privileged: true
-        command: ["sh", "-c", "dockerd-entrypoint.sh & sleep 20 && docker run --rm -v maven-repo:/m1 -v maven-repo-matrix:/m2 maven:3-amazoncorretto-17 chown 1000:1000 /m1 /m2 && wait"]
+        command: ["sh", "-c", "dockerd-entrypoint.sh & sleep 20 && docker run --rm -v /var/maven-repo:/m1 -v /var/maven-repo-matrix:/m2 maven:3-amazoncorretto-17 chown 1000:1000 /m1 /m2 && wait"]
 
     myjenkins:
         restart: on-failure

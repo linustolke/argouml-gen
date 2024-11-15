@@ -20,7 +20,7 @@ pipeline {
         agent {
           docker {
             image "maven:3-${JAVAVERSION}"
-            args '-v maven-repo-matrix:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
+            args '-v /var/maven-repo-matrix:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
           }
         }
         axes {

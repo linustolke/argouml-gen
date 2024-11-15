@@ -53,7 +53,7 @@ node {
 
   def image = 'maven:3-ibmjava-8'
   def env = docker.image(image)
-  def inside_params = '-v maven-repo:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
+  def inside_params = '-v /var/maven-repo:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
   sh "docker run --rm ${inside_params} ${image} chown 1000:1000 /var/maven/.m2"
 
   stage('compile') {

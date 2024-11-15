@@ -57,7 +57,7 @@ node {
 
   def image = 'maven:3-ibmjava-8'
   def local_volume = "maven-repo-${changeBranch}"
-  def inside_params1 = "-v maven-repo:/var/maven/maven-repo -v ${local_volume}:/var/maven/.m2"
+  def inside_params1 = "-v /var/maven-repo:/var/maven/maven-repo -v ${local_volume}:/var/maven/.m2"
   def inside_params = "${inside_params1} -e MAVEN_CONFIG=/var/maven/.m2"
   sh "docker run --rm ${inside_params1} ${image} chown 1000:1000 /var/maven/.m2"
   sh "docker run --rm -u 1000:1000 ${inside_params1} ${image} cp -rp /var/maven/maven-repo/repository /var/maven/maven-repo/settings-docker.xml /var/maven/.m2"
