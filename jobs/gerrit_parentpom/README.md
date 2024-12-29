@@ -14,6 +14,17 @@ The following modules are needed in Jenkins:
 - Pipeline Maven Integration `pipeline-maven`
 - Remote Jenkinsfile Plugin `remote-file`
 
+Configure as
+- Pipeline
+- Trigger:
+  - Gerrit event. Trigger on
+    - Patchset Created
+- Gerrit project
+  - Path argouml-tigris-org/parentpom
+  - Branches Plain master
+- Pipeline script from SCM
+  - Repo, branch, path
+
 ## Credentials in Jenkins
 (Same as for the gerrit job)
 

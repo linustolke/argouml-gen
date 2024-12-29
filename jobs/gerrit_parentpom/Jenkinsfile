@@ -78,8 +78,8 @@ node {
   // For the rest of the projects used, checkout master
   stage('manifest') {
     sh 'git clone https://github.com/argouml-tigris-org/manifest.git'
-    println(new File("."))
-    manifest = new XmlSlurper().parseText(new File("manifest/default.xml").text)
+    println(new File(".").getAbsolutePath())
+    manifest = new XmlSlurper().parse("${WORKSPACE}/manifest/default.xml")
   }
   
   stage('layer 4') {
