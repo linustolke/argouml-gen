@@ -16,7 +16,9 @@ services:
 
     myjenkins:
         restart: on-failure
-        build: .
+        build:
+          context: .
+          pull: true
         depends_on:
           - docker
         environment:
