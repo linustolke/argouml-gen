@@ -79,7 +79,7 @@ node {
   // For the rest of the projects used, checkout master
   stage('manifest') {
     sh 'git clone https://github.com/argouml-tigris-org/manifest.git'
-    sh 'grep project manifest/default.xml | grep -v parentpom | sed "s/.*name=.\([^ ]*\). .*/\1/;!d" '
+    sh "grep project manifest/default.xml | grep -v parentpom | sed 's/.*name=.\([^ ]*\). .*/\1/;!d' "
   }
   
 //  stage('layer 4') {
