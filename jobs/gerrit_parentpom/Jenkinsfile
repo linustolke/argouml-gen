@@ -21,9 +21,9 @@ def changeBranch = "change-${GERRIT_CHANGE_NUMBER}-${GERRIT_PATCHSET_NUMBER}"
 def buildrepo(image, inside_params, repo) {
   stage(repo) {
     timeout(time:1, unit: 'HOURS') {
+      sh "git clone https://github.com/argouml-tigris-org/${repo}.git"
       docker.image(image).inside(inside_params) {
         withMaven() {
-          sh "git clone https://github.com/argouml-tigris-org/${repo}.git"
           dir (repo) {
             sh '$MVN_CMD -Duser.home=/var/maven -B compile test site install'
           }
