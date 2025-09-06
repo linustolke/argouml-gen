@@ -95,7 +95,7 @@ node {
   // For the rest of the projects used, checkout master
   stage('manifest') {
     sh 'git clone https://github.com/argouml-tigris-org/manifest.git'
-    sh "grep project manifest/default.xml | grep -v parentpom | grep -v /project | sed 's/.*name=.\\([^ ]*\\). .*/\\1/;!d' > projects.lst"
+    sh "grep project manifest/default.xml | grep -v parentpom | grep -v /project | sed 's/.*name=.\\([^ ]*\\). .*/\\1/;!d | grep -vx testmodels | grep -vx tools | grep -vx argouml-documentation | grep -vx argopdf | grep -vx argouml-andromda | grep -vx argouml-db | grep -vx argouml-enki | grep -vx argouml-graphviz | grep -vx argouml-model-checker | grep -vx argouml-pattern-wizard | grep -vx argouml-ruby | grep -vx argouml-xtuml | grep -vx argouml-xsd' > projects.lst"
   }
   
   buildrepo(inside_params, 'argouml')
