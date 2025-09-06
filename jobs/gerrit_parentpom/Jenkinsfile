@@ -20,13 +20,17 @@ def changeBranch = "change-${GERRIT_CHANGE_NUMBER}-${GERRIT_PATCHSET_NUMBER}"
 
 def buildrepo(image, inside_params, repo) {
   stage(repo) {
-    timeout(time:1, unit: 'HOURS') {
-      sh "git clone https://github.com/argouml-tigris-org/${repo}.git"
-      docker.image(image).inside(inside_params) {
-        withMaven() {
-          dir (repo) {
-            sh '$MVN_CMD -Duser.home=/var/maven -B compile test site install'
+    timeout(time:3, unit: 'HOURS') {
+      node {
+        sh "git clone https://github.com/argouml-tigris-org/${repo}.git"
+        docker.image(image).inside(inside_params) {
+          withMaven() {
+            dir (repo) {
+              sh '$MVN_CMD -Duser.home=/var/maven -B compile test site install'
+            }
           }
+          // Clean everything
+          deleteDir()
         }
       }
     }
@@ -34,7 +38,6 @@ def buildrepo(image, inside_params, repo) {
 }
 
 node {
-  
   // This is the same as for the gerrit project
   stage('checkout') {
     checkout([
@@ -80,16 +83,19 @@ node {
       }
     }
   }
+}
 
+buildrepo(image, inside_params, 'argouml')
+buildrepo(image, inside_params, 'test-i18n-properties')
+buildrepo(image, inside_params, 'argouml-cpp')
+
+node {
   // For the rest of the projects used, checkout master
   stage('manifest') {
     sh 'git clone https://github.com/argouml-tigris-org/manifest.git'
     sh "grep project manifest/default.xml | grep -v parentpom | grep -v /project | sed 's/.*name=.\\([^ ]*\\). .*/\\1/;!d' | grep -vx testmodels | grep -vx tools | grep -vx argouml-documentation | grep -vx argopdf | grep -vx argouml-andromda | grep -vx argouml-db | grep -vx argouml-enki | grep -vx argouml-graphviz | grep -vx argouml-model-checker | grep -vx argouml-pattern-wizard | grep -vx argouml-ruby | grep -vx argouml-xtuml | grep -vx argouml-xsd > projects.lst"
   }
   
-  buildrepo(image, inside_params, 'argouml')
-  buildrepo(image, inside_params, 'test-i18n-properties')
-  buildrepo(image, inside_params, 'argouml-cpp')
   def buildMap1 = [:]
   def i18n_list = sh (script: 'grep i18n projects.lst | grep -vx test-i18n-properties', returnStdout: true).trim().split("\\r?\\n")
   i18n_list.each { repo ->
@@ -97,7 +103,6 @@ node {
       buildrepo(image, inside_params, repo)
     }
   }
-  parallel(buildMap1)
 
   def buildMap2 = [:]
   def other_list = sh (script: 'grep -v i18n projects.lst | grep -vx argouml | grep -vx argouml-cpp | grep -vx test-i18n-properties', returnStdout: true).trim().split("\\r?\\n")
@@ -106,12 +111,8 @@ node {
       buildrepo(image, inside_params, repo)
     }
   }
-  parallel(buildMap2)
-
-  state("cleanup") {
-    docker.image(image).inside(inside_params)  {
-      // Clean everything
-      deleteDir()
-    }
-  }
 }
+
+parallel(buildMap1)
+
+parallel(buildMap2)
