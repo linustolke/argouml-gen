@@ -102,7 +102,7 @@ node {
   buildrepo(inside_params, 'test-i18n-properties')
   buildrepo(inside_params, 'argouml-cpp')
   def buildMap1 = [:]
-  i18n_list = sh (script: 'grep i18n projects.lst', returnStdout: true).trim().split("\\r?\\n")
+  def i18n_list = sh (script: 'grep i18n projects.lst | grep -vx test-i18n-properties', returnStdout: true).trim().split("\\r?\\n")
   i18n_list.each { repo ->
     buildMap1[repo] = {
       buildrepo(inside_params, repo)
@@ -111,7 +111,7 @@ node {
   parallel(buildMap1)
 
   def buildMap2 = [:]
-  other_list = sh (script: 'grep -v i18n projects.lst | fgrep -v argouml | fgrep -v argouml-cpp | fgrep -v test-i18n-properties', returnStdout: true).trim().split("\\r?\\n")
+  def other_list = sh (script: 'grep -v i18n projects.lst | grep -vx argouml | grep -vx argouml-cpp | grep -vx test-i18n-properties', returnStdout: true).trim().split("\\r?\\n")
   other_list.each { repo ->
     buildMap2[repo] = {
       buildrepo(inside_params, repo)
