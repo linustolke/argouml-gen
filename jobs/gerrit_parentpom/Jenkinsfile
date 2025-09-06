@@ -17,8 +17,12 @@
 // See https://github.com/argouml-tigris-org/argouml/wiki/Jenkins-configuration
 
 def changeBranch = "change-${GERRIT_CHANGE_NUMBER}-${GERRIT_PATCHSET_NUMBER}"
+def image = 'maven:3-ibmjava-8'
+def local_volume = "maven-repo-${changeBranch}"
+def inside_params1 = "-v /var/maven-repo:/var/maven/maven-repo -v ${local_volume}:/var/maven/.m2"
+def inside_params = "${inside_params1} -e MAVEN_CONFIG=/var/maven/.m2"
 
-def buildrepo(image, inside_params, repo) {
+def buildrepo(repo) {
   stage(repo) {
     timeout(time:3, unit: 'HOURS') {
       node {
@@ -36,11 +40,6 @@ def buildrepo(image, inside_params, repo) {
     }
   }
 }
-
-def image = 'maven:3-ibmjava-8'
-def local_volume = "maven-repo-${changeBranch}"
-def inside_params1 = "-v /var/maven-repo:/var/maven/maven-repo -v ${local_volume}:/var/maven/.m2"
-def inside_params = "${inside_params1} -e MAVEN_CONFIG=/var/maven/.m2"
 
 node {
   // This is the same as for the gerrit project
@@ -86,9 +85,9 @@ node {
   }
 }
 
-buildrepo(image, inside_params, 'argouml')
-buildrepo(image, inside_params, 'test-i18n-properties')
-buildrepo(image, inside_params, 'argouml-cpp')
+buildrepo('argouml')
+buildrepo('test-i18n-properties')
+buildrepo('argouml-cpp')
 
 node {
   // For the rest of the projects used, checkout master
@@ -101,7 +100,7 @@ node {
   def i18n_list = sh (script: 'grep i18n projects.lst | grep -vx test-i18n-properties', returnStdout: true).trim().split("\\r?\\n")
   i18n_list.each { repo ->
     buildMap1[repo] = {
-      buildrepo(image, inside_params, repo)
+      buildrepo(repo)
     }
   }
 
@@ -109,7 +108,7 @@ node {
   def other_list = sh (script: 'grep -v i18n projects.lst | grep -vx argouml | grep -vx argouml-cpp | grep -vx test-i18n-properties', returnStdout: true).trim().split("\\r?\\n")
   other_list.each { repo ->
     buildMap2[repo] = {
-      buildrepo(image, inside_params, repo)
+      buildrepo(repo)
     }
   }
 }
