@@ -61,7 +61,7 @@ node {
   def inside_params1 = "-v /var/maven-repo:/var/maven/maven-repo -v ${local_volume}:/var/maven/.m2"
   def inside_params = "${inside_params1} -e MAVEN_CONFIG=/var/maven/.m2"
   sh "docker run --rm ${inside_params1} ${image} chown 1000:1000 /var/maven/.m2"
-  sh "docker run --rm -u 1000:1000 ${inside_params1} ${image} cp -rp /var/maven/maven-repo/repository /var/maven/maven-repo/settings-docker.xml /var/maven/.m2"
+//  sh "docker run --rm -u 1000:1000 ${inside_params1} ${image} cp -rp /var/maven/maven-repo/repository /var/maven/maven-repo/settings-docker.xml /var/maven/.m2"
   def env = docker.image(image)
 
 //  stage('parentpom') {
@@ -79,7 +79,7 @@ node {
   // For the rest of the projects used, checkout master
   stage('manifest') {
     sh 'git clone https://github.com/argouml-tigris-org/manifest.git'
-    sh 'grep project manifest/default.xml | grep -v parentpom | sed "s/.*name=.([^ ]*). .*/\1/" '
+    sh 'grep project manifest/default.xml | grep -v parentpom | sed "s/.*name=.\([^ ]*\). .*/\1/;!d" '
   }
   
 //  stage('layer 4') {
