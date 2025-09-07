@@ -27,7 +27,7 @@ inside_params = "${inside_params1} -e MAVEN_CONFIG=/var/maven/.m2"
 def buildrepo(repo) {
   node {
     stage(repo) {
-      timeout(time:3, unit: 'HOURS') {
+      timeout(time:1, unit: 'HOURS') {
         sh "git clone https://github.com/argouml-tigris-org/${repo}.git"
         docker.image(image).inside(inside_params) {
           withMaven() {
@@ -115,6 +115,7 @@ node {
       "grep -vx argouml-cpp | " +
 
       "grep -vx argopdf | " +
+      "grep -vx argoprint | " +
       "grep -vx argouml-andromda | " +
       "grep -vx argouml-db | " +
       "grep -vx argouml-documentation | " +
