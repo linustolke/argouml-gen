@@ -25,9 +25,9 @@ image = 'maven:3-ibmjava-8'
 inside_params = "${inside_params1} -e MAVEN_CONFIG=/var/maven/.m2"
 
 def buildrepo(repo) {
-  stage(repo) {
-    timeout(time:3, unit: 'HOURS') {
-      node {
+  node {
+    stage(repo) {
+      timeout(time:3, unit: 'HOURS') {
         sh "git clone https://github.com/argouml-tigris-org/${repo}.git"
         docker.image(image).inside(inside_params) {
           withMaven() {
