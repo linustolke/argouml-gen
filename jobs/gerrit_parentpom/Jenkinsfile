@@ -17,11 +17,12 @@
 // See https://github.com/argouml-tigris-org/argouml/wiki/Jenkins-configuration
 
 def changeBranch = "change-${GERRIT_CHANGE_NUMBER}-${GERRIT_PATCHSET_NUMBER}"
-def image = 'maven:3-ibmjava-8'
 def local_volume = "maven-repo-${changeBranch}"
 def inside_params1 = "-v /var/maven-repo:/var/maven/maven-repo " +
   "-v ${local_volume}:/var/maven/.m2"
-def inside_params = "${inside_params1} -e MAVEN_CONFIG=/var/maven/.m2"
+
+image = 'maven:3-ibmjava-8'
+inside_params = "${inside_params1} -e MAVEN_CONFIG=/var/maven/.m2"
 
 def buildrepo(repo) {
   stage(repo) {
