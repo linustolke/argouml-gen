@@ -19,7 +19,8 @@
 def changeBranch = "change-${GERRIT_CHANGE_NUMBER}-${GERRIT_PATCHSET_NUMBER}"
 def image = 'maven:3-ibmjava-8'
 def local_volume = "maven-repo-${changeBranch}"
-def inside_params1 = "-v /var/maven-repo:/var/maven/maven-repo -v ${local_volume}:/var/maven/.m2"
+def inside_params1 = "-v /var/maven-repo:/var/maven/maven-repo " +
+  "-v ${local_volume}:/var/maven/.m2"
 def inside_params = "${inside_params1} -e MAVEN_CONFIG=/var/maven/.m2"
 
 def buildrepo(repo) {
@@ -59,18 +60,22 @@ node {
       poll: false
     ])
 
-    // Fetch the changeset to a local branch using the build parameters provided to the
-    // build by the Gerrit plugin...
+    // Fetch the changeset to a local branch using the build parameters
+    // provided to the build by the Gerrit plugin...
     sh "git fetch ${GERRIT_PROJECT} ${GERRIT_REFSPEC}:${changeBranch}"
     sh "git checkout ${changeBranch}"
   }
 
-  // This will install stuff in the maven repo, to avoid polluting it with
-  // not approved stuff, lets make a local copy, reusing whatever was in the
-  // maven-repo from other builds.
+  stage('set up repository') {
+    // This will install stuff in the maven repo, to avoid polluting it with
+    // not approved stuff, lets make a local copy, reusing whatever was in the
+    // maven-repo from other builds.
 
-  sh "docker run --rm ${inside_params1} ${image} chown 1000:1000 /var/maven/.m2"
-  sh "docker run --rm -u 1000:1000 ${inside_params1} ${image} cp -rp /var/maven/maven-repo/repository /var/maven/maven-repo/settings-docker.xml /var/maven/.m2"
+    sh "docker run --rm ${inside_params1} ${image} " +
+      "chown 1000:1000 /var/maven/.m2"
+    sh "docker run --rm -u 1000:1000 ${inside_params1} ${image} " +
+      "cp -rp /var/maven/maven-repo/repository /var/maven/maven-repo/settings-docker.xml /var/maven/.m2"
+  }
 
   stage('parentpom') {
     timeout(time:1, unit: 'HOURS') {
@@ -96,17 +101,40 @@ node {
   // For the rest of the projects used, checkout master
   stage('manifest') {
     sh 'git clone https://github.com/argouml-tigris-org/manifest.git'
-    sh "grep project manifest/default.xml | grep -v parentpom | grep -v /project | sed 's/.*name=.\\([^ ]*\\). .*/\\1/;!d' | grep -vx testmodels | grep -vx tools | grep -vx argouml-documentation | grep -vx argopdf | grep -vx argouml-andromda | grep -vx argouml-db | grep -vx argouml-enki | grep -vx argouml-graphviz | grep -vx argouml-model-checker | grep -vx argouml-pattern-wizard | grep -vx argouml-ruby | grep -vx argouml-xtuml | grep -vx argouml-xsd > projects.lst"
+    sh "grep project manifest/default.xml | " +
+      "grep -v parentpom | " +
+      "grep -v /project | " +
+      "sed 's/.*name=.\\([^ ]*\\). .*/\\1/;!d' | " +
+      "grep -vx testmodels | " +
+      "grep -vx tools | " +
+      "grep -vx argouml-documentation | " +
+      "grep -vx argopdf | " +
+      "grep -vx argouml-andromda | " +
+      "grep -vx argouml-db | " +
+      "grep -vx argouml-enki | " +
+      "grep -vx argouml-graphviz | " +
+      "grep -vx argouml-model-checker | " +
+      "grep -vx argouml-pattern-wizard | " +
+      "grep -vx argouml-ruby | " +
+      "grep -vx argouml-xtuml | " +
+      "grep -vx argouml-xsd > projects.lst"
   }
   
-  def i18n_list = sh (script: 'grep i18n projects.lst | grep -vx test-i18n-properties', returnStdout: true).trim().split("\\r?\\n")
+  def i18n_list = sh (
+    script: 'grep i18n projects.lst | grep -vx test-i18n-properties',
+    returnStdout: true).trim().split("\\r?\\n")
   i18n_list.each { repo ->
     buildMap1[repo] = {
       buildrepo(repo)
     }
   }
 
-  def other_list = sh (script: 'grep -v i18n projects.lst | grep -vx argouml | grep -vx argouml-cpp | grep -vx test-i18n-properties', returnStdout: true).trim().split("\\r?\\n")
+  def other_list = sh (
+    script: 'grep -v i18n projects.lst | ' +
+    'grep -vx argouml | ' +
+    'grep -vx argouml-cpp | ' +
+    'grep -vx test-i18n-properties',
+    returnStdout: true).trim().split("\\r?\\n")
   other_list.each { repo ->
     buildMap2[repo] = {
       buildrepo(repo)
