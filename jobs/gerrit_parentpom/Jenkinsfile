@@ -89,6 +89,9 @@ buildrepo('argouml')
 buildrepo('test-i18n-properties')
 buildrepo('argouml-cpp')
 
+def buildMap1 = [:]
+def buildMap2 = [:]
+
 node {
   // For the rest of the projects used, checkout master
   stage('manifest') {
@@ -96,7 +99,6 @@ node {
     sh "grep project manifest/default.xml | grep -v parentpom | grep -v /project | sed 's/.*name=.\\([^ ]*\\). .*/\\1/;!d' | grep -vx testmodels | grep -vx tools | grep -vx argouml-documentation | grep -vx argopdf | grep -vx argouml-andromda | grep -vx argouml-db | grep -vx argouml-enki | grep -vx argouml-graphviz | grep -vx argouml-model-checker | grep -vx argouml-pattern-wizard | grep -vx argouml-ruby | grep -vx argouml-xtuml | grep -vx argouml-xsd > projects.lst"
   }
   
-  def buildMap1 = [:]
   def i18n_list = sh (script: 'grep i18n projects.lst | grep -vx test-i18n-properties', returnStdout: true).trim().split("\\r?\\n")
   i18n_list.each { repo ->
     buildMap1[repo] = {
@@ -104,7 +106,6 @@ node {
     }
   }
 
-  def buildMap2 = [:]
   def other_list = sh (script: 'grep -v i18n projects.lst | grep -vx argouml | grep -vx argouml-cpp | grep -vx test-i18n-properties', returnStdout: true).trim().split("\\r?\\n")
   other_list.each { repo ->
     buildMap2[repo] = {
