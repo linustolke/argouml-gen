@@ -2,16 +2,13 @@ def mavenCommand = '$MVN_CMD -Duser.home=/var/maven -B clean test site site:stag
 
 pipeline {
   options {
-    buildDiscarder(logRotator(numToKeepStr: '5', daysToKeepStr: '130'))
+    buildDiscarder(logRotator(numToKeepStr: '5', daysToKeepStr: '200'))
     disableConcurrentBuilds()
   }
   triggers {
-    // Temporarily make this very seldom to avoid these from blocking
-    // the build
-    pollSCM('H H/3 H H *')
-    //    pollSCM('H H/3 * * *') // Poll for changes every three (3) hours
+    pollSCM('@weekly')
     snapshotDependencies()
-    cron('H H H H/2 *') // Run unconditionally every other month
+    cron('H H H H/6 *') // Run unconditionally
   }
   agent none
   stages {
@@ -27,12 +24,13 @@ pipeline {
           axis {
             name 'JAVAVERSION'
             values 'amazoncorretto-8', 'amazoncorretto-11', 'amazoncorretto-17',
-                   'amazoncorretto-19', 'amazoncorretto-20', 'amazoncorretto-21'
+                   'amazoncorretto-21',
+                   'amazoncorretto-24'
           }
           axis {
             name 'COMPILESOURCE'
             // Skipping in-between compilesource versions
-            values '7', '8', '9', '11', '17', '19', '21'
+            values '8', '9', '11', '17', '19', '21'
           }
         }
         excludes {
@@ -40,19 +38,19 @@ pipeline {
           exclude {
             axis { 
               name 'JAVAVERSION'
-              values 'amazoncorretto-19',
-                     'amazoncorretto-20',
-                     'amazoncorretto-21'
+              values 'amazoncorretto-21',
+                     'amazoncorretto-24'  // presumably
             }
           }
           
           // This simply takes too much time to compile,
-          // I will do this in steps:
-          // 7 -> ?
+          // I will do this in steps one at the time:
+          // 7 is now replaced
+          // Next go from 8 to 9 
           exclude {
             axis {
               name 'COMPILESOURCE'
-              values '9', '11', '17', '19', '21'
+              values '11', '17', '19', '21'
             }
           }
           exclude {
@@ -93,7 +91,8 @@ pipeline {
             // Newer jdk version doesn't support old compilesource
             axis {
               name 'JAVAVERSION'
-              values 'amazoncorretto-20', 'amazoncorretto-21'
+              values 'amazoncorretto-21',
+                     'amazoncorretto-24'
             }
             axis {
               name 'COMPILESOURCE'
