@@ -12,6 +12,8 @@
 // * Gerrit Project
 // ** Type: Path argouml-tigris-org/*
 // ** Branch: Plain master
+// Advanced
+// * Quiet Period: 10
 
 // The file contains some assumptions on how the build machine is set up.
 // See https://github.com/argouml-tigris-org/argouml/wiki/Jenkins-configuration
